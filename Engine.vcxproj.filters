@@ -116,6 +116,12 @@
     <Filter Include="Engine\Base\Collider">
       <UniqueIdentifier>{0a9c68e3-19ae-4e6e-94e4-55158d97d1d7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\Base\Primitive">
+      <UniqueIdentifier>{8064f97a-7bf9-44aa-b8d6-292822d8e3f8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Base\Primitive\Mesh">
+      <UniqueIdentifier>{ccfb8c38-d7eb-43f3-9763-694e5382f517}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="externals\imgui\imgui.cpp">
@@ -226,9 +232,6 @@
     <ClCompile Include="Base\Light.cpp">
       <Filter>Engine\Base</Filter>
     </ClCompile>
-    <ClCompile Include="Base\Mesh.cpp">
-      <Filter>Engine\Base</Filter>
-    </ClCompile>
     <ClCompile Include="Base\Model.cpp">
       <Filter>Engine\Base</Filter>
     </ClCompile>
@@ -257,6 +260,9 @@
       <Filter>Engine\Base</Filter>
     </ClCompile>
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Base\Mesh.cpp">
+      <Filter>Engine\Base\Primitive\Mesh</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="externals\imgui\imconfig.h">
@@ -409,9 +415,6 @@
     <ClInclude Include="Base\Light.h">
       <Filter>Engine\Base</Filter>
     </ClInclude>
-    <ClInclude Include="Base\Mesh.h">
-      <Filter>Engine\Base</Filter>
-    </ClInclude>
     <ClInclude Include="Base\Model.h">
       <Filter>Engine\Base</Filter>
     </ClInclude>
@@ -438,6 +441,9 @@
     </ClInclude>
     <ClInclude Include="Base\WorldTransform.h">
       <Filter>Engine\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Base\Mesh.h">
+      <Filter>Engine\Base\Primitive\Mesh</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
