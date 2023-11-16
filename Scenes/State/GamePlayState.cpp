@@ -2,6 +2,8 @@
 
 void GamePlayState::Initialize()
 {
+	camera_ = new Camera();
+	camera_->Initialize(1280, 720);
 	input = Input::GetInstance();
 	audio = Audio::GetInstance();
 	textureManager_ = TextureManager::GetInstance();
@@ -22,6 +24,16 @@ void GamePlayState::Initialize()
 
 void GamePlayState::Update()
 {
+
+#ifdef _DEBUG
+	if (input->IspushKey(DIK_LALT)) {
+		camera_->DebugCamera(true);
+	}
+	else {
+		camera_->DebugCamera(false);
+	}
+#endif // _DEBUG
+
 	ground_->Update();
 
 	viewProjection_.UpdateMatrix();
