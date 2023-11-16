@@ -173,6 +173,7 @@
       <Filter>Engine\Base</Filter>
     </ClCompile>
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="GameObject\Ground\Ground.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="externals\imgui\imconfig.h">
@@ -325,6 +326,7 @@
     <ClInclude Include="Base\WorldTransform.h">
       <Filter>Engine\Base</Filter>
     </ClInclude>
+    <ClInclude Include="GameObject\Ground\Ground.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="externals\imgui\LICENSE.txt">
