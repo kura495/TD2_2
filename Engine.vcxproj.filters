@@ -56,6 +56,12 @@
     <Filter Include="Engine\Base\Collider">
       <UniqueIdentifier>{0a9c68e3-19ae-4e6e-94e4-55158d97d1d7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Objectヘッダー">
+      <UniqueIdentifier>{faede969-9cff-4d59-8b57-be40bbb4305b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Objectソース">
+      <UniqueIdentifier>{bca7fba2-5077-4a90-b5f7-22298fe0c997}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="externals\imgui\imgui.cpp">
