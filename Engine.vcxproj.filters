@@ -122,6 +122,15 @@
     <Filter Include="Engine\Base\Primitive\Mesh">
       <UniqueIdentifier>{ccfb8c38-d7eb-43f3-9763-694e5382f517}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\Base\Renderer">
+      <UniqueIdentifier>{8cfc794f-c768-415e-934b-a9adb6bc7e95}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Base\Primitive\Sphere">
+      <UniqueIdentifier>{4d776eb9-c593-4eeb-9d39-c48b6c815ecf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Base\Manager">
+      <UniqueIdentifier>{5968a9ae-3883-44a4-a507-276fd561040b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="externals\imgui\imgui.cpp">
@@ -241,9 +250,6 @@
     <ClCompile Include="Base\Particle.cpp">
       <Filter>Engine\Base</Filter>
     </ClCompile>
-    <ClCompile Include="Base\Sphere.cpp">
-      <Filter>Engine\Base</Filter>
-    </ClCompile>
     <ClCompile Include="Base\Sprite.cpp">
       <Filter>Engine\Base</Filter>
     </ClCompile>
@@ -262,6 +268,15 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Base\Mesh.cpp">
       <Filter>Engine\Base\Primitive\Mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="Base\Sphere.cpp">
+      <Filter>Engine\Base\Primitive\Sphere</Filter>
+    </ClCompile>
+    <ClCompile Include="Base\Renderer\Renderer.cpp">
+      <Filter>Engine\Base\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="Base\Manager\PSOManager.cpp">
+      <Filter>Engine\Base\Manager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -424,9 +439,6 @@
     <ClInclude Include="Base\Particle.h">
       <Filter>Engine\Base</Filter>
     </ClInclude>
-    <ClInclude Include="Base\Sphere.h">
-      <Filter>Engine\Base</Filter>
-    </ClInclude>
     <ClInclude Include="Base\Sprite.h">
       <Filter>Engine\Base</Filter>
     </ClInclude>
@@ -444,6 +456,15 @@
     </ClInclude>
     <ClInclude Include="Base\Mesh.h">
       <Filter>Engine\Base\Primitive\Mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="Base\Sphere.h">
+      <Filter>Engine\Base\Primitive\Sphere</Filter>
+    </ClInclude>
+    <ClInclude Include="Base\Renderer\Renderer.h">
+      <Filter>Engine\Base\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="Base\Manager\PSOManager.h">
+      <Filter>Engine\Base\Manager</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -16,6 +16,9 @@ void GameManager::Initialize()
 	winApp = WinApp::GetInstance();
 	//DirectX
 	directX = DirectXCommon::GetInstance();
+	//Renderer
+	renderer_ = std::make_unique<Renderer>();
+	renderer_->Initalize();
 	//Audio
 	audio = Audio::GetInstance();
 	audio->Initialize();
@@ -48,6 +51,7 @@ void GameManager::Gameloop()
 		else {
 			imGuiManager->BeginFrame();
 			directX->PreView();
+			renderer_->Draw();
 			input->Update();
 			state[GameState::StateNo]->Update();
 			state[GameState::StateNo]->Draw();

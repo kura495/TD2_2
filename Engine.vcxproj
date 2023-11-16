@@ -59,9 +59,9 @@
       <PreprocessorDefinitions>_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
-      <AdditionalOptions>/source-charset:utf-8 %(AdditionalOptions)</AdditionalOptions>
       <TreatWarningAsError>true</TreatWarningAsError>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+      <AdditionalOptions>/source-charset:utf-8 %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -107,6 +107,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatFormVersion)\x64\dxil.dll"</Command>
     <ClCompile Include="Base\DirectXCommon.cpp" />
     <ClCompile Include="Base\Input\Input.cpp" />
     <ClCompile Include="Base\Light.cpp" />
+    <ClCompile Include="Base\Manager\PSOManager.cpp" />
     <ClCompile Include="Base\Math\Calc.cpp" />
     <ClCompile Include="Base\Math\MatrixCalc.cpp" />
     <ClCompile Include="Base\Math\VectorCalc.cpp" />
@@ -114,6 +115,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatFormVersion)\x64\dxil.dll"</Command>
     <ClCompile Include="Base\Model.cpp" />
     <ClCompile Include="Base\MyEngine.cpp" />
     <ClCompile Include="Base\Particle.cpp" />
+    <ClCompile Include="Base\Renderer\Renderer.cpp" />
     <ClCompile Include="Base\Sphere.cpp" />
     <ClCompile Include="Base\Sprite.cpp" />
     <ClCompile Include="Base\TextureManager.cpp" />
@@ -156,6 +158,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatFormVersion)\x64\dxil.dll"</Command>
     <ClInclude Include="Base\DirectXCommon.h" />
     <ClInclude Include="Base\Input\Input.h" />
     <ClInclude Include="Base\Light.h" />
+    <ClInclude Include="Base\Manager\PSOManager.h" />
     <ClInclude Include="Base\Math\Calc.h" />
     <ClInclude Include="Base\Math\Math_Structs.h" />
     <ClInclude Include="Base\Math\MatrixCalc.h" />
@@ -173,6 +176,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatFormVersion)\x64\dxil.dll"</Command>
     <ClInclude Include="Base\Model_Struct\VertexData.h" />
     <ClInclude Include="Base\MyEngine.h" />
     <ClInclude Include="Base\Particle.h" />
+    <ClInclude Include="Base\Renderer\Renderer.h" />
     <ClInclude Include="Base\Sphere.h" />
     <ClInclude Include="Base\Sprite.h" />
     <ClInclude Include="Base\TextureManager.h" />
