@@ -20,7 +20,6 @@
 #include "Math_Structs.h"
 #include "Base/Math/Quaternion/Quaternion.h"
 
-#include "GameObject/Camera/Camera.h"
 #include "GameObject/Ground/Ground.h"
 
 class GamePlayState :public GameState
@@ -34,7 +33,6 @@ public:
 private:
 	//基本機能ズ
 	MyEngine* myEngine = nullptr;
-	Camera* camera_ = nullptr;
 	TextureManager* textureManager_ = nullptr;	
 	Input* input = nullptr;
 	Audio* audio=nullptr;

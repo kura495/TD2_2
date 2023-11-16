@@ -2,8 +2,6 @@
 
 void GamePlayState::Initialize()
 {
-	camera_ = new Camera();
-	camera_->Initialize(1280, 720);
 	input = Input::GetInstance();
 	audio = Audio::GetInstance();
 	textureManager_ = TextureManager::GetInstance();
@@ -16,7 +14,7 @@ void GamePlayState::Initialize()
 	viewProjection_.Initialize();
 	worldTransform_.Initialize();
 
-	groundModel_.reset(Model::CreateModelFromObj("resources/ground", "ground.obj"));
+	groundModel_.reset(Model::CreateModelFromObj("resources/float_Head", "float_Head.obj"));
 
 	ground_ = std::make_unique<Ground>();
 	ground_->Initialize(groundModel_.get(), { 0.0f,0.0f,0.0f });
@@ -24,16 +22,6 @@ void GamePlayState::Initialize()
 
 void GamePlayState::Update()
 {
-
-#ifdef _DEBUG
-	if (input->IspushKey(DIK_LALT)) {
-		camera_->DebugCamera(true);
-	}
-	else {
-		camera_->DebugCamera(false);
-	}
-#endif // _DEBUG
-
 	ground_->Update();
 
 	viewProjection_.UpdateMatrix();
