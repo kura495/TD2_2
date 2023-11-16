@@ -62,6 +62,12 @@
     <Filter Include="Objectソース">
       <UniqueIdentifier>{bca7fba2-5077-4a90-b5f7-22298fe0c997}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Objectソース\Ground">
+      <UniqueIdentifier>{980fe1b3-9f68-446e-9946-9a4652f3c189}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Objectヘッダー\Ground">
+      <UniqueIdentifier>{1948afb5-41a5-4839-a33e-6123ea7d4819}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="externals\imgui\imgui.cpp">
@@ -173,7 +179,10 @@
       <Filter>Engine\Base</Filter>
     </ClCompile>
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="GameObject\Ground\Ground.cpp" />
+    <ClCompile Include="GameObject\Ground\Ground.cpp">
+      <Filter>Objectソース\Ground</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject\Camera\Camera.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="externals\imgui\imconfig.h">
@@ -326,7 +335,10 @@
     <ClInclude Include="Base\WorldTransform.h">
       <Filter>Engine\Base</Filter>
     </ClInclude>
-    <ClInclude Include="GameObject\Ground\Ground.h" />
+    <ClInclude Include="GameObject\Ground\Ground.h">
+      <Filter>Objectヘッダー\Ground</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\Camera\Camera.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="externals\imgui\LICENSE.txt">

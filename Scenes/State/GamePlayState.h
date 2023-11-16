@@ -20,6 +20,8 @@
 #include "Math_Structs.h"
 #include "Base/Math/Quaternion/Quaternion.h"
 
+#include "GameObject/Ground/Ground.h"
+
 class GamePlayState :public GameState
 {
 public:
@@ -38,6 +40,9 @@ private:
 	DirectXCommon* DirectX_ = nullptr;
 	GlobalVariables* globalVariables = nullptr;
 	std::unique_ptr<CollisionManager> collisionManager_;
+
+	std::unique_ptr<Ground> ground_;
+	std::unique_ptr<Model> groundModel_;
 
 	//
 	WorldTransform worldTransform_;
