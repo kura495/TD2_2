@@ -115,6 +115,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatFormVersion)\x64\dxil.dll"</Command>
     <ClCompile Include="Base\Model.cpp" />
     <ClCompile Include="Base\MyEngine.cpp" />
     <ClCompile Include="Base\Particle.cpp" />
+    <ClCompile Include="Base\PipelineState\Standard\Standard.cpp" />
     <ClCompile Include="Base\Renderer\Renderer.cpp" />
     <ClCompile Include="Base\Sphere.cpp" />
     <ClCompile Include="Base\Sprite.cpp" />
@@ -166,6 +167,8 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatFormVersion)\x64\dxil.dll"</Command>
     <ClInclude Include="Base\Model_Struct\VertexData.h" />
     <ClInclude Include="Base\MyEngine.h" />
     <ClInclude Include="Base\Particle.h" />
+    <ClInclude Include="Base\PipelineState\IPipelineStateObject.h" />
+    <ClInclude Include="Base\PipelineState\Standard\Standard.h" />
     <ClInclude Include="Base\Renderer\Renderer.h" />
     <ClInclude Include="Base\Sphere.h" />
     <ClInclude Include="Base\Sprite.h" />
