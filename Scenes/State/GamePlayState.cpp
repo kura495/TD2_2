@@ -14,15 +14,23 @@ void GamePlayState::Initialize()
 	viewProjection_.Initialize();
 	worldTransform_.Initialize();
 
-	groundModel_.reset(Model::CreateModelFromObj("resources/float_Head", "float_Head.obj"));
+	groundModel_.reset(Model::CreateModelFromObj("resources/ground", "ground.obj"));
+
+	skydomeModel_.reset(Model::CreateModelFromObj("resources/skydome", "skydome.obj"));
 
 	ground_ = std::make_unique<Ground>();
 	ground_->Initialize(groundModel_.get(), { 0.0f,0.0f,0.0f });
+	ground_->SetScale({ 10.0f, 1.0f, 10.0f });
+
+	skydome_ = std::make_unique<Skydome>();
+	skydome_->Initialize(skydomeModel_.get());
 }
 
 void GamePlayState::Update()
 {
 	ground_->Update();
+
+	skydome_->Updata();
 
 	viewProjection_.UpdateMatrix();
 
@@ -38,6 +46,8 @@ void GamePlayState::Draw()
 	//3Dモデル描画ここから
 	
 	ground_->Draw(viewProjection_);
+
+	//skydome_->Draw(viewProjection_);
 
 	//3Dモデル描画ここまで	
 

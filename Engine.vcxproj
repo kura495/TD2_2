@@ -136,6 +136,8 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatFormVersion)\x64\dxil.dll"</Command>
     <ClCompile Include="externals\imgui\imgui_tables.cpp" />
     <ClCompile Include="externals\imgui\imgui_widgets.cpp" />
     <ClCompile Include="GameObject\Ground\Ground.cpp" />
+    <ClCompile Include="GameObject\Skydome\Skydome.cpp" />
+    <ClCompile Include="ICharacter.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Scenes\Manager\GameManager.cpp" />
     <ClCompile Include="Scenes\State\GameClearState.cpp" />
@@ -189,6 +191,8 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatFormVersion)\x64\dxil.dll"</Command>
     <ClInclude Include="externals\imgui\imstb_textedit.h" />
     <ClInclude Include="externals\imgui\imstb_truetype.h" />
     <ClInclude Include="GameObject\Ground\Ground.h" />
+    <ClInclude Include="GameObject\Skydome\Skydome.h" />
+    <ClInclude Include="ICharacter.h" />
     <ClInclude Include="Scenes\Manager\GameManager.h" />
     <ClInclude Include="Scenes\State\GameClearState.h" />
     <ClInclude Include="Scenes\State\GamePlayState.h" />

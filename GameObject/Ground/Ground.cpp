@@ -29,3 +29,9 @@ void Ground::OnCollision(uint32_t collisionAttribute)
 	return;
 	collisionAttribute;
 }
+
+void Ground::SetScale(Vector3 scale)
+{
+	worldTransform_.scale_ = scale;
+	BoxCollider::SetSize({ 10.0f * scale.x,0.0f,10.0f * scale.z });
+}

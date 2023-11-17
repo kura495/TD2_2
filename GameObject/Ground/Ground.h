@@ -16,6 +16,8 @@ public:
 
 	void OnCollision(uint32_t collisionAttribute)override;
 
+	void SetScale(Vector3 scale);
+
 private:
 	WorldTransform worldTransform_;
 

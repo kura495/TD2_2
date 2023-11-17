@@ -21,6 +21,7 @@
 #include "Base/Math/Quaternion/Quaternion.h"
 
 #include "GameObject/Ground/Ground.h"
+#include "GameObject/Skydome/Skydome.h"
 
 class GamePlayState :public GameState
 {
@@ -41,8 +42,13 @@ private:
 	GlobalVariables* globalVariables = nullptr;
 	std::unique_ptr<CollisionManager> collisionManager_;
 
+	//地面
 	std::unique_ptr<Ground> ground_;
 	std::unique_ptr<Model> groundModel_;
+
+	//天球
+	std::unique_ptr<Skydome> skydome_;
+	std::unique_ptr<Model> skydomeModel_;
 
 	//
 	WorldTransform worldTransform_;

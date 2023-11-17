@@ -68,6 +68,24 @@
     <Filter Include="Objectヘッダー\Ground">
       <UniqueIdentifier>{1948afb5-41a5-4839-a33e-6123ea7d4819}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Objectソース\Skydome">
+      <UniqueIdentifier>{8d6cf40f-3e54-4532-93a7-517f24f1167c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Objectヘッダー\Skydome">
+      <UniqueIdentifier>{7a3f8941-376d-4974-9c3c-10fd3fe8e5fe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Objectヘッダー\Character">
+      <UniqueIdentifier>{ddf6c8f1-c5b0-4f55-973a-d4bfd270f6a6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Objectヘッダー\Character\Player">
+      <UniqueIdentifier>{16aa3560-91e3-40aa-8201-0976a78da472}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Objectソース\Character">
+      <UniqueIdentifier>{5f81fdcb-bc3d-497c-bc20-9fbc34a344c0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Objectソース\Character\Player">
+      <UniqueIdentifier>{4a27209b-3836-4b19-abdb-99aecf42ffb1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="externals\imgui\imgui.cpp">
@@ -181,6 +199,12 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="GameObject\Ground\Ground.cpp">
       <Filter>Objectソース\Ground</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject\Skydome\Skydome.cpp">
+      <Filter>Objectソース\Skydome</Filter>
+    </ClCompile>
+    <ClCompile Include="ICharacter.cpp">
+      <Filter>Objectソース\Character</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -336,6 +360,12 @@
     </ClInclude>
     <ClInclude Include="GameObject\Ground\Ground.h">
       <Filter>Objectヘッダー\Ground</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\Skydome\Skydome.h">
+      <Filter>Objectヘッダー\Skydome</Filter>
+    </ClInclude>
+    <ClInclude Include="ICharacter.h">
+      <Filter>Objectヘッダー\Character</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
