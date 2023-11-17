@@ -1,27 +1,28 @@
 #include "Ground.h"
 
-void Ground::Initialize(Model* model, const Vector3& position)
-{
-	assert(model);
-	model_ = model;
-	worldTransform_.translation_ = position;
+Ground::Ground() {}
+Ground::~Ground() {}
 
-	worldTransform_.Initialize();
-	BoxCollider::SetcollisionMask(~kCollitionAttributeFloor);
-	BoxCollider::SetcollitionAttribute(kCollitionAttributeFloor);
+void Ground::Initalize(const std::vector<Model*>& models, Vector3 position)
+{
+	ICharacter::Initialize(models);
+	worldTransform_.translation_ = position;
+	worldTransform_.UpdateMatrix();
+	BoxCollider::SetcollisionMask(~kCollitionAttributeGround);
+	BoxCollider::SetcollitionAttribute(kCollitionAttributeGround);
 	BoxCollider::SetParent(worldTransform_);
 	BoxCollider::SetSize({ 10.0f,0.0f,10.0f });
 }
 
 void Ground::Update()
 {
-	worldTransform_.UpdateMatrix();
+	ICharacter::Update();
 	BoxCollider::Update(&worldTransform_);
 }
 
-void Ground::Draw(ViewProjection& viewProjection)
+void Ground::Draw(const ViewProjection& viewProjection)
 {
-	model_->Draw(worldTransform_, viewProjection);
+	ICharacter::Draw(viewProjection);
 }
 
 void Ground::OnCollision(uint32_t collisionAttribute)

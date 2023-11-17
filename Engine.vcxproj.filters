@@ -203,7 +203,11 @@
     <ClCompile Include="GameObject\Skydome\Skydome.cpp">
       <Filter>Objectソース\Skydome</Filter>
     </ClCompile>
-    <ClCompile Include="ICharacter.cpp">
+    <ClCompile Include="GameObject\Character\Player\Player.cpp">
+      <Filter>Objectソース\Character\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject\FollowCamera\FollowCamera.cpp" />
+    <ClCompile Include="GameObject\Character\ICharacter\ICharacter.cpp">
       <Filter>Objectソース\Character</Filter>
     </ClCompile>
   </ItemGroup>
@@ -364,7 +368,11 @@
     <ClInclude Include="GameObject\Skydome\Skydome.h">
       <Filter>Objectヘッダー\Skydome</Filter>
     </ClInclude>
-    <ClInclude Include="ICharacter.h">
+    <ClInclude Include="GameObject\Character\Player\Player.h">
+      <Filter>Objectヘッダー\Character\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\FollowCamera\FollowCamera.h" />
+    <ClInclude Include="GameObject\Character\ICharacter\ICharacter.h">
       <Filter>Objectヘッダー\Character</Filter>
     </ClInclude>
   </ItemGroup>
