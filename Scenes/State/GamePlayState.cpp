@@ -20,8 +20,25 @@ void GamePlayState::Initialize()
 	std::vector<Model*> groundModels = {
 		groundModel_.get() };
 	ground_ = std::make_unique<Ground>();
-	ground_->Initalize(groundModels, { 0.0f,0.0f,0.0f });
-	ground_->SetScale({ 10.0f, 1.0f, 10.0f });
+	ground_->Initalize(groundModels, { 0.0f,0.0f,230.0f });
+	ground_->SetScale({ 10.0f, 1.0f, 30.0f });
+
+	wallModel_.reset(Model::CreateModelFromObj("resources/Cube", "Cube.obj"));
+	std::vector<Model*> wallModels = {
+		wallModel_.get() };
+
+	//壁
+	wall_[0] = std::make_unique<Wall>();
+	wall_[0]->Initalize(wallModels, { -55.0f,0.0f,40.0f });
+	wall_[0]->SetScale({ 18.0f, 3.0f, 3.0f });
+
+	wall_[1] = std::make_unique<Wall>();
+	wall_[1]->Initalize(wallModels, { -40.0f,0.0f,46.0f });
+	wall_[1]->SetScale({ 3.0f, 3.0f, 3.0f });
+
+	wall_[2] = std::make_unique<Wall>();
+	wall_[2]->Initalize(wallModels, { -40.0f,0.0f,66.0f });
+	wall_[2]->SetScale({ 3.0f, 3.0f, 3.0f });
 
 	/*ground2_ = std::make_unique<Ground>();
 	ground2_->Initalize(PlaneModels, { 0.0f, 0.0f, 30.0f });
@@ -40,6 +57,7 @@ void GamePlayState::Initialize()
 		modelFighterBody_.get(), modelFighterHead_.get(), modelFighterL_arm_.get(),modelFighterR_arm_.get(),
 	};
 	player->Initialize(playerModels);
+	player->SetScale({ 3.0f, 3.0f, 3.0f });
 
 	followCamera = std::make_unique<FollowCamera>();
 	followCamera->Initalize();
@@ -53,6 +71,11 @@ void GamePlayState::Update()
 	/*ground2_->Update();
 	ground3_->Update();*/
 
+	for (int i = 0; i < 3; i++)
+	{
+		wall_[i]->Update();
+	}
+
 	skydome_->Updata();
 
 	player->Update();
@@ -64,6 +87,12 @@ void GamePlayState::Update()
 
 	collisionManager_->AddBoxCollider(player.get());
 	collisionManager_->AddBoxCollider(ground_.get());
+
+	for (int i = 0; i < 3; i++)
+	{
+		collisionManager_->AddBoxCollider(wall_[i].get());
+	}
+	
 	collisionManager_->CheckAllCollisions();
 	collisionManager_->ClearCollider();
 
@@ -79,6 +108,11 @@ void GamePlayState::Draw()
 	ground_->Draw(viewProjection_);
 	/*ground2_->Draw(viewProjection_);
 	ground3_->Draw(viewProjection_);*/
+
+	for (int i = 0; i < 3; i++)
+	{
+		wall_[i]->Draw(viewProjection_);
+	}
 
 	//skydome_->Draw(viewProjection_);
 

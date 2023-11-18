@@ -50,6 +50,8 @@ public:
 		worldTransform_.parent_ = nullptr;
 	}
 
+	void SetScale(Vector3 scale);
+
 private:
 
 

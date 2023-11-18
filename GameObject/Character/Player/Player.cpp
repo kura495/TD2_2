@@ -271,3 +271,9 @@ void Player::PullDown()
 		worldTransform_.translation_.y -= DownForce;
 	}
 }
+
+void Player::SetScale(Vector3 scale)
+{
+	worldTransform_.scale_ = scale;
+	BoxCollider::SetSize({ 10.0f * scale.x,0.0f,10.0f * scale.z });
+}

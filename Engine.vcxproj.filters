@@ -86,6 +86,18 @@
     <Filter Include="Objectソース\Character\Player">
       <UniqueIdentifier>{4a27209b-3836-4b19-abdb-99aecf42ffb1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Objectヘッダー\FollowCamera">
+      <UniqueIdentifier>{0a9f921c-ee19-41be-84ea-733ff6e90ed8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Objectソース\FollowCamera">
+      <UniqueIdentifier>{5f0cc85c-e8fe-47d9-a630-02d10f3bb4c9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Objectヘッダー\Wall">
+      <UniqueIdentifier>{87737bd6-4e87-4e5e-b697-27009c8bf1ff}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Objectソース\Wall">
+      <UniqueIdentifier>{7f511a5f-78b6-434a-8f8a-70330dafba1c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="externals\imgui\imgui.cpp">
@@ -206,10 +218,16 @@
     <ClCompile Include="GameObject\Character\Player\Player.cpp">
       <Filter>Objectソース\Character\Player</Filter>
     </ClCompile>
-    <ClCompile Include="GameObject\FollowCamera\FollowCamera.cpp" />
     <ClCompile Include="GameObject\Character\ICharacter\ICharacter.cpp">
       <Filter>Objectソース\Character</Filter>
     </ClCompile>
+    <ClCompile Include="GameObject\FollowCamera\FollowCamera.cpp">
+      <Filter>Objectソース\FollowCamera</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject\Wall\Wall.cpp">
+      <Filter>Objectソース\Wall</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject\Item\Item.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="externals\imgui\imconfig.h">
@@ -371,10 +389,16 @@
     <ClInclude Include="GameObject\Character\Player\Player.h">
       <Filter>Objectヘッダー\Character\Player</Filter>
     </ClInclude>
-    <ClInclude Include="GameObject\FollowCamera\FollowCamera.h" />
     <ClInclude Include="GameObject\Character\ICharacter\ICharacter.h">
       <Filter>Objectヘッダー\Character</Filter>
     </ClInclude>
+    <ClInclude Include="GameObject\FollowCamera\FollowCamera.h">
+      <Filter>Objectヘッダー\FollowCamera</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\Wall\Wall.h">
+      <Filter>Objectヘッダー\Wall</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\Item\Item.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="externals\imgui\LICENSE.txt">

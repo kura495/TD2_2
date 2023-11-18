@@ -21,6 +21,7 @@
 #include "Base/Math/Quaternion/Quaternion.h"
 
 #include "GameObject/Ground/Ground.h"
+#include "GameObject/Wall/Wall.h"
 #include "GameObject/Skydome/Skydome.h"
 #include "GameObject/Character/Player/Player.h"
 #include "GameObject/FollowCamera/FollowCamera.h"
@@ -48,7 +49,6 @@ private:
 
 	//地面
 	std::unique_ptr<Model> groundModel_ = nullptr;
-
 	std::unique_ptr<Ground> ground_;
 	/*std::unique_ptr<Ground> ground2_;
 	std::unique_ptr<Ground> ground3_;*/
@@ -64,6 +64,10 @@ private:
 	std::unique_ptr<Model> modelFighterL_arm_ = nullptr;
 	std::unique_ptr<Model> modelFighterR_arm_ = nullptr;
 	std::unique_ptr<Model> modelFighterWeapon = nullptr;
+
+	//壁
+	std::unique_ptr<Model> wallModel_ = nullptr;
+	std::unique_ptr<Wall> wall_[10];
 
 	//
 	WorldTransform worldTransform_;
