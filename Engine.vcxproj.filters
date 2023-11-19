@@ -77,6 +77,9 @@
     <Filter Include="Engine\Base\PipeLineState\Standard">
       <UniqueIdentifier>{81ee9963-0a54-4279-9bf3-8189cffc6162}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\Base\ShaderCompiler">
+      <UniqueIdentifier>{e5dd07ba-6454-49b4-b0b4-8e7c882c2867}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="externals\imgui\imgui.cpp">
@@ -196,6 +199,9 @@
     </ClCompile>
     <ClCompile Include="Base\PipelineState\Standard\Standard.cpp">
       <Filter>Engine\Base\PipeLineState\Standard</Filter>
+    </ClCompile>
+    <ClCompile Include="Base\ShaderCompiler\ShaderCompiler.cpp">
+      <Filter>Engine\Base\ShaderCompiler</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -360,6 +366,9 @@
     </ClInclude>
     <ClInclude Include="Base\PipelineState\IPipelineStateObject.h">
       <Filter>Engine\Base\PipeLineState</Filter>
+    </ClInclude>
+    <ClInclude Include="Base\ShaderCompiler\ShaderCompiler.h">
+      <Filter>Engine\Base\ShaderCompiler</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

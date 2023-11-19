@@ -2,9 +2,9 @@
 
 void Standard::ShaderCompile()
 {
-	vertexShaderBlob = CompileShader(L"resources/hlsl/Object3D.VS.hlsl", L"vs_6_0");
+	vertexShaderBlob = ShaderCompiler::CompileShader(L"resources/hlsl/Object3D.VS.hlsl", L"vs_6_0");
 	assert(vertexShaderBlob != nullptr);
-	pixelShaderBlob = CompileShader(L"resources/hlsl/Object3D.PS.hlsl", L"ps_6_0");
+	pixelShaderBlob = ShaderCompiler::CompileShader(L"resources/hlsl/Object3D.PS.hlsl", L"ps_6_0");
 }
 
 void Standard::CreateRootSignature()
