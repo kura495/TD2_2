@@ -98,6 +98,12 @@
     <Filter Include="Objectソース\Wall">
       <UniqueIdentifier>{7f511a5f-78b6-434a-8f8a-70330dafba1c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Objectヘッダー\BuffItem">
+      <UniqueIdentifier>{51059538-0e1b-4abf-bde6-5221dd4e3da3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Objectソース\BuffItem">
+      <UniqueIdentifier>{f48cd279-6d59-4d2a-a8f9-07668b760f4e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="externals\imgui\imgui.cpp">
@@ -227,7 +233,9 @@
     <ClCompile Include="GameObject\Wall\Wall.cpp">
       <Filter>Objectソース\Wall</Filter>
     </ClCompile>
-    <ClCompile Include="GameObject\Item\Item.cpp" />
+    <ClCompile Include="GameObject\BuffItem\BuffItem.cpp">
+      <Filter>Objectソース\BuffItem</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="externals\imgui\imconfig.h">
@@ -398,7 +406,9 @@
     <ClInclude Include="GameObject\Wall\Wall.h">
       <Filter>Objectヘッダー\Wall</Filter>
     </ClInclude>
-    <ClInclude Include="GameObject\Item\Item.h" />
+    <ClInclude Include="GameObject\BuffItem\BuffItem.h">
+      <Filter>Objectヘッダー\BuffItem</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="externals\imgui\LICENSE.txt">

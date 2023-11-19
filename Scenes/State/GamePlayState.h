@@ -22,6 +22,7 @@
 
 #include "GameObject/Ground/Ground.h"
 #include "GameObject/Wall/Wall.h"
+#include "GameObject/BuffItem/BuffItem.h"
 #include "GameObject/Skydome/Skydome.h"
 #include "GameObject/Character/Player/Player.h"
 #include "GameObject/FollowCamera/FollowCamera.h"
@@ -50,9 +51,7 @@ private:
 	//地面
 	std::unique_ptr<Model> groundModel_ = nullptr;
 	std::unique_ptr<Ground> ground_;
-	/*std::unique_ptr<Ground> ground2_;
-	std::unique_ptr<Ground> ground3_;*/
-
+	
 	//天球
 	std::unique_ptr<Skydome> skydome_;
 	std::unique_ptr<Model> skydomeModel_;
@@ -67,7 +66,11 @@ private:
 
 	//壁
 	std::unique_ptr<Model> wallModel_ = nullptr;
-	std::unique_ptr<Wall> wall_[10];
+	std::unique_ptr<Wall> wall_[14];
+
+	//バフアイテム
+	std::unique_ptr<Model> buffItemModel_ = nullptr;
+	std::unique_ptr<BuffItem> buffItem_[10];
 
 	//
 	WorldTransform worldTransform_;

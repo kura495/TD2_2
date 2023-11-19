@@ -14,6 +14,8 @@ const uint32_t kCollitionAttributeGoal = 0b1 <<4;
 const uint32_t kCollitionAttributeWeapon = 0b1 << 5;
 //壁
 const uint32_t kCollitionAttributeWall = 0b1 << 6;
+//バフアイテム
+const uint32_t kCollitionAttributeBuffItem = 0b1 << 7;
 
 
 

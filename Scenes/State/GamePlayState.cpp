@@ -40,10 +40,58 @@ void GamePlayState::Initialize()
 	wall_[2]->Initalize(wallModels, { -40.0f,0.0f,66.0f });
 	wall_[2]->SetScale({ 3.0f, 3.0f, 3.0f });
 
-	/*ground2_ = std::make_unique<Ground>();
-	ground2_->Initalize(PlaneModels, { 0.0f, 0.0f, 30.0f });
-	ground3_ = std::make_unique<Ground>();
-	ground3_->Initalize(PlaneModels, { 10.0f, 0.0f, 20.0f });*/
+	wall_[3] = std::make_unique<Wall>();
+	wall_[3]->Initalize(wallModels, { 45.0f,0.0f,75.0f });
+	wall_[3]->SetScale({ 8.0f, 3.0f, 3.0f });
+
+	wall_[4] = std::make_unique<Wall>();
+	wall_[4]->Initalize(wallModels, { 56.0f,0.0f,90.0f });
+	wall_[4]->SetScale({ 3.0f, 3.0f, 18.0f });
+
+	wall_[5] = std::make_unique<Wall>();
+	wall_[5]->Initalize(wallModels, { 37.0f,0.0f,95.0f });
+	wall_[5]->SetScale({ 3.0f, 3.0f, 3.0f });
+
+	wall_[6] = std::make_unique<Wall>();
+	wall_[6]->Initalize(wallModels, { 0.0f,0.0f,170.0f });
+	wall_[6]->SetScale({ 3.0f, 3.0f, 3.0f });
+
+	wall_[7] = std::make_unique<Wall>();
+	wall_[7]->Initalize(wallModels, { -30.0f,0.0f,200.0f });
+	wall_[7]->SetScale({ 3.0f, 3.0f, 3.0f });
+
+	wall_[8] = std::make_unique<Wall>();
+	wall_[8]->Initalize(wallModels, { 30.0f,0.0f,200.0f });
+	wall_[8]->SetScale({ 3.0f, 3.0f, 3.0f });
+
+	wall_[9] = std::make_unique<Wall>();
+	wall_[9]->Initalize(wallModels, { -45.0f,0.0f,280.0f });
+	wall_[9]->SetScale({ 20.0f, 3.0f, 3.0f });
+
+	wall_[10] = std::make_unique<Wall>();
+	wall_[10]->Initalize(wallModels, { 45.0f,0.0f,280.0f });
+	wall_[10]->SetScale({ 20.0f, 3.0f, 3.0f });
+
+	wall_[11] = std::make_unique<Wall>();
+	wall_[11]->Initalize(wallModels, { 0.0f,0.0f,320.0f });
+	wall_[11]->SetScale({ 3.0f, 3.0f, 17.0f });
+
+	wall_[12] = std::make_unique<Wall>();
+	wall_[12]->Initalize(wallModels, { -19.0f,0.0f,340.0f });
+	wall_[12]->SetScale({ 22.0f, 3.0f, 3.0f });
+
+	wall_[13] = std::make_unique<Wall>();
+	wall_[13]->Initalize(wallModels, { 0.0f,0.0f,420.0f });
+	wall_[13]->SetScale({ 3.0f, 3.0f, 20.0f });
+
+	buffItemModel_.reset(Model::CreateModelFromObj("resources/Item", "Item.obj"));
+	std::vector<Model*> buffItemModels = {
+		buffItemModel_.get() };
+
+	//バフアイテム
+	buffItem_[0] = std::make_unique<BuffItem>();
+	buffItem_[0]->Initalize(buffItemModels, { -55.0f,4.0f,55.0f });
+	buffItem_[0]->SetScale({ 3.0f, 3.0f, 3.0f });
 
 	skydome_ = std::make_unique<Skydome>();
 	skydome_->Initialize(skydomeModel_.get());
@@ -68,12 +116,15 @@ void GamePlayState::Initialize()
 void GamePlayState::Update()
 {
 	ground_->Update();
-	/*ground2_->Update();
-	ground3_->Update();*/
 
-	for (int i = 0; i < 3; i++)
+	for (int i = 0; i < 14; i++)
 	{
 		wall_[i]->Update();
+	}
+
+	for (int i = 0; i < 1; i++)
+	{
+		buffItem_[i]->Update();
 	}
 
 	skydome_->Updata();
@@ -92,6 +143,10 @@ void GamePlayState::Update()
 	{
 		collisionManager_->AddBoxCollider(wall_[i].get());
 	}
+	for (int i = 0; i < 1; i++)
+	{
+		collisionManager_->AddBoxCollider(buffItem_[i].get());
+	}
 	
 	collisionManager_->CheckAllCollisions();
 	collisionManager_->ClearCollider();
@@ -106,12 +161,15 @@ void GamePlayState::Draw()
 	//3Dモデル描画ここから
 	
 	ground_->Draw(viewProjection_);
-	/*ground2_->Draw(viewProjection_);
-	ground3_->Draw(viewProjection_);*/
 
-	for (int i = 0; i < 3; i++)
+	for (int i = 0; i < 14; i++)
 	{
 		wall_[i]->Draw(viewProjection_);
+	}
+
+	for (int i = 0; i < 1; i++)
+	{
+		buffItem_[i]->Draw(viewProjection_);
 	}
 
 	//skydome_->Draw(viewProjection_);

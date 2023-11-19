@@ -135,11 +135,11 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatFormVersion)\x64\dxil.dll"</Command>
     <ClCompile Include="externals\imgui\imgui_impl_win32.cpp" />
     <ClCompile Include="externals\imgui\imgui_tables.cpp" />
     <ClCompile Include="externals\imgui\imgui_widgets.cpp" />
+    <ClCompile Include="GameObject\BuffItem\BuffItem.cpp" />
     <ClCompile Include="GameObject\Character\ICharacter\ICharacter.cpp" />
     <ClCompile Include="GameObject\Character\Player\Player.cpp" />
     <ClCompile Include="GameObject\FollowCamera\FollowCamera.cpp" />
     <ClCompile Include="GameObject\Ground\Ground.cpp" />
-    <ClCompile Include="GameObject\Item\Item.cpp" />
     <ClCompile Include="GameObject\Skydome\Skydome.cpp" />
     <ClCompile Include="GameObject\Wall\Wall.cpp" />
     <ClCompile Include="main.cpp" />
@@ -194,11 +194,11 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatFormVersion)\x64\dxil.dll"</Command>
     <ClInclude Include="externals\imgui\imstb_rectpack.h" />
     <ClInclude Include="externals\imgui\imstb_textedit.h" />
     <ClInclude Include="externals\imgui\imstb_truetype.h" />
+    <ClInclude Include="GameObject\BuffItem\BuffItem.h" />
     <ClInclude Include="GameObject\Character\ICharacter\ICharacter.h" />
     <ClInclude Include="GameObject\Character\Player\Player.h" />
     <ClInclude Include="GameObject\FollowCamera\FollowCamera.h" />
     <ClInclude Include="GameObject\Ground\Ground.h" />
-    <ClInclude Include="GameObject\Item\Item.h" />
     <ClInclude Include="GameObject\Skydome\Skydome.h" />
     <ClInclude Include="GameObject\Wall\Wall.h" />
     <ClInclude Include="Scenes\Manager\GameManager.h" />
