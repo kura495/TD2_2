@@ -185,7 +185,7 @@ void GamePlayState::Update()
 	collisionManager_->AddBoxCollider(player.get());
 	collisionManager_->AddBoxCollider(ground_.get());
 
-	for (int i = 0; i < 1; i++)
+	for (int i = 0; i < 14; i++)
 	{
 		collisionManager_->AddBoxCollider(wall_[i].get());
 	}

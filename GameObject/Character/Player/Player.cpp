@@ -107,9 +107,9 @@ void Player::OnCollision(const uint32_t collisionAttribute)
 		ImGui::End();
 	}
 	else if (collisionAttribute == kCollitionAttributeWall) {
-		/*ImGui::Begin("Wall");
+		ImGui::Begin("Wall");
 		ImGui::Text("Hit");
-		ImGui::End();*/
+		ImGui::End();
 	}
 	else if (collisionAttribute == kCollitionAttributeBuffItem) {
 		ImGui::Begin("BuffItem");
