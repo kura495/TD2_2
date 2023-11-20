@@ -51,7 +51,7 @@ void GameManager::Gameloop()
 		else {
 			imGuiManager->BeginFrame();
 			directX->PreView();
-			renderer_->Draw();
+			renderer_->Draw(PipelineType::Standerd);
 			input->Update();
 			state[GameState::StateNo]->Update();
 			state[GameState::StateNo]->Draw();

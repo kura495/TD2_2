@@ -1,15 +1,22 @@
 #pragma once
 
-#include "Base/DirectXCommon.h"
 #include "ShaderCompiler/ShaderCompiler.h"
-
-struct 
 
 class IPipelineStateObject
 {
 public:
 
-	virtual ~IPipelineStateObject();
+	//virtual ~IPipelineStateObject();
+
+	void Initalize() {
+		
+		ShaderCompile();
+		CreateRootSignature();
+		CreateInputLayOut();
+		CreateBlendState();
+		CreateRasterizarState();
+		CreatePipelineStateObject();
+	}
 	virtual void ShaderCompile() = 0;
 	virtual void CreateRootSignature() = 0;
 	virtual void CreateInputLayOut() = 0;
@@ -17,15 +24,14 @@ public:
 	virtual void CreateRasterizarState() = 0;
 	virtual void CreatePipelineStateObject() = 0;
 
+	PipelineStateObject GetPSO() { return PipelineStateObject_; }
+
 protected:
 	HRESULT hr;
 
-	IDxcBlobUtf8* shaderError = nullptr;
-	IDxcBlob* shaderBlob = nullptr;
 	IDxcBlob* vertexShaderBlob = nullptr;
 	IDxcBlob* pixelShaderBlob = nullptr;
 
-	Microsoft::WRL::ComPtr<ID3D12RootSignature>rootSignature = nullptr;
 	ID3DBlob* signatureBlob = nullptr;
 	ID3DBlob* errorBlob = nullptr;
 
@@ -36,6 +42,6 @@ protected:
 
 	D3D12_RASTERIZER_DESC rasterizerDesc{};
 
-	Microsoft::WRL::ComPtr<ID3D12PipelineState>graphicsPipelineState = nullptr;
+	PipelineStateObject PipelineStateObject_;
 
 };

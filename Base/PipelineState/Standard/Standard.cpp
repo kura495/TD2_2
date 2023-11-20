@@ -2,9 +2,9 @@
 
 void Standard::ShaderCompile()
 {
-	vertexShaderBlob = ShaderCompiler::CompileShader(L"resources/hlsl/Object3D.VS.hlsl", L"vs_6_0");
+	vertexShaderBlob = ShaderCompiler::GetInstance()->CompileShader(L"resources/hlsl/Object3D.VS.hlsl", L"vs_6_0");
 	assert(vertexShaderBlob != nullptr);
-	pixelShaderBlob = ShaderCompiler::CompileShader(L"resources/hlsl/Object3D.PS.hlsl", L"ps_6_0");
+	pixelShaderBlob =  ShaderCompiler::GetInstance()->CompileShader(L"resources/hlsl/Object3D.PS.hlsl", L"ps_6_0");
 }
 
 void Standard::CreateRootSignature()
@@ -64,7 +64,7 @@ void Standard::CreateRootSignature()
 		assert(false);
 	}
 
-	hr = DirectXCommon::GetInstance()->GetDevice()->CreateRootSignature(0, signatureBlob->GetBufferPointer(), signatureBlob->GetBufferSize(), IID_PPV_ARGS(&rootSignature));
+	hr = DirectXCommon::GetInstance()->GetDevice()->CreateRootSignature(0, signatureBlob->GetBufferPointer(), signatureBlob->GetBufferSize(), IID_PPV_ARGS(&PipelineStateObject_.rootSignature));
 	assert(SUCCEEDED(hr));
 }
 
@@ -112,7 +112,7 @@ void Standard::CreateRasterizarState()
 void Standard::CreatePipelineStateObject()
 {
 	D3D12_GRAPHICS_PIPELINE_STATE_DESC graphicsPipelineStateDesc{};
-	graphicsPipelineStateDesc.pRootSignature = rootSignature.Get();
+	graphicsPipelineStateDesc.pRootSignature = PipelineStateObject_.rootSignature.Get();
 	graphicsPipelineStateDesc.InputLayout = inputLayoutDesc;
 	graphicsPipelineStateDesc.VS = { vertexShaderBlob->GetBufferPointer(),vertexShaderBlob->GetBufferSize() };
 	graphicsPipelineStateDesc.PS = { pixelShaderBlob->GetBufferPointer(),pixelShaderBlob->GetBufferSize() };
@@ -137,6 +137,6 @@ void Standard::CreatePipelineStateObject()
 	graphicsPipelineStateDesc.DepthStencilState = depthStencilDesc;
 	graphicsPipelineStateDesc.DSVFormat = DXGI_FORMAT_D24_UNORM_S8_UINT;
 
-	hr = DirectXCommon::GetInstance()->GetDevice()->CreateGraphicsPipelineState(&graphicsPipelineStateDesc, IID_PPV_ARGS(&graphicsPipelineState));
+	hr = DirectXCommon::GetInstance()->GetDevice()->CreateGraphicsPipelineState(&graphicsPipelineStateDesc, IID_PPV_ARGS(&PipelineStateObject_.graphicsPipelineState));
 	assert(SUCCEEDED(hr));
 }

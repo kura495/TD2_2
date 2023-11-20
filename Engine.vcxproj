@@ -169,6 +169,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatFormVersion)\x64\dxil.dll"</Command>
     <ClInclude Include="Base\MyEngine.h" />
     <ClInclude Include="Base\Particle.h" />
     <ClInclude Include="Base\PipelineState\IPipelineStateObject.h" />
+    <ClInclude Include="Base\PipelineState\PipeLineTags.h" />
     <ClInclude Include="Base\PipelineState\Standard\Standard.h" />
     <ClInclude Include="Base\Renderer\Renderer.h" />
     <ClInclude Include="Base\ShaderCompiler\ShaderCompiler.h" />

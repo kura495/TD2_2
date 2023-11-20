@@ -194,14 +194,14 @@
     <ClCompile Include="Base\Renderer\Renderer.cpp">
       <Filter>Engine\Base\Renderer</Filter>
     </ClCompile>
-    <ClCompile Include="Base\Manager\PSOManager.cpp">
-      <Filter>Engine\Base\Manager</Filter>
-    </ClCompile>
     <ClCompile Include="Base\PipelineState\Standard\Standard.cpp">
       <Filter>Engine\Base\PipeLineState\Standard</Filter>
     </ClCompile>
     <ClCompile Include="Base\ShaderCompiler\ShaderCompiler.cpp">
       <Filter>Engine\Base\ShaderCompiler</Filter>
+    </ClCompile>
+    <ClCompile Include="Base\Manager\PSOManager.cpp">
+      <Filter>Engine\Base\Manager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -364,11 +364,14 @@
     <ClInclude Include="Base\PipelineState\Standard\Standard.h">
       <Filter>Engine\Base\PipeLineState\Standard</Filter>
     </ClInclude>
-    <ClInclude Include="Base\PipelineState\IPipelineStateObject.h">
-      <Filter>Engine\Base\PipeLineState</Filter>
-    </ClInclude>
     <ClInclude Include="Base\ShaderCompiler\ShaderCompiler.h">
       <Filter>Engine\Base\ShaderCompiler</Filter>
+    </ClInclude>
+    <ClInclude Include="Base\PipelineState\PipeLineTags.h">
+      <Filter>Engine\Base\PipeLineState</Filter>
+    </ClInclude>
+    <ClInclude Include="Base\PipelineState\IPipelineStateObject.h">
+      <Filter>Engine\Base\PipeLineState</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

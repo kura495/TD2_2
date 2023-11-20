@@ -1,5 +1,11 @@
 #include "ShaderCompiler.h"
 
+ShaderCompiler* ShaderCompiler::GetInstance()
+{
+	static ShaderCompiler instance;
+	return &instance;
+}
+
 void ShaderCompiler::Initalize()
 {
 	MakeDXC();
@@ -7,7 +13,7 @@ void ShaderCompiler::Initalize()
 
 void ShaderCompiler::MakeDXC()
 {
-	//dxCompiler‰Šú‰»
+	//dxCompileråˆæœŸåŒ–
 	hr = DxcCreateInstance(CLSID_DxcUtils, IID_PPV_ARGS(&dxcUtils));
 	assert(SUCCEEDED(hr));
 	hr = DxcCreateInstance(CLSID_DxcCompiler, IID_PPV_ARGS(&dxcCompiler));
@@ -18,9 +24,9 @@ void ShaderCompiler::MakeDXC()
 
 IDxcBlob* ShaderCompiler::CompileShader(const std::wstring& filePath, const wchar_t* profile)
 {
-	//ƒƒO‚ÉƒƒbƒZ[ƒW
+	//ãƒ­ã‚°ã«ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸
 	Log(ConvertString(std::format(L"Begin CompileShader, path:{},profile:{}\n", filePath, profile)));
-	//hlslƒtƒ@ƒCƒ‹‚ğ“Ç‚Ş
+	//hlslãƒ•ã‚¡ã‚¤ãƒ«ã‚’èª­ã‚€
 	IDxcBlobEncoding* shaderSource = nullptr;
 	hr = dxcUtils->LoadFile(filePath.c_str(), nullptr, &shaderSource);
 	assert(SUCCEEDED(hr));
@@ -45,7 +51,7 @@ IDxcBlob* ShaderCompiler::CompileShader(const std::wstring& filePath, const wcha
 		includeHandler,
 		IID_PPV_ARGS(&shaderResult)
 	);
-	//dxc‚ª‹N“®‚Å‚«‚È‚¢
+	//dxcãŒèµ·å‹•ã§ããªã„
 	assert(SUCCEEDED(hr));
 
 
