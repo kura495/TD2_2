@@ -16,6 +16,7 @@ void GamePlayState::Initialize()
 
 	skydomeModel_.reset(Model::CreateModelFromObj("resources/skydome", "skydome.obj"));
 
+	//地面
 	groundModel_.reset(Model::CreateModelFromObj("resources/Ground", "Ground.obj"));
 	std::vector<Model*> groundModels = {
 		groundModel_.get() };
@@ -23,11 +24,11 @@ void GamePlayState::Initialize()
 	ground_->Initalize(groundModels, { 0.0f,0.0f,230.0f });
 	ground_->SetScale({ 10.0f, 1.0f, 30.0f });
 
+	//壁
 	wallModel_.reset(Model::CreateModelFromObj("resources/Cube", "Cube.obj"));
 	std::vector<Model*> wallModels = {
 		wallModel_.get() };
 
-	//壁
 	wall_[0] = std::make_unique<Wall>();
 	wall_[0]->Initalize(wallModels, { -55.0f,0.0f,40.0f });
 	wall_[0]->SetScale({ 18.0f, 3.0f, 3.0f });
@@ -81,17 +82,39 @@ void GamePlayState::Initialize()
 	wall_[12]->SetScale({ 22.0f, 3.0f, 3.0f });
 
 	wall_[13] = std::make_unique<Wall>();
-	wall_[13]->Initalize(wallModels, { 0.0f,0.0f,420.0f });
+	wall_[13]->Initalize(wallModels, { 0.0f,0.0f,440.0f });
 	wall_[13]->SetScale({ 3.0f, 3.0f, 20.0f });
 
+	//バフアイテム
 	buffItemModel_.reset(Model::CreateModelFromObj("resources/Item", "Item.obj"));
 	std::vector<Model*> buffItemModels = {
 		buffItemModel_.get() };
 
-	//バフアイテム
-	buffItem_[0] = std::make_unique<BuffItem>();
-	buffItem_[0]->Initalize(buffItemModels, { -55.0f,4.0f,55.0f });
-	buffItem_[0]->SetScale({ 3.0f, 3.0f, 3.0f });
+	itemWorldTransform_[0].translation_ = { -55.0f,3.0f,55.0f };
+	itemWorldTransform_[1].translation_ = { 43.0f,3.0f,84.0f };
+	itemWorldTransform_[2].translation_ = { 0.0f,3.0f,178.0f };
+	itemWorldTransform_[3].translation_ = { -37.0f,3.0f,308.0f };
+	itemWorldTransform_[4].translation_ = { -45.0f,3.0f,308.0f };
+	itemWorldTransform_[5].translation_ = { -53.0f,3.0f,308.0f };
+
+	itemWorldTransform_[6].translation_ = { 29.0f,3.0f,308.0f };
+	itemWorldTransform_[7].translation_ = { 37.0f,3.0f,324.0f };
+	itemWorldTransform_[8].translation_ = { 45.0f,3.0f,340.0f };
+	itemWorldTransform_[9].translation_ = { 37.0f,3.0f,356.0f };
+	itemWorldTransform_[10].translation_ = { 29.0f,3.0f,372.0f };
+
+	itemWorldTransform_[11].translation_ = { -29.0f,3.0f,412.0f };
+	itemWorldTransform_[12].translation_ = { -37.0f,3.0f,428.0f };
+	itemWorldTransform_[13].translation_ = { -45.0f,3.0f,444.0f };
+	itemWorldTransform_[14].translation_ = { -37.0f,3.0f,460.0f };
+	itemWorldTransform_[15].translation_ = { -29.0f,3.0f,476.0f };
+
+	for (int i = 0; i < 16; i++)
+	{
+		buffItem_[i] = std::make_unique<BuffItem>();
+		buffItem_[i]->Initalize(buffItemModels, { itemWorldTransform_[i].translation_.x, itemWorldTransform_[i].translation_.y, itemWorldTransform_[i].translation_.z });
+		buffItem_[i]->SetScale({ 3.0f, 3.0f, 3.0f });
+	}
 
 	skydome_ = std::make_unique<Skydome>();
 	skydome_->Initialize(skydomeModel_.get());
@@ -122,10 +145,12 @@ void GamePlayState::Update()
 		wall_[i]->Update();
 	}
 
-	for (int i = 0; i < 1; i++)
+	for (int i = 0; i < 16; i++)
 	{
 		buffItem_[i]->Update();
 	}
+
+	buffItem_[11]->SetPosition(itemWorldTransform_[11].translation_);
 
 	skydome_->Updata();
 
@@ -143,7 +168,8 @@ void GamePlayState::Update()
 	{
 		collisionManager_->AddBoxCollider(wall_[i].get());
 	}
-	for (int i = 0; i < 1; i++)
+
+	for (int i = 0; i < 16; i++)
 	{
 		collisionManager_->AddBoxCollider(buffItem_[i].get());
 	}
@@ -152,7 +178,7 @@ void GamePlayState::Update()
 	collisionManager_->ClearCollider();
 
 	ImGui::Begin("Play");
-
+	ImGui::DragFloat3("itemWorldTransform", &itemWorldTransform_[6].translation_.x, 1.0f);
 	ImGui::End();
 }
 
@@ -167,7 +193,7 @@ void GamePlayState::Draw()
 		wall_[i]->Draw(viewProjection_);
 	}
 
-	for (int i = 0; i < 1; i++)
+	for (int i = 0; i < 16; i++)
 	{
 		buffItem_[i]->Draw(viewProjection_);
 	}

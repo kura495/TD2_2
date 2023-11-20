@@ -37,4 +37,9 @@ void BuffItem::SetScale(Vector3 scale)
 	BoxCollider::SetSize({ 10.0f * scale.x,0.0f,10.0f * scale.z });
 }
 
+void BuffItem::SetPosition(Vector3 position)
+{
+	worldTransform_.translation_ = position;
+}
+
 
