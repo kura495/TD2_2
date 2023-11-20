@@ -11,7 +11,7 @@ void BuffItem::Initalize(const std::vector<Model*>& models, Vector3 position)
 	BoxCollider::SetcollisionMask(~kCollitionAttributeBuffItem);
 	BoxCollider::SetcollitionAttribute(kCollitionAttributeBuffItem);
 	BoxCollider::SetParent(worldTransform_);
-	BoxCollider::SetSize({ 10.0f,0.0f,10.0f });
+	BoxCollider::SetSize({ 10.0f,10.0f,10.0f });
 }
 
 void BuffItem::Update()
@@ -34,7 +34,7 @@ void BuffItem::OnCollision(uint32_t collisionAttribute)
 void BuffItem::SetScale(Vector3 scale)
 {
 	worldTransform_.scale_ = scale;
-	BoxCollider::SetSize({ 10.0f * scale.x,0.0f,10.0f * scale.z });
+	BoxCollider::SetSize({ 1.0f * scale.x,1.0f * scale.y,1.0f * scale.z });
 }
 
 void BuffItem::SetPosition(Vector3 position)

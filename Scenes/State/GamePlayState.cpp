@@ -29,6 +29,8 @@ void GamePlayState::Initialize()
 	std::vector<Model*> wallModels = {
 		wallModel_.get() };
 
+	wallWorldTransform_[0].Initialize();
+
 	wallWorldTransform_[0].translation_ = { -55.0f,0.0f,40.0f };
 	wallWorldTransform_[1].translation_ = { -40.0f,0.0f,46.0f };
 	wallWorldTransform_[2].translation_ = { -40.0f,0.0f,66.0f };
@@ -105,6 +107,8 @@ void GamePlayState::Initialize()
 	std::vector<Model*> buffItemModels = {
 		buffItemModel_.get() };
 
+	buffItemWorldTransform_[0].Initialize();
+
 	buffItemWorldTransform_[0].translation_ = { -55.0f,3.0f,55.0f };
 	buffItemWorldTransform_[1].translation_ = { 43.0f,3.0f,84.0f };
 	buffItemWorldTransform_[2].translation_ = { 0.0f,3.0f,178.0f };
@@ -173,13 +177,15 @@ void GamePlayState::Update()
 
 	followCamera->Update();
 	viewProjection_ = followCamera->GetViewProjection();
+	wallWorldTransform_[0].UpdateMatrix();
+	buffItemWorldTransform_[0].UpdateMatrix();
 
 	viewProjection_.UpdateMatrix();
 
 	collisionManager_->AddBoxCollider(player.get());
 	collisionManager_->AddBoxCollider(ground_.get());
 
-	for (int i = 0; i < 14; i++)
+	for (int i = 0; i < 1; i++)
 	{
 		collisionManager_->AddBoxCollider(wall_[i].get());
 	}

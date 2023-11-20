@@ -11,7 +11,7 @@ void Ground::Initalize(const std::vector<Model*>& models, Vector3 position)
 	BoxCollider::SetcollisionMask(~kCollitionAttributeGround);
 	BoxCollider::SetcollitionAttribute(kCollitionAttributeGround);
 	BoxCollider::SetParent(worldTransform_);
-	/*BoxCollider::SetSize({ 15.0f,0.0f,20.0f });*/
+	BoxCollider::SetSize({ 19.5f,0.0f,20.0f });
 }
 
 void Ground::Update()
@@ -34,5 +34,5 @@ void Ground::OnCollision(uint32_t collisionAttribute)
 void Ground::SetScale(Vector3 scale)
 {
 	worldTransform_.scale_ = scale;
-	BoxCollider::SetSize({ 17.0f * scale.x,0.0f,19.3f * scale.z });
+	BoxCollider::SetSize({ 19.5f * scale.x,0.0f,20.0f * scale.z });
 }

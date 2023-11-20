@@ -107,7 +107,12 @@ void Player::OnCollision(const uint32_t collisionAttribute)
 		ImGui::End();
 	}
 	else if (collisionAttribute == kCollitionAttributeWall) {
-		ImGui::Begin("Wall");
+		/*ImGui::Begin("Wall");
+		ImGui::Text("Hit");
+		ImGui::End();*/
+	}
+	else if (collisionAttribute == kCollitionAttributeBuffItem) {
+		ImGui::Begin("BuffItem");
 		ImGui::Text("Hit");
 		ImGui::End();
 	}
@@ -280,5 +285,5 @@ void Player::PullDown()
 void Player::SetScale(Vector3 scale)
 {
 	worldTransform_.scale_ = scale;
-	BoxCollider::SetSize({ 10.0f * scale.x,0.0f,10.0f * scale.z });
+	BoxCollider::SetSize({ 3.0f * scale.x,3.0f * scale.y,1.0f * scale.z });
 }
