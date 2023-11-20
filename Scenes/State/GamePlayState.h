@@ -67,12 +67,12 @@ private:
 	//壁
 	std::unique_ptr<Model> wallModel_ = nullptr;
 	std::unique_ptr<Wall> wall_[14];
+	WorldTransform wallWorldTransform_[14];
 
 	//バフアイテム
 	std::unique_ptr<Model> buffItemModel_ = nullptr;
 	std::unique_ptr<BuffItem> buffItem_[16];
-
-	WorldTransform itemWorldTransform_[16];
+	WorldTransform buffItemWorldTransform_[16];
 
 	//
 	WorldTransform worldTransform_;
