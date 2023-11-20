@@ -18,7 +18,6 @@
 #include "ViewProjection.h"
 #include "Math_Structs.h"
 #include "Base/Math/Quaternion/Quaternion.h"
-#include "GameObject/FollowCamera/FollowCamera.h"
 
 class GamePlayState :public GameState
 {
