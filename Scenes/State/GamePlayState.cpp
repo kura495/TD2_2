@@ -22,7 +22,7 @@ void GamePlayState::Initialize()
 		groundModel_.get() };
 	ground_ = std::make_unique<Ground>();
 	ground_->Initalize(groundModels, { 0.0f,0.0f,260.0f });
-	ground_->SetScale({ 10.0f, 1.0f, 40.0f });
+	ground_->SetScale({ 8.0f, 1.0f, 40.0f });
 
 	//壁
 	wallModel_.reset(Model::CreateModelFromObj("resources/Cube", "Cube.obj"));
