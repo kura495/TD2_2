@@ -14,6 +14,13 @@
 #include "externals/DirectXTex/d3dx12.h"
 #include <wrl.h>
 
+#include "PipeLineState/PipeLineTags.h"
+
+struct PipelineStateObject {
+	Microsoft::WRL::ComPtr<ID3D12RootSignature> rootSignature;
+	Microsoft::WRL::ComPtr<ID3D12PipelineState> graphicsPipelineState;
+};
+
 class DirectXCommon
 {
 public:

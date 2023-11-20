@@ -1,53 +1,29 @@
 #pragma once
 
+#include <map>
+
 #include "Base/DirectXCommon.h"
+
+#include "PipelineState/Standard/Standard.h"
 
 class PSOManager
 {
 public:
+	static PSOManager* GetInstance();
 	
 	void Initalize();
 	//void Update();
 	//void Draw();
 
-	Microsoft::WRL::ComPtr<ID3D12RootSignature> GetRootSignature() { return rootSignature.Get(); }
-	Microsoft::WRL::ComPtr<ID3D12PipelineState> GetPipelineState() { return graphicsPipelineState.Get(); }
+	Microsoft::WRL::ComPtr<ID3D12RootSignature> GetRootSignature(PipelineType Type) { return Pipeline_[Type].rootSignature.Get(); }
+	Microsoft::WRL::ComPtr<ID3D12PipelineState> GetPipelineState(PipelineType Type) { return Pipeline_[Type].graphicsPipelineState.Get(); }
+
+	void AddPipeline(PipelineStateObject Pipeline, PipelineType Type) {
+		Pipeline_[Type] = Pipeline;
+	}
 
 private:
-	void MakeDXC();
-	void MakeShaderCompile();
-	IDxcBlob* CompileShader(const std::wstring& filePath, const wchar_t* profile);
-	//PSO
-	void MakeRootSignature();
-	void MakeInputLayOut();
-	void MakeBlendState();
-	void MakeRasterizarState();
-	void MakePipelineStateObject();
 
-	HRESULT hr;
-
-	IDxcUtils* dxcUtils = nullptr;
-	IDxcCompiler3* dxcCompiler = nullptr;
-	IDxcIncludeHandler* includeHandler = nullptr;
-
-	IDxcBlobUtf8* shaderError = nullptr;
-
-	IDxcBlob* shaderBlob = nullptr;
-
-	IDxcBlob* vertexShaderBlob = nullptr;
-	IDxcBlob* pixelShaderBlob = nullptr;
-
-	Microsoft::WRL::ComPtr<ID3D12RootSignature>rootSignature = nullptr;
-	ID3DBlob* signatureBlob = nullptr;
-	ID3DBlob* errorBlob = nullptr;
-
-	D3D12_INPUT_ELEMENT_DESC inputElementDescs[3] = {};
-	D3D12_INPUT_LAYOUT_DESC inputLayoutDesc{};
-
-	D3D12_BLEND_DESC blendDesc{};
-
-	D3D12_RASTERIZER_DESC rasterizerDesc{};
-
-	Microsoft::WRL::ComPtr<ID3D12PipelineState>graphicsPipelineState = nullptr;
+	std::map<PipelineType,PipelineStateObject> Pipeline_;
 
 };
