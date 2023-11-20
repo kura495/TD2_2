@@ -11,7 +11,7 @@ void Wall::Initalize(const std::vector<Model*>& models, Vector3 position)
 	BoxCollider::SetcollisionMask(~kCollitionAttributeWall);
 	BoxCollider::SetcollitionAttribute(kCollitionAttributeWall);
 	BoxCollider::SetParent(worldTransform_);
-	BoxCollider::SetSize({ 10.0f,0.0f,10.0f });
+	BoxCollider::SetSize({ 1.0f,0.0f,1.0f });
 }
 
 void Wall::Update()
@@ -34,6 +34,6 @@ void Wall::OnCollision(uint32_t collisionAttribute)
 void Wall::SetScale(Vector3 scale)
 {
 	worldTransform_.scale_ = scale;
-	BoxCollider::SetSize({ 10.0f * scale.x,0.0f,10.0f * scale.z });
+	BoxCollider::SetSize({ 1.0f * scale.x,0.0f,1.0f * scale.z });
 }
 

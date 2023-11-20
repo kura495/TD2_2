@@ -61,7 +61,7 @@ void Player::Update()
 		break;
 	}
 
-	/*PullDown();*/
+	PullDown();
 
 	if (worldTransform_.translation_.y <= -10.0f) {
 		//地面から落ちたらリスタートする
@@ -102,9 +102,14 @@ void Player::OnCollision(const uint32_t collisionAttribute)
 	}
 	else if (collisionAttribute == kCollitionAttributeGround) {
 		IsOnGraund = true;
+		ImGui::Begin("Ground");
+		ImGui::Text("Hit");
+		ImGui::End();
 	}
-	else if (collisionAttribute == kCollitionAttributeMoveGround) {
-		IsOnGraund = true;
+	else if (collisionAttribute == kCollitionAttributeWall) {
+		ImGui::Begin("Wall");
+		ImGui::Text("Hit");
+		ImGui::End();
 	}
 	else if (collisionAttribute == kCollitionAttributeGoal) {
 		//ゴールしたらリスタートする
