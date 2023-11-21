@@ -56,6 +56,30 @@
     <Filter Include="Engine\Base\Collider">
       <UniqueIdentifier>{0a9c68e3-19ae-4e6e-94e4-55158d97d1d7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\Base\Primitive">
+      <UniqueIdentifier>{8064f97a-7bf9-44aa-b8d6-292822d8e3f8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Base\Primitive\Mesh">
+      <UniqueIdentifier>{ccfb8c38-d7eb-43f3-9763-694e5382f517}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Base\Renderer">
+      <UniqueIdentifier>{8cfc794f-c768-415e-934b-a9adb6bc7e95}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Base\Primitive\Sphere">
+      <UniqueIdentifier>{4d776eb9-c593-4eeb-9d39-c48b6c815ecf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Base\Manager">
+      <UniqueIdentifier>{5968a9ae-3883-44a4-a507-276fd561040b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Base\PipeLineState">
+      <UniqueIdentifier>{e67453e3-e710-4802-994b-121d17007248}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Base\PipeLineState\Standard">
+      <UniqueIdentifier>{81ee9963-0a54-4279-9bf3-8189cffc6162}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Base\ShaderCompiler">
+      <UniqueIdentifier>{e5dd07ba-6454-49b4-b0b4-8e7c882c2867}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Objectヘッダー">
       <UniqueIdentifier>{faede969-9cff-4d59-8b57-be40bbb4305b}</UniqueIdentifier>
     </Filter>
@@ -103,6 +127,9 @@
     </Filter>
     <Filter Include="Objectソース\BuffItem">
       <UniqueIdentifier>{f48cd279-6d59-4d2a-a8f9-07668b760f4e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Base\PipeLineState\MotionBlur">
+      <UniqueIdentifier>{8657b7f2-469f-42b4-9ae9-1c609af69ab8}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -184,9 +211,6 @@
     <ClCompile Include="Base\Light.cpp">
       <Filter>Engine\Base</Filter>
     </ClCompile>
-    <ClCompile Include="Base\Mesh.cpp">
-      <Filter>Engine\Base</Filter>
-    </ClCompile>
     <ClCompile Include="Base\Model.cpp">
       <Filter>Engine\Base</Filter>
     </ClCompile>
@@ -194,9 +218,6 @@
       <Filter>Engine\Base</Filter>
     </ClCompile>
     <ClCompile Include="Base\Particle.cpp">
-      <Filter>Engine\Base</Filter>
-    </ClCompile>
-    <ClCompile Include="Base\Sphere.cpp">
       <Filter>Engine\Base</Filter>
     </ClCompile>
     <ClCompile Include="Base\Sprite.cpp">
@@ -235,6 +256,27 @@
     </ClCompile>
     <ClCompile Include="GameObject\BuffItem\BuffItem.cpp">
       <Filter>Objectソース\BuffItem</Filter>
+    </ClCompile>
+    <ClCompile Include="Base\Mesh.cpp">
+      <Filter>Engine\Base\Primitive\Mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="Base\Sphere.cpp">
+      <Filter>Engine\Base\Primitive\Sphere</Filter>
+    </ClCompile>
+    <ClCompile Include="Base\Renderer\Renderer.cpp">
+      <Filter>Engine\Base\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="Base\PipelineState\Standard\Standard.cpp">
+      <Filter>Engine\Base\PipeLineState\Standard</Filter>
+    </ClCompile>
+    <ClCompile Include="Base\ShaderCompiler\ShaderCompiler.cpp">
+      <Filter>Engine\Base\ShaderCompiler</Filter>
+    </ClCompile>
+    <ClCompile Include="Base\Manager\PSOManager.cpp">
+      <Filter>Engine\Base\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="Base\PipelineState\MotionBlur\MotionBlur.cpp">
+      <Filter>Engine\Base\PipeLineState\MotionBlur</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -358,9 +400,6 @@
     <ClInclude Include="Base\Light.h">
       <Filter>Engine\Base</Filter>
     </ClInclude>
-    <ClInclude Include="Base\Mesh.h">
-      <Filter>Engine\Base</Filter>
-    </ClInclude>
     <ClInclude Include="Base\Model.h">
       <Filter>Engine\Base</Filter>
     </ClInclude>
@@ -368,9 +407,6 @@
       <Filter>Engine\Base</Filter>
     </ClInclude>
     <ClInclude Include="Base\Particle.h">
-      <Filter>Engine\Base</Filter>
-    </ClInclude>
-    <ClInclude Include="Base\Sphere.h">
       <Filter>Engine\Base</Filter>
     </ClInclude>
     <ClInclude Include="Base\Sprite.h">
@@ -388,26 +424,39 @@
     <ClInclude Include="Base\WorldTransform.h">
       <Filter>Engine\Base</Filter>
     </ClInclude>
-    <ClInclude Include="GameObject\Ground\Ground.h">
-      <Filter>Objectヘッダー\Ground</Filter>
+    <ClInclude Include="GameObject\BuffItem\BuffItem.h" />
+    <ClInclude Include="GameObject\Character\ICharacter\ICharacter.h" />
+    <ClInclude Include="GameObject\Character\Player\Player.h" />
+    <ClInclude Include="GameObject\FollowCamera\FollowCamera.h" />
+    <ClInclude Include="GameObject\Ground\Ground.h" />
+    <ClInclude Include="GameObject\Skydome\Skydome.h" />
+    <ClInclude Include="GameObject\Wall\Wall.h" />
+    <ClInclude Include="Base\PipelineState\IPipelineStateObject.h">
+      <Filter>Engine\Base\PipeLineState</Filter>
     </ClInclude>
-    <ClInclude Include="GameObject\Skydome\Skydome.h">
-      <Filter>Objectヘッダー\Skydome</Filter>
+    <ClInclude Include="Base\Mesh.h">
+      <Filter>Engine\Base\Primitive\Mesh</Filter>
     </ClInclude>
-    <ClInclude Include="GameObject\Character\Player\Player.h">
-      <Filter>Objectヘッダー\Character\Player</Filter>
+    <ClInclude Include="Base\PipelineState\PipeLineTags.h">
+      <Filter>Engine\Base\PipeLineState</Filter>
     </ClInclude>
-    <ClInclude Include="GameObject\Character\ICharacter\ICharacter.h">
-      <Filter>Objectヘッダー\Character</Filter>
+    <ClInclude Include="Base\Manager\PSOManager.h">
+      <Filter>Engine\Base\Manager</Filter>
     </ClInclude>
-    <ClInclude Include="GameObject\FollowCamera\FollowCamera.h">
-      <Filter>Objectヘッダー\FollowCamera</Filter>
+    <ClInclude Include="Base\ShaderCompiler\ShaderCompiler.h">
+      <Filter>Engine\Base\ShaderCompiler</Filter>
     </ClInclude>
-    <ClInclude Include="GameObject\Wall\Wall.h">
-      <Filter>Objectヘッダー\Wall</Filter>
+    <ClInclude Include="Base\PipelineState\Standard\Standard.h">
+      <Filter>Engine\Base\PipeLineState\Standard</Filter>
     </ClInclude>
-    <ClInclude Include="GameObject\BuffItem\BuffItem.h">
-      <Filter>Objectヘッダー\BuffItem</Filter>
+    <ClInclude Include="Base\Renderer\Renderer.h">
+      <Filter>Engine\Base\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="Base\Sphere.h">
+      <Filter>Engine\Base\Primitive\Sphere</Filter>
+    </ClInclude>
+    <ClInclude Include="Base\PipelineState\MotionBlur\MotionBlur.h">
+      <Filter>Engine\Base\PipeLineState\MotionBlur</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

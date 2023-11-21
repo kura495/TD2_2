@@ -13,6 +13,7 @@
 #include"Audio.h"
 #include"Input.h"
 #include"GlobalVariables.h"
+#include "Base/Renderer/Renderer.h"
 
 class GameManager
 {
@@ -32,6 +33,8 @@ private:
 	WinApp* winApp = nullptr;
 	DirectXCommon* directX = nullptr;
 	TextureManager* textureManager = nullptr;
+
+	std::unique_ptr<Renderer> renderer_ = nullptr;
 
 	ImGuiManager* imGuiManager = nullptr;
 	Input* input = nullptr;

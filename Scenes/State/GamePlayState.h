@@ -16,10 +16,9 @@
 #pragma comment(lib,"dxguid.lib")
 #include "WorldTransform.h"
 #include "ViewProjection.h"
-#include "Base/Utility/CollisionManager.h"
 #include "Math_Structs.h"
 #include "Base/Math/Quaternion/Quaternion.h"
-
+#include "Base/Utility/CollisionManager.h"
 #include "GameObject/Ground/Ground.h"
 #include "GameObject/Wall/Wall.h"
 #include "GameObject/BuffItem/BuffItem.h"
