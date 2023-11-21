@@ -42,9 +42,6 @@ void Player::Update()
 		default:
 			BehaviorRootInit();
 			break;
-		case Behavior::kAttack:
-			BehaviorAttackInit();
-			break;
 		case Behavior::kDash:
 			BehaviorDashInit();
 			break;
@@ -56,9 +53,6 @@ void Player::Update()
 	case Behavior::kRoot:
 	default:
 		BehaviorRootUpdate();
-		break;
-	case Behavior::kAttack:
-		BehaviorAttackUpdate();
 		break;
 	case Behavior::kDash:
 		BehaviorDashUpdate();
@@ -114,12 +108,13 @@ void Player::OnCollision(Collider* collider)
 	}
 	else if (collider->GetcollitionAttribute() == kCollitionAttributeWall) {
 		worldTransform_.translation_ = previousPosition_;
+
 		ImGui::Begin("Wall");
 		ImGui::Text("Hit");
 		ImGui::End();
 	}
 	else if (collider->GetcollitionAttribute() == kCollitionAttributeBuffItem) {
-        speed += 0.1f;
+     /*   speed += 0.1f;*/
 		ImGui::Begin("BuffItem");
 		ImGui::Text("Hit");
 		ImGui::Text("%f", speed);
@@ -211,27 +206,12 @@ void Player::BehaviorRootUpdate()
 {
 	UpdateFloatingGimmick();
 	Move();
-	//RTで攻撃
-	if (joyState.Gamepad.wButtons & XINPUT_GAMEPAD_RIGHT_SHOULDER) {
-		behaviorRequest_ = Behavior::kAttack;
-	}
+	
 	//Aでダッシュ
 	if (joyState.Gamepad.wButtons & XINPUT_GAMEPAD_A) {
 		behaviorRequest_ = Behavior::kDash;
 	}
 
-}
-
-void Player::BehaviorAttackInit()
-{
-	worldTransformL_arm_.rotation_.x = (float)std::numbers::pi;
-	worldTransformR_arm_.rotation_.x = (float)std::numbers::pi;
-	attackAnimationFrame = 0;
-}
-
-void Player::BehaviorAttackUpdate()
-{
-	
 }
 
 void Player::BehaviorDashInit()

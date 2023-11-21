@@ -70,10 +70,6 @@ private:
 	//通常
 	void BehaviorRootInit();
 	void BehaviorRootUpdate();
-	//攻撃
-	void BehaviorAttackInit();
-	void BehaviorAttackUpdate();
-	int attackAnimationFrame;
 	//ダッシュ
 	void BehaviorDashInit();
 	void BehaviorDashUpdate();
