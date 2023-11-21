@@ -6,7 +6,7 @@ class IPipelineStateObject
 {
 public:
 
-	//virtual ~IPipelineStateObject();
+	~IPipelineStateObject() {};
 
 	void Initalize() {
 		
