@@ -128,6 +128,9 @@
     <Filter Include="Objectソース\BuffItem">
       <UniqueIdentifier>{f48cd279-6d59-4d2a-a8f9-07668b760f4e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\Base\PipeLineState\MotionBlur">
+      <UniqueIdentifier>{8657b7f2-469f-42b4-9ae9-1c609af69ab8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="externals\imgui\imgui.cpp">
@@ -271,6 +274,9 @@
     </ClCompile>
     <ClCompile Include="Base\Manager\PSOManager.cpp">
       <Filter>Engine\Base\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="Base\PipelineState\MotionBlur\MotionBlur.cpp">
+      <Filter>Engine\Base\PipeLineState\MotionBlur</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -448,6 +454,9 @@
     </ClInclude>
     <ClInclude Include="Base\Sphere.h">
       <Filter>Engine\Base\Primitive\Sphere</Filter>
+    </ClInclude>
+    <ClInclude Include="Base\PipelineState\MotionBlur\MotionBlur.h">
+      <Filter>Engine\Base\PipeLineState\MotionBlur</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

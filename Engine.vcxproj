@@ -115,6 +115,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatFormVersion)\x64\dxil.dll"</Command>
     <ClCompile Include="Base\Model.cpp" />
     <ClCompile Include="Base\MyEngine.cpp" />
     <ClCompile Include="Base\Particle.cpp" />
+    <ClCompile Include="Base\PipelineState\MotionBlur\MotionBlur.cpp" />
     <ClCompile Include="Base\PipelineState\Standard\Standard.cpp" />
     <ClCompile Include="Base\Renderer\Renderer.cpp" />
     <ClCompile Include="Base\ShaderCompiler\ShaderCompiler.cpp" />
@@ -176,6 +177,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatFormVersion)\x64\dxil.dll"</Command>
     <ClInclude Include="Base\MyEngine.h" />
     <ClInclude Include="Base\Particle.h" />
     <ClInclude Include="Base\PipelineState\IPipelineStateObject.h" />
+    <ClInclude Include="Base\PipelineState\MotionBlur\MotionBlur.h" />
     <ClInclude Include="Base\PipelineState\PipeLineTags.h" />
     <ClInclude Include="Base\PipelineState\Standard\Standard.h" />
     <ClInclude Include="Base\Renderer\Renderer.h" />
