@@ -225,9 +225,6 @@ void GamePlayState::Draw()
 
 	player->Draw(viewProjection_);
 
-	renderer_->Draw(PipelineType::MotionBlur);
-	//renderer_->ChengeRenderTarget(PipelineType::MotionBlur);
-
 	//3Dモデル描画ここまで	
 
 	//Sprite描画ここから
