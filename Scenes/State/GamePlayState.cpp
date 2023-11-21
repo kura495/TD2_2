@@ -22,7 +22,7 @@ void GamePlayState::Initialize()
 		groundModel_.get() };
 	ground_ = std::make_unique<Ground>();
 	ground_->Initalize(groundModels, { 0.0f,0.0f,260.0f });
-	ground_->SetScale({ 8.0f, 1.0f, 40.0f });
+	ground_->SetScale({ 12.0f, 1.0f, 40.0f });
 
 	//壁
 	wallModel_.reset(Model::CreateModelFromObj("resources/Cube", "Cube.obj"));
@@ -45,6 +45,10 @@ void GamePlayState::Initialize()
 	wallWorldTransform_[11].translation_ = { 0.0f,0.0f,320.0f };
 	wallWorldTransform_[12].translation_ = { -19.0f,0.0f,340.0f };
 	wallWorldTransform_[13].translation_ = { 0.0f,0.0f,440.0f };
+	wallWorldTransform_[14].translation_ = { 120.0f,0.0f,260.0f };
+	wallWorldTransform_[15].translation_ = { -120.0f,0.0f,260.0f };
+	wallWorldTransform_[16].translation_ = { 0.0f,0.0f, 660.0f };
+	wallWorldTransform_[17].translation_ = { 0.0f,0.0f,-140.0f };
 
 	wall_[0] = std::make_unique<Wall>();
 	wall_[0]->Initalize(wallModels, { wallWorldTransform_[0].translation_.x,wallWorldTransform_[0].translation_.y,wallWorldTransform_[0].translation_.z });
@@ -101,6 +105,22 @@ void GamePlayState::Initialize()
 	wall_[13] = std::make_unique<Wall>();
 	wall_[13]->Initalize(wallModels, { wallWorldTransform_[13].translation_.x,wallWorldTransform_[13].translation_.y,wallWorldTransform_[13].translation_.z });
 	wall_[13]->SetScale({ 3.0f, 3.0f, 20.0f });
+
+	wall_[14] = std::make_unique<Wall>();
+	wall_[14]->Initalize(wallModels, { wallWorldTransform_[14].translation_.x,wallWorldTransform_[14].translation_.y,wallWorldTransform_[14].translation_.z });
+	wall_[14]->SetScale({ 3.0f, 3.0f, 400.0f });
+
+	wall_[15] = std::make_unique<Wall>();
+	wall_[15]->Initalize(wallModels, { wallWorldTransform_[15].translation_.x,wallWorldTransform_[15].translation_.y,wallWorldTransform_[15].translation_.z });
+	wall_[15]->SetScale({ 3.0f, 3.0f, 400.0f });
+
+	wall_[16] = std::make_unique<Wall>();
+	wall_[16]->Initalize(wallModels, { wallWorldTransform_[16].translation_.x,wallWorldTransform_[16].translation_.y,wallWorldTransform_[16].translation_.z });
+	wall_[16]->SetScale({ 120.0f, 3.0f, 3.0f });
+
+	wall_[17] = std::make_unique<Wall>();
+	wall_[17]->Initalize(wallModels, { wallWorldTransform_[17].translation_.x,wallWorldTransform_[17].translation_.y,wallWorldTransform_[17].translation_.z });
+	wall_[17]->SetScale({ 120.0f, 3.0f, 3.0f });
 
 	//バフアイテム
 	buffItemModel_.reset(Model::CreateModelFromObj("resources/Item", "Item.obj"));
@@ -167,7 +187,7 @@ void GamePlayState::Update()
 {
 	ground_->Update();
 
-	for (int i = 0; i < 14; i++)
+	for (int i = 0; i < 18; i++)
 	{
 		wall_[i]->Update();
 	}
@@ -193,7 +213,7 @@ void GamePlayState::Update()
 	collisionManager_->AddBoxCollider(player.get());
 	collisionManager_->AddBoxCollider(ground_.get());
 
-	for (int i = 0; i < 14; i++)
+	for (int i = 0; i < 18; i++)
 	{
 		collisionManager_->AddBoxCollider(wall_[i].get());
 	}
@@ -226,7 +246,7 @@ void GamePlayState::Draw()
 	
 	ground_->Draw(viewProjection_);
 
-	for (int i = 0; i < 14; i++)
+	for (int i = 0; i < 18; i++)
 	{
 		wall_[i]->Draw(viewProjection_);
 	}

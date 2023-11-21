@@ -129,7 +129,6 @@ void Player::OnCollision(Collider* collider)
 	else {
 		return;
 	}
-
 }
 
 void Player::SetParent(const WorldTransform* parent)
