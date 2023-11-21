@@ -128,11 +128,21 @@ void GamePlayState::Initialize()
 	buffItemWorldTransform_[14].translation_ = { -37.0f,3.0f,460.0f };
 	buffItemWorldTransform_[15].translation_ = { -29.0f,3.0f,476.0f };
 
+	buffItemWorldTransform_[16].translation_ = { 0.0f,5.0f,550.0f };
+
+	buffItem_[16] = std::make_unique<BuffItem>();
+	buffItem_[16]->Initalize(buffItemModels, { buffItemWorldTransform_[16].translation_.x, buffItemWorldTransform_[16].translation_.y, buffItemWorldTransform_[16].translation_.z });
+	buffItem_[16]->SetScale({ 5.0f, 5.0f, 5.0f });
+	buffItem_[16]->SetcollitionAttribute(kCollitionAttributeEnemy);
+	buffItem_[16]->SetcollisionMask(kCollitionAttributeEnemy);
+
 	for (int i = 0; i < 16; i++)
 	{
 		buffItem_[i] = std::make_unique<BuffItem>();
 		buffItem_[i]->Initalize(buffItemModels, { buffItemWorldTransform_[i].translation_.x, buffItemWorldTransform_[i].translation_.y, buffItemWorldTransform_[i].translation_.z });
 		buffItem_[i]->SetScale({ 3.0f, 3.0f, 3.0f });
+		buffItem_[i]->SetcollitionAttribute(kCollitionAttributeBuffItem);
+		buffItem_[i]->SetcollisionMask(kCollitionAttributeBuffItem);
 	}
 
 	skydome_ = std::make_unique<Skydome>();
@@ -164,7 +174,7 @@ void GamePlayState::Update()
 		wall_[i]->Update();
 	}
 
-	for (int i = 0; i < 16; i++)
+	for (int i = 0; i < 17; i++)
 	{
 		buffItem_[i]->Update();
 	}
@@ -190,7 +200,7 @@ void GamePlayState::Update()
 		collisionManager_->AddBoxCollider(wall_[i].get());
 	}
 
-	for (int i = 0; i < 16; i++)
+	for (int i = 0; i < 17; i++)
 	{
 		collisionManager_->AddBoxCollider(buffItem_[i].get());
 	}
@@ -214,7 +224,7 @@ void GamePlayState::Draw()
 		wall_[i]->Draw(viewProjection_);
 	}
 
-	for (int i = 0; i < 16; i++)
+	for (int i = 0; i < 17; i++)
 	{
 		buffItem_[i]->Draw(viewProjection_);
 	}

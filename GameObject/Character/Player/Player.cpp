@@ -66,6 +66,7 @@ void Player::Update()
 	if (worldTransform_.translation_.y <= -10.0f) {
 		//地面から落ちたらリスタートする
 		worldTransform_.translation_ = { 0.0f,0.0f,0.0f };
+		speed = 0.5f;
 		worldTransform_.UpdateMatrix();
 	}
 
@@ -94,9 +95,11 @@ void Player::Draw(const ViewProjection& viewProjection)
 
 void Player::OnCollision(Collider* collider)
 {
+
 	if (collider->GetcollitionAttribute() == kCollitionAttributeEnemy) {
 		//敵に当たったらリスタートする
 		worldTransform_.translation_ = { 0.0f,0.0f,0.0f };
+		speed = 0.5f;
 		worldTransform_.UpdateMatrix();
 		behaviorRequest_ = Behavior::kRoot;
 	}
@@ -112,8 +115,10 @@ void Player::OnCollision(Collider* collider)
 		ImGui::End();
 	}
 	else if (collider->GetcollitionAttribute() == kCollitionAttributeBuffItem) {
+    speed += 0.1f;
 		ImGui::Begin("BuffItem");
 		ImGui::Text("Hit");
+		ImGui::Text("%f", speed);
 		ImGui::End();
 	}
 	else if (collider->GetcollitionAttribute() == kCollitionAttributeGoal) {

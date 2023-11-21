@@ -8,8 +8,6 @@ void BuffItem::Initalize(const std::vector<Model*>& models, Vector3 position)
 	ICharacter::Initialize(models);
 	worldTransform_.translation_ = position;
 	worldTransform_.UpdateMatrix();
-	BoxCollider::SetcollisionMask(~kCollitionAttributeBuffItem);
-	BoxCollider::SetcollitionAttribute(kCollitionAttributeBuffItem);
 	BoxCollider::SetParent(worldTransform_);
 	BoxCollider::SetSize({ 1.0f,1.0f,1.0f });
 }
