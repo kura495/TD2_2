@@ -18,7 +18,7 @@
 #include "ViewProjection.h"
 #include "Math_Structs.h"
 #include "Base/Math/Quaternion/Quaternion.h"
-
+#include "Base/Utility/CollisionManager.h"
 #include "GameObject/Ground/Ground.h"
 #include "GameObject/Wall/Wall.h"
 #include "GameObject/BuffItem/BuffItem.h"
