@@ -1,7 +1,7 @@
 ﻿#include "Math/MatrixCalc.h"
 #include <limits>
 
-Matrix4x4 MakeIdentity4x4()
+Matrix4x4 CreateIdentity4x4()
 {
 	Matrix4x4 result = {
 		1.0f, 0.0f, 0.0f, 0.0f,

@@ -134,6 +134,9 @@
     <Filter Include="Engine\Base\Primitive\QuadMesh">
       <UniqueIdentifier>{54398785-6c1b-4b9a-b309-78e5cb295a8b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\Base\ParticleSystem">
+      <UniqueIdentifier>{33326f37-b3c3-4c6c-b544-797017a3b31a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="externals\imgui\imgui.cpp">
@@ -220,9 +223,6 @@
     <ClCompile Include="Base\MyEngine.cpp">
       <Filter>Engine\Base</Filter>
     </ClCompile>
-    <ClCompile Include="Base\Particle.cpp">
-      <Filter>Engine\Base</Filter>
-    </ClCompile>
     <ClCompile Include="Base\Sprite.cpp">
       <Filter>Engine\Base</Filter>
     </ClCompile>
@@ -283,6 +283,9 @@
     </ClCompile>
     <ClCompile Include="Base\Primitive\Mesh\Mesh.cpp">
       <Filter>Engine\Base\Primitive\Mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="Base\ParticleSystem\Particle.cpp">
+      <Filter>Engine\Base\ParticleSystem</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -412,9 +415,6 @@
     <ClInclude Include="Base\MyEngine.h">
       <Filter>Engine\Base</Filter>
     </ClInclude>
-    <ClInclude Include="Base\Particle.h">
-      <Filter>Engine\Base</Filter>
-    </ClInclude>
     <ClInclude Include="Base\Sprite.h">
       <Filter>Engine\Base</Filter>
     </ClInclude>
@@ -466,6 +466,9 @@
     </ClInclude>
     <ClInclude Include="Base\Primitive\Mesh\Mesh.h">
       <Filter>Engine\Base\Primitive\Mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="Base\ParticleSystem\Particle.h">
+      <Filter>Engine\Base\ParticleSystem</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
