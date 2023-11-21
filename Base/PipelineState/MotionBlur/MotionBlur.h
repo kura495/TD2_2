@@ -8,6 +8,7 @@ class MotionBlur : public IPipelineStateObject
 {
 public:
 
+	void Initalize()override;
 	void ShaderCompile() override;
 	void CreateRootSignature() override;
 	void CreateInputLayOut() override;
@@ -15,6 +16,12 @@ public:
 	void CreateRasterizarState() override;
 	void CreatePipelineStateObject() override;
 
-private:
+	void CreateHeap();
 
+private:
+	DirectXCommon* directX_;
+
+	Microsoft::WRL::ComPtr<ID3D12Resource>_peraResource;
+	Microsoft::WRL::ComPtr<ID3D12DescriptorHeap>_peraRTVHeap;
+	Microsoft::WRL::ComPtr<ID3D12DescriptorHeap>_peraSRVHeap;
 };

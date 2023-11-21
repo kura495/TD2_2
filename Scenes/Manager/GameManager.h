@@ -2,7 +2,7 @@
 #include"WinApp.h"
 #include"DirectXCommon.h"
 #include"MyEngine.h"
-#include"Mesh.h"
+#include"Base/Primitive/Mesh/Mesh.h"
 #include"TextureManager.h"
 #include"Light.h"
 #include"ImGuiManager.h"

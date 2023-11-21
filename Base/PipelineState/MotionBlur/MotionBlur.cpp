@@ -1,5 +1,11 @@
 #include "MotionBlur.h"
 
+void MotionBlur::Initalize()
+{
+	IPipelineStateObject::Initalize();
+	directX_ = DirectXCommon::GetInstance();
+}
+
 void MotionBlur::ShaderCompile()
 {
 	vertexShaderBlob = ShaderCompiler::GetInstance()->CompileShader(L"resources/hlsl/MotionBlur.VS.hlsl", L"vs_6_0");
@@ -12,49 +18,49 @@ void MotionBlur::CreateRootSignature()
 	D3D12_ROOT_SIGNATURE_DESC descriptionRootSignature{};
 	descriptionRootSignature.Flags = D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT;
 	D3D12_ROOT_PARAMETER rootParameters[5] = {};
-	//F‚ÉŠÖ‚·‚éƒ‹[ƒgƒpƒ‰ƒ[ƒ^[
-	rootParameters[0].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;//CSV‚Åg‚¤
-	rootParameters[0].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;//PIXELShader‚Åg‚¤
-	rootParameters[0].Descriptor.ShaderRegister = 0;//ƒŒƒWƒXƒ^”Ô†‚ğ0‚ÉƒoƒCƒ“ƒh
+	//è‰²ã«é–¢ã™ã‚‹ãƒ«ãƒ¼ãƒˆãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ãƒ¼
+	rootParameters[0].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;//CSVã§ä½¿ã†
+	rootParameters[0].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;//PIXELShaderã§ä½¿ã†
+	rootParameters[0].Descriptor.ShaderRegister = 0;//ãƒ¬ã‚¸ã‚¹ã‚¿ç•ªå·ã‚’0ã«ãƒã‚¤ãƒ³ãƒ‰
 
-	//’¸“_ˆÊ’u‚ÉŠÖ‚·‚éƒ‹[ƒgƒpƒ‰ƒ[ƒ^[(WorldTransform)
-	rootParameters[1].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;//CSV‚Åg‚¤
-	rootParameters[1].ShaderVisibility = D3D12_SHADER_VISIBILITY_VERTEX;//VERTEXShader‚Åg‚¤
-	rootParameters[1].Descriptor.ShaderRegister = 0;//ƒŒƒWƒXƒ^”Ô†‚ğ0‚ÉƒoƒCƒ“ƒh
-	//’¸“_ˆÊ’u‚ÉŠÖ‚·‚éƒ‹[ƒgƒpƒ‰ƒ[ƒ^[(ViewProjection)
-	rootParameters[4].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;//CSV‚Åg‚¤
-	rootParameters[4].ShaderVisibility = D3D12_SHADER_VISIBILITY_VERTEX;//VERTEXShader‚Åg‚¤
-	rootParameters[4].Descriptor.ShaderRegister = 1;//ƒŒƒWƒXƒ^”Ô†‚ğ1‚ÉƒoƒCƒ“ƒh
+	//é ‚ç‚¹ä½ç½®ã«é–¢ã™ã‚‹ãƒ«ãƒ¼ãƒˆãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ãƒ¼(WorldTransform)
+	rootParameters[1].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;//CSVã§ä½¿ã†
+	rootParameters[1].ShaderVisibility = D3D12_SHADER_VISIBILITY_VERTEX;//VERTEXShaderã§ä½¿ã†
+	rootParameters[1].Descriptor.ShaderRegister = 0;//ãƒ¬ã‚¸ã‚¹ã‚¿ç•ªå·ã‚’0ã«ãƒã‚¤ãƒ³ãƒ‰
+	//é ‚ç‚¹ä½ç½®ã«é–¢ã™ã‚‹ãƒ«ãƒ¼ãƒˆãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ãƒ¼(ViewProjection)
+	rootParameters[4].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;//CSVã§ä½¿ã†
+	rootParameters[4].ShaderVisibility = D3D12_SHADER_VISIBILITY_VERTEX;//VERTEXShaderã§ä½¿ã†
+	rootParameters[4].Descriptor.ShaderRegister = 1;//ãƒ¬ã‚¸ã‚¹ã‚¿ç•ªå·ã‚’1ã«ãƒã‚¤ãƒ³ãƒ‰
 
-	descriptionRootSignature.pParameters = rootParameters;//ƒ‹[ƒgƒpƒ‰ƒ[ƒ^”z—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^
-	descriptionRootSignature.NumParameters = _countof(rootParameters);//”z—ñ‚Ì’·‚³
-	//ƒeƒNƒXƒ`ƒƒ‚Åg‚¤
+	descriptionRootSignature.pParameters = rootParameters;//ãƒ«ãƒ¼ãƒˆãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿é…åˆ—ã¸ã®ãƒã‚¤ãƒ³ã‚¿
+	descriptionRootSignature.NumParameters = _countof(rootParameters);//é…åˆ—ã®é•·ã•
+	//ãƒ†ã‚¯ã‚¹ãƒãƒ£ã§ä½¿ã†
 	//DescriptorRange
 	D3D12_DESCRIPTOR_RANGE descriptorRange[1] = {};
-	descriptorRange[0].BaseShaderRegister = 0;//0‚©‚çn‚Ü‚é
-	descriptorRange[0].NumDescriptors = 1;//”‚Í1‚Â
-	descriptorRange[0].RangeType = D3D12_DESCRIPTOR_RANGE_TYPE_SRV;//SRV‚ğg‚¤
-	descriptorRange[0].OffsetInDescriptorsFromTableStart = D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND;//Offset‚ğ©“®ŒvZ
+	descriptorRange[0].BaseShaderRegister = 0;//0ã‹ã‚‰å§‹ã¾ã‚‹
+	descriptorRange[0].NumDescriptors = 1;//æ•°ã¯1ã¤
+	descriptorRange[0].RangeType = D3D12_DESCRIPTOR_RANGE_TYPE_SRV;//SRVã‚’ä½¿ã†
+	descriptorRange[0].OffsetInDescriptorsFromTableStart = D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND;//Offsetã‚’è‡ªå‹•è¨ˆç®—
 	//DescriptorTable
-	rootParameters[2].ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE;//DescriptorTable‚ğg‚¤
-	rootParameters[2].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;//PixelShader‚Åg‚¤
-	rootParameters[2].DescriptorTable.pDescriptorRanges = descriptorRange;//Table‚Ì’†g‚Ì”z—ñ‚ğw’è
-	rootParameters[2].DescriptorTable.NumDescriptorRanges = _countof(descriptorRange);//Table‚Å—˜—p‚·‚é”
-	//ƒ‰ƒCƒeƒBƒ“ƒO‚ÌrootParameters
-	rootParameters[3].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;//CSV‚Åg‚¤
-	rootParameters[3].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;//PixelShader‚Åg‚¤
-	rootParameters[3].Descriptor.ShaderRegister = 1;//ƒŒƒWƒXƒ^”Ô†‚ğ1‚ÉƒoƒCƒ“ƒh
+	rootParameters[2].ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE;//DescriptorTableã‚’ä½¿ã†
+	rootParameters[2].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;//PixelShaderã§ä½¿ã†
+	rootParameters[2].DescriptorTable.pDescriptorRanges = descriptorRange;//Tableã®ä¸­èº«ã®é…åˆ—ã‚’æŒ‡å®š
+	rootParameters[2].DescriptorTable.NumDescriptorRanges = _countof(descriptorRange);//Tableã§åˆ©ç”¨ã™ã‚‹æ•°
+	//ãƒ©ã‚¤ãƒ†ã‚£ãƒ³ã‚°ã®rootParameters
+	rootParameters[3].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;//CSVã§ä½¿ã†
+	rootParameters[3].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;//PixelShaderã§ä½¿ã†
+	rootParameters[3].Descriptor.ShaderRegister = 1;//ãƒ¬ã‚¸ã‚¹ã‚¿ç•ªå·ã‚’1ã«ãƒã‚¤ãƒ³ãƒ‰
 
-	//Sampler‚Ìİ’è
+	//Samplerã®è¨­å®š
 	D3D12_STATIC_SAMPLER_DESC staticSamplers[1] = {};
-	staticSamplers[0].Filter = D3D12_FILTER_MIN_MAG_MIP_LINEAR;//ƒoƒCƒŠƒjƒAƒtƒBƒ‹ƒ^
-	staticSamplers[0].AddressU = D3D12_TEXTURE_ADDRESS_MODE_WRAP;//0`1‚Ì”ÍˆÍŠO‚ğƒŠƒs[ƒg
+	staticSamplers[0].Filter = D3D12_FILTER_MIN_MAG_MIP_LINEAR;//ãƒã‚¤ãƒªãƒ‹ã‚¢ãƒ•ã‚£ãƒ«ã‚¿
+	staticSamplers[0].AddressU = D3D12_TEXTURE_ADDRESS_MODE_WRAP;//0ï½1ã®ç¯„å›²å¤–ã‚’ãƒªãƒ”ãƒ¼ãƒˆ
 	staticSamplers[0].AddressV = D3D12_TEXTURE_ADDRESS_MODE_WRAP;
 	staticSamplers[0].AddressW = D3D12_TEXTURE_ADDRESS_MODE_WRAP;
-	staticSamplers[0].ComparisonFunc = D3D12_COMPARISON_FUNC_NEVER; //”äŠr‚µ‚È‚¢
-	staticSamplers[0].MaxLOD = D3D12_FLOAT32_MAX;//‚ ‚è‚Á‚½‚¯‚ÌMipmap‚ğg‚¤
-	staticSamplers[0].ShaderRegister = 0;//ƒŒƒWƒXƒ^”Ô†0”Ô
-	staticSamplers[0].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;//PixelShader‚Åg‚¤
+	staticSamplers[0].ComparisonFunc = D3D12_COMPARISON_FUNC_NEVER; //æ¯”è¼ƒã—ãªã„
+	staticSamplers[0].MaxLOD = D3D12_FLOAT32_MAX;//ã‚ã‚Šã£ãŸã‘ã®Mipmapã‚’ä½¿ã†
+	staticSamplers[0].ShaderRegister = 0;//ãƒ¬ã‚¸ã‚¹ã‚¿ç•ªå·0ç•ª
+	staticSamplers[0].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;//PixelShaderã§ä½¿ã†
 	descriptionRootSignature.pStaticSamplers = staticSamplers;
 	descriptionRootSignature.NumStaticSamplers = _countof(staticSamplers);
 
@@ -70,17 +76,17 @@ void MotionBlur::CreateRootSignature()
 
 void MotionBlur::CreateInputLayOut()
 {
-	//’¸“_ƒŒƒCƒAƒEƒg
+	//é ‚ç‚¹ãƒ¬ã‚¤ã‚¢ã‚¦ãƒˆ
 	inputElementDescs[0].SemanticName = "POSITION";
 	inputElementDescs[0].SemanticIndex = 0;
 	inputElementDescs[0].Format = DXGI_FORMAT_R32G32B32A32_FLOAT;
 	inputElementDescs[0].AlignedByteOffset = D3D12_APPEND_ALIGNED_ELEMENT;
-	//UVÀ•WƒŒƒCƒAƒEƒg
+	//UVåº§æ¨™ãƒ¬ã‚¤ã‚¢ã‚¦ãƒˆ
 	inputElementDescs[1].SemanticName = "TEXCOORD";
 	inputElementDescs[1].SemanticIndex = 0;
 	inputElementDescs[1].Format = DXGI_FORMAT_R32G32_FLOAT;
 	inputElementDescs[1].AlignedByteOffset = D3D12_APPEND_ALIGNED_ELEMENT;
-	//–@üƒŒƒCƒAƒEƒg
+	//æ³•ç·šãƒ¬ã‚¤ã‚¢ã‚¦ãƒˆ
 	inputElementDescs[2].SemanticName = "NORMAL";
 	inputElementDescs[2].SemanticIndex = 0;
 	inputElementDescs[2].Format = DXGI_FORMAT_R32G32B32_FLOAT;
@@ -92,7 +98,7 @@ void MotionBlur::CreateInputLayOut()
 
 void MotionBlur::CreateBlendState()
 {
-	//NormalBlend‚Éİ’è
+	//NormalBlendã«è¨­å®š
 	blendDesc.RenderTarget[0].RenderTargetWriteMask = D3D12_COLOR_WRITE_ENABLE_ALL;
 	blendDesc.RenderTarget[0].BlendEnable = TRUE;
 	blendDesc.RenderTarget[0].SrcBlend = D3D12_BLEND_SRC_ALPHA;
@@ -118,25 +124,58 @@ void MotionBlur::CreatePipelineStateObject()
 	graphicsPipelineStateDesc.PS = { pixelShaderBlob->GetBufferPointer(),pixelShaderBlob->GetBufferSize() };
 	graphicsPipelineStateDesc.BlendState = blendDesc;
 	graphicsPipelineStateDesc.RasterizerState = rasterizerDesc;
-	//‘‚«‚ŞRTV
+	//æ›¸ãè¾¼ã‚€RTV
 	graphicsPipelineStateDesc.NumRenderTargets = 1;
 	graphicsPipelineStateDesc.RTVFormats[0] = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;
 
 	graphicsPipelineStateDesc.PrimitiveTopologyType = D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE;
 	graphicsPipelineStateDesc.SampleDesc.Count = 1;
 	graphicsPipelineStateDesc.SampleMask = D3D12_DEFAULT_SAMPLE_MASK;
-	//[“x DepthStencilState‚Ìİ’è
+	//æ·±åº¦ DepthStencilStateã®è¨­å®š
 	D3D12_DEPTH_STENCIL_DESC depthStencilDesc{};
-	//Depth‚Ì‹@”\‚ğ—LŒø‰»‚·‚é
+	//Depthã®æ©Ÿèƒ½ã‚’æœ‰åŠ¹åŒ–ã™ã‚‹
 	depthStencilDesc.DepthEnable = true;
-	//‘‚«‚İ
+	//æ›¸ãè¾¼ã¿
 	depthStencilDesc.DepthWriteMask = D3D12_DEPTH_WRITE_MASK_ALL;
-	//”äŠrŠÖ”‚ÍLessEqual ‹ß‚¯‚ê‚Î•`‰æ‚³‚ê‚é
+	//æ¯”è¼ƒé–¢æ•°ã¯LessEqual è¿‘ã‘ã‚Œã°æç”»ã•ã‚Œã‚‹
 	depthStencilDesc.DepthFunc = D3D12_COMPARISON_FUNC_LESS_EQUAL;
-	//DepthStencil‚Ìİ’è
+	//DepthStencilã®è¨­å®š
 	graphicsPipelineStateDesc.DepthStencilState = depthStencilDesc;
 	graphicsPipelineStateDesc.DSVFormat = DXGI_FORMAT_D24_UNORM_S8_UINT;
 
 	hr = DirectXCommon::GetInstance()->GetDevice()->CreateGraphicsPipelineState(&graphicsPipelineStateDesc, IID_PPV_ARGS(&PipelineStateObject_.graphicsPipelineState));
 	assert(SUCCEEDED(hr));
+}
+
+void MotionBlur::CreateHeap()
+{
+	//ä½œæˆæ¸ˆã¿ã®ãƒ’ãƒ¼ãƒ—æƒ…å ±ã§ã‚‚ã†ä¸€ã¤ä½œã‚‹
+	D3D12_DESCRIPTOR_HEAP_DESC heapDesc = directX_->GetrtvDesc();
+	//ä½¿ã£ã¦ã„ã‚‹ãƒãƒƒã‚¯ãƒãƒƒãƒ•ã‚¡ã®æƒ…å ±ã‚’åˆ©ç”¨
+	Microsoft::WRL::ComPtr<ID3D12Resource> bbuff = directX_->GetswapChainResources();
+	D3D12_RESOURCE_DESC resDesc = directX_->GetswapChainResources()->GetDesc();
+	D3D12_HEAP_PROPERTIES heapProp = CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_DEFAULT);
+
+	float clsClr[4] = {0.5f,0.5f,0.5f,1.0f};
+
+	D3D12_CLEAR_VALUE clearValue = CD3DX12_CLEAR_VALUE(DXGI_FORMAT_R8G8B8A8_UNORM, clsClr);
+
+	hr = directX_->GetDevice()->CreateCommittedResource(&heapProp,D3D12_HEAP_FLAG_NONE,&resDesc,D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE,&clearValue,IID_PPV_ARGS(_peraResource.ReleaseAndGetAddressOf()));
+	//RTVãƒ’ãƒ¼ãƒ—ã‚’ä½œã‚‹
+	heapDesc.NumDescriptors = 1;
+	hr = directX_->GetDevice()->CreateDescriptorHeap(&heapDesc, IID_PPV_ARGS(_peraRTVHeap.ReleaseAndGetAddressOf()));
+
+	D3D12_RENDER_TARGET_VIEW_DESC rtvDesc = {};
+	rtvDesc.ViewDimension = D3D12_RTV_DIMENSION_TEXTURE2D;
+	rtvDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+
+	//ãƒ¬ãƒ³ãƒ€ãƒ¼ã‚¿ãƒ¼ã‚²ãƒƒãƒˆãƒ“ãƒ¥ãƒ¼ã‚’ä½œã‚‹
+	directX_->GetDevice()->CreateRenderTargetView(_peraResource.Get(),&rtvDesc,_peraRTVHeap->GetCPUDescriptorHandleForHeapStart());
+
+	//SRVãƒ’ãƒ¼ãƒ—ã‚’ä½œã‚‹
+	heapDesc.NumDescriptors = 1;
+	heapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV;
+	heapDesc.Flags = D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE;
+
+	hr = directX_->GetDevice()->CreateDescriptorHeap(&heapDesc,IID_PPV_ARGS(_peraSRVHeap.ReleaseAndGetAddressOf()));
 }

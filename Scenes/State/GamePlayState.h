@@ -4,10 +4,10 @@
 #include "ModelData.h"
 #include "Audio.h"
 #include "Input.h"
-#include "Mesh.h"
+#include "Base/Primitive/Mesh/Mesh.h"
 #include "Sprite.h"
 #include "Light.h"
-#include "Sphere.h"
+#include "Base/Primitive/Sphere/Sphere.h"
 #include "TextureManager.h"
 #include "Model.h"
 #define DIRECTINPUT_VERSION 0x0800//DirectInputのバージョン指定

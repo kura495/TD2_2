@@ -32,24 +32,23 @@ public:
 	void PostView();
 
 	void Release();
-#pragma region Getter	
+	
 	Microsoft::WRL::ComPtr<ID3D12Resource> CreateBufferResource(size_t sizeInBytes);
-
-	ID3D12GraphicsCommandList*GetcommandList()const { return commandList.Get(); }
-	ID3D12Device* GetDevice()const { return device.Get(); }
-
-	DXGI_SWAP_CHAIN_DESC1 GetSwapChainDesc()const { return swapChainDesc; }
-
-	D3D12_RENDER_TARGET_VIEW_DESC GetrtvDesc()const { return rtvDesc; }
-	Microsoft::WRL::ComPtr<ID3D12DescriptorHeap>
-	 GetsrvDescriptorHeap()const { return srvDescriptorHeap.Get(); }
-
-#pragma endregion	
 	Microsoft::WRL::ComPtr<ID3D12DescriptorHeap>
 		CreateDescriptorHeap(D3D12_DESCRIPTOR_HEAP_TYPE heapType, UINT numDescriptors, bool shaderVisible);
 	Microsoft::WRL::ComPtr<ID3D12Resource>
 		CreateDepthStencilTextureResource(int32_t width, int32_t height);
 
+#pragma region Getter	
+	
+	ID3D12GraphicsCommandList*GetcommandList()const { return commandList.Get(); }
+	ID3D12Device* GetDevice()const { return device.Get(); }
+	DXGI_SWAP_CHAIN_DESC1 GetSwapChainDesc()const { return swapChainDesc; }
+	D3D12_DESCRIPTOR_HEAP_DESC GetrtvDesc()const { return rtvDescriptorHeap->GetDesc(); }
+	Microsoft::WRL::ComPtr<ID3D12DescriptorHeap>
+	 GetsrvDescriptorHeap()const { return srvDescriptorHeap.Get(); }
+	Microsoft::WRL::ComPtr<ID3D12Resource> GetswapChainResources()const { return swapChainResources[0]; }
+#pragma endregion	
 
 private:
 	DirectXCommon() = default;
@@ -74,7 +73,7 @@ private:
 	Microsoft::WRL::ComPtr<ID3D12DescriptorHeap>dsvDescriptorHeap = nullptr;
 	Microsoft::WRL::ComPtr<ID3D12Resource>depthStencilResource = nullptr;
 	D3D12_RENDER_TARGET_VIEW_DESC rtvDesc{};
-
+	
 	Microsoft::WRL::ComPtr<ID3D12Resource>swapChainResources[2] = { nullptr };
 	D3D12_CPU_DESCRIPTOR_HANDLE rtvHandles[2];
 	Microsoft::WRL::ComPtr<ID3D12Fence>fence = nullptr;
