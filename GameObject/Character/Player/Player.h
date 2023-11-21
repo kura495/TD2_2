@@ -10,6 +10,8 @@
 #include "Base/Utility/BoxCollider.h"
 #include "Base/Utility/CollisionConfig.h"
 
+#include "GameObject/BuffItem/BuffItem.h"
+
 enum class Behavior {
 	kRoot,//通常
 	kAttack,//攻撃中
@@ -51,6 +53,10 @@ public:
 	}
 
 	void SetScale(Vector3 scale);
+
+	bool GetIsDead() { return isDead_; }
+
+	void SetIsDead(bool isDead) { isDead_ = isDead; }
 
 private:
 
@@ -111,5 +117,7 @@ private:
 	float DownForce = 0.98f;
 
 	Quaternion moveQuaternion_;
+
+	bool isDead_ = false;
 
 };

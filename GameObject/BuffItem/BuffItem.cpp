@@ -8,8 +8,12 @@ void BuffItem::Initalize(const std::vector<Model*>& models, Vector3 position)
 	ICharacter::Initialize(models);
 	worldTransform_.translation_ = position;
 	worldTransform_.UpdateMatrix();
+	BoxCollider::SetcollisionMask(~kCollitionAttributeBuffItem);
+	BoxCollider::SetcollitionAttribute(kCollitionAttributeBuffItem);
 	BoxCollider::SetParent(worldTransform_);
 	BoxCollider::SetSize({ 1.0f,1.0f,1.0f });
+
+	isHit_ = false;
 }
 
 void BuffItem::Update()
@@ -20,13 +24,18 @@ void BuffItem::Update()
 
 void BuffItem::Draw(const ViewProjection& viewProjection)
 {
-	ICharacter::Draw(viewProjection);
+	if (isHit_ == false)
+	{
+		ICharacter::Draw(viewProjection);
+	}
 }
 
 void BuffItem::OnCollision(Collider* collider)
 {
-	return;
-	collider;
+	if (collider->GetcollitionAttribute() == kCollitionAttributePlayer)
+	{
+		isHit_ = true;
+	}
 }
 
 void BuffItem::SetScale(Vector3 scale)

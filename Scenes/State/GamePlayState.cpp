@@ -141,8 +141,6 @@ void GamePlayState::Initialize()
 		buffItem_[i] = std::make_unique<BuffItem>();
 		buffItem_[i]->Initalize(buffItemModels, { buffItemWorldTransform_[i].translation_.x, buffItemWorldTransform_[i].translation_.y, buffItemWorldTransform_[i].translation_.z });
 		buffItem_[i]->SetScale({ 3.0f, 3.0f, 3.0f });
-		buffItem_[i]->SetcollitionAttribute(kCollitionAttributeBuffItem);
-		buffItem_[i]->SetcollisionMask(kCollitionAttributeBuffItem);
 	}
 
 	skydome_ = std::make_unique<Skydome>();
@@ -207,6 +205,15 @@ void GamePlayState::Update()
 	
 	collisionManager_->CheckAllCollisions();
 	collisionManager_->ClearCollider();
+
+	if (player->GetIsDead() == true)
+	{
+		for (int i = 0; i < 17; i++)
+		{
+			player->SetIsDead(false);
+			buffItem_[i]->SetIsHit(false);
+		}
+	}
 
 	ImGui::Begin("Play");
 	//ImGui::DragFloat3("itemWorldTransform", &itemWorldTransform_[6].translation_.x, 1.0f);
