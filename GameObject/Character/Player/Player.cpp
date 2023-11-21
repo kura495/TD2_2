@@ -92,31 +92,31 @@ void Player::Draw(const ViewProjection& viewProjection)
 	models_[kModelIndexR_arm]->Draw(worldTransformR_arm_, viewProjection);
 }
 
-void Player::OnCollision(const uint32_t collisionAttribute)
+void Player::OnCollision(Collider* collider)
 {
-	if (collisionAttribute == kCollitionAttributeEnemy) {
+	if (collider->GetcollitionAttribute() == kCollitionAttributeEnemy) {
 		//敵に当たったらリスタートする
 		worldTransform_.translation_ = { 0.0f,0.0f,0.0f };
 		worldTransform_.UpdateMatrix();
 		behaviorRequest_ = Behavior::kRoot;
 	}
-	else if (collisionAttribute == kCollitionAttributeGround) {
+	else if (collider->GetcollitionAttribute() == kCollitionAttributeGround) {
 		IsOnGraund = true;
 		ImGui::Begin("Ground");
 		ImGui::Text("Hit");
 		ImGui::End();
 	}
-	else if (collisionAttribute == kCollitionAttributeWall) {
+	else if (collider->GetcollitionAttribute() == kCollitionAttributeWall) {
 		ImGui::Begin("Wall");
 		ImGui::Text("Hit");
 		ImGui::End();
 	}
-	else if (collisionAttribute == kCollitionAttributeBuffItem) {
+	else if (collider->GetcollitionAttribute() == kCollitionAttributeBuffItem) {
 		ImGui::Begin("BuffItem");
 		ImGui::Text("Hit");
 		ImGui::End();
 	}
-	else if (collisionAttribute == kCollitionAttributeGoal) {
+	else if (collider->GetcollitionAttribute() == kCollitionAttributeGoal) {
 		//ゴールしたらリスタートする
 		worldTransform_.translation_ = { 0.0f,0.0f,0.0f };
 		worldTransform_.UpdateMatrix();

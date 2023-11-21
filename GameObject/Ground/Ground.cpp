@@ -25,10 +25,10 @@ void Ground::Draw(const ViewProjection& viewProjection)
 	ICharacter::Draw(viewProjection);
 }
 
-void Ground::OnCollision(uint32_t collisionAttribute)
+void Ground::OnCollision(Collider* collider)
 {
 	return;
-	collisionAttribute;
+	collider;
 }
 
 void Ground::SetScale(Vector3 scale)
