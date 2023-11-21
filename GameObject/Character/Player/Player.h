@@ -41,7 +41,7 @@ struct WorkDrift {
 };
 
 const uint32_t behaviorDriftTime_ = 60;
-const uint32_t behaviorDriftChargeTime_ = 300;
+const uint32_t behaviorDriftChargeTime_ = 3000;
 
 class Player : public ICharacter, public BoxCollider
 {

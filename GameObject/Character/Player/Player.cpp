@@ -81,6 +81,10 @@ void Player::Update()
 
 	}
 
+	ImGui::Begin("a");
+	ImGui::Text("movePre %f %f %f", workDrift_.movePre_.x, workDrift_.movePre_.y, workDrift_.movePre_.z);
+	ImGui::End();
+
 	PullDown();
 
 	if (worldTransform_.translation_.y <= -10.0f) {
@@ -239,6 +243,7 @@ void Player::BehaviorRootUpdate()
 
 }
 
+
 void Player::BehaviorDashInit()
 {
 	workDash_.dashParameter_ = 0;
@@ -261,12 +266,14 @@ void Player::BehaviorDashUpdate()
 	worldTransform_.translation_ = Add(worldTransform_.translation_, move);
 
 	if (!(joyStatePre.Gamepad.wButtons & XINPUT_GAMEPAD_A)) {
-		if ((joyState.Gamepad.wButtons & XINPUT_GAMEPAD_A) && (isStickRight_ == true || isStickLeft_ == true) ) {
+		if ((joyState.Gamepad.wButtons & XINPUT_GAMEPAD_A) && (isStickRight_ == true || isStickLeft_ == true)) {
 			behaviorRequest_ = Behavior::kDrift;
 		}
 	}
 	else {
-		workDrift_.movePre_ = move;
+		if (move.x != 0.0f || move.y != 0.0f || move.z != 0.0f) {
+			workDrift_.movePre_ = move;
+		}
 	}
 	if (++workDash_.dashParameter_ >= behaviorDashTime) {
 		behaviorRequest_ = Behavior::kRoot;
@@ -310,10 +317,7 @@ void Player::BehaviorDriftUpdate() {
 
 	if (workDrift_.isDrifting_ == false)
 	{
-		ImGui::Begin("DriftCharge");
-		ImGui::Text("kSpeed %f", workDrift_.kSpeed_);
-		ImGui::Text("pa %o", workDrift_.driftChargeParameter_);
-		ImGui::End();
+		
 		workDrift_.driftChargeParameter_++;
 
 		//移動量に速さを反映
@@ -321,6 +325,15 @@ void Player::BehaviorDriftUpdate() {
 		move.x *= workDrift_.kSpeed_;
 		move.y *= workDrift_.kSpeed_;
 		move.z *= workDrift_.kSpeed_;
+
+		ImGui::Begin("DriftCharge");
+		ImGui::Text("move %f %f %f", move.x, move.y, move.z);
+		ImGui::End();
+
+		workDrift_.kSpeed_ -= 0.01f;
+		if (workDrift_.kSpeed_ < 0.0f) {
+			workDrift_.kSpeed_ = 0.0f;
+		}
 
 		//移動ベクトルをカメラの角度だけ回転する
 		//Matrix4x4 rotateMatrix = MakeRotateYMatrix(viewProjection_->rotation.y);
