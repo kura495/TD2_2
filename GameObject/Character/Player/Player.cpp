@@ -95,6 +95,7 @@ void Player::Draw(const ViewProjection& viewProjection)
 
 void Player::OnCollision(const uint32_t collisionAttribute)
 {
+	//当たり判定
 	if (collisionAttribute == kCollitionAttributeEnemy) {
 		//敵に当たったらリスタートする
 		worldTransform_.translation_ = { 0.0f,0.0f,0.0f };
