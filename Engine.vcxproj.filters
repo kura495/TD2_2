@@ -80,6 +80,54 @@
     <Filter Include="Engine\Base\ShaderCompiler">
       <UniqueIdentifier>{e5dd07ba-6454-49b4-b0b4-8e7c882c2867}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Objectヘッダー">
+      <UniqueIdentifier>{faede969-9cff-4d59-8b57-be40bbb4305b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Objectソース">
+      <UniqueIdentifier>{bca7fba2-5077-4a90-b5f7-22298fe0c997}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Objectソース\Ground">
+      <UniqueIdentifier>{980fe1b3-9f68-446e-9946-9a4652f3c189}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Objectヘッダー\Ground">
+      <UniqueIdentifier>{1948afb5-41a5-4839-a33e-6123ea7d4819}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Objectソース\Skydome">
+      <UniqueIdentifier>{8d6cf40f-3e54-4532-93a7-517f24f1167c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Objectヘッダー\Skydome">
+      <UniqueIdentifier>{7a3f8941-376d-4974-9c3c-10fd3fe8e5fe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Objectヘッダー\Character">
+      <UniqueIdentifier>{ddf6c8f1-c5b0-4f55-973a-d4bfd270f6a6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Objectヘッダー\Character\Player">
+      <UniqueIdentifier>{16aa3560-91e3-40aa-8201-0976a78da472}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Objectソース\Character">
+      <UniqueIdentifier>{5f81fdcb-bc3d-497c-bc20-9fbc34a344c0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Objectソース\Character\Player">
+      <UniqueIdentifier>{4a27209b-3836-4b19-abdb-99aecf42ffb1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Objectヘッダー\FollowCamera">
+      <UniqueIdentifier>{0a9f921c-ee19-41be-84ea-733ff6e90ed8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Objectソース\FollowCamera">
+      <UniqueIdentifier>{5f0cc85c-e8fe-47d9-a630-02d10f3bb4c9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Objectヘッダー\Wall">
+      <UniqueIdentifier>{87737bd6-4e87-4e5e-b697-27009c8bf1ff}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Objectソース\Wall">
+      <UniqueIdentifier>{7f511a5f-78b6-434a-8f8a-70330dafba1c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Objectヘッダー\BuffItem">
+      <UniqueIdentifier>{51059538-0e1b-4abf-bde6-5221dd4e3da3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Objectソース\BuffItem">
+      <UniqueIdentifier>{f48cd279-6d59-4d2a-a8f9-07668b760f4e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="externals\imgui\imgui.cpp">
@@ -185,6 +233,27 @@
       <Filter>Engine\Base</Filter>
     </ClCompile>
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="GameObject\Ground\Ground.cpp">
+      <Filter>Objectソース\Ground</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject\Skydome\Skydome.cpp">
+      <Filter>Objectソース\Skydome</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject\Character\Player\Player.cpp">
+      <Filter>Objectソース\Character\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject\Character\ICharacter\ICharacter.cpp">
+      <Filter>Objectソース\Character</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject\FollowCamera\FollowCamera.cpp">
+      <Filter>Objectソース\FollowCamera</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject\Wall\Wall.cpp">
+      <Filter>Objectソース\Wall</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject\BuffItem\BuffItem.cpp">
+      <Filter>Objectソース\BuffItem</Filter>
+    </ClCompile>
     <ClCompile Include="Base\Mesh.cpp">
       <Filter>Engine\Base\Primitive\Mesh</Filter>
     </ClCompile>
@@ -348,30 +417,6 @@
     </ClInclude>
     <ClInclude Include="Base\WorldTransform.h">
       <Filter>Engine\Base</Filter>
-    </ClInclude>
-    <ClInclude Include="Base\Mesh.h">
-      <Filter>Engine\Base\Primitive\Mesh</Filter>
-    </ClInclude>
-    <ClInclude Include="Base\Sphere.h">
-      <Filter>Engine\Base\Primitive\Sphere</Filter>
-    </ClInclude>
-    <ClInclude Include="Base\Renderer\Renderer.h">
-      <Filter>Engine\Base\Renderer</Filter>
-    </ClInclude>
-    <ClInclude Include="Base\Manager\PSOManager.h">
-      <Filter>Engine\Base\Manager</Filter>
-    </ClInclude>
-    <ClInclude Include="Base\PipelineState\Standard\Standard.h">
-      <Filter>Engine\Base\PipeLineState\Standard</Filter>
-    </ClInclude>
-    <ClInclude Include="Base\ShaderCompiler\ShaderCompiler.h">
-      <Filter>Engine\Base\ShaderCompiler</Filter>
-    </ClInclude>
-    <ClInclude Include="Base\PipelineState\PipeLineTags.h">
-      <Filter>Engine\Base\PipeLineState</Filter>
-    </ClInclude>
-    <ClInclude Include="Base\PipelineState\IPipelineStateObject.h">
-      <Filter>Engine\Base\PipeLineState</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

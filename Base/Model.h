@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 #include "Material.h"
 #include "Transform.h"
 #include "VertexData.h"
@@ -32,7 +32,7 @@ private:
 	TextureManager* textureManager_ = nullptr;
 	Light* light_ = nullptr;
 	//どのライトを使うか
-	int32_t lightFlag = Lighting::harfLambert;
+	int32_t lightFlag = Lighting::NotDo;
 
 	ModelData modelData_;
 	//頂点リソース

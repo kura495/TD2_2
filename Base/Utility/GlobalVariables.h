@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 #include "Math_Structs.h"
 #include "ImGuiManager.h"
 #include "externals/nlohmann/json.hpp"
@@ -7,16 +7,19 @@
 #include <string>
 #include <fstream>
 
-struct Item {
-	//項目の値
-	std::variant<int32_t, float, Vector3> value;
-};
-struct Group {
-	std::map<std::string, Item> items;
-};
 using json = nlohmann::json;
 class GlobalVariables
 {
+	struct Item
+	{
+		//項目の値
+		std::variant<int32_t, float, Vector3> value;
+	};
+
+	struct Group 
+	{
+		std::map<std::string, Item> items;
+	};
 public:
 	static GlobalVariables* GetInstance();
 	void CreateGroup(const std::string& groupName);
