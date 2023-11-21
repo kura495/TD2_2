@@ -23,6 +23,10 @@ void Player::Initialize(const std::vector<Model*>& models)
 
 void Player::Update()
 {
+	previousPosition_ = currentPosition_;
+	// プレイヤーキャラクターの位置を更新
+	currentPosition_ = worldTransform_.translation_;
+
 	//jsonファイルの内容を適応
 	ApplyGlobalVariables();
 	//パッドの状態をゲット
@@ -75,15 +79,12 @@ void Player::Update()
 
 	worldTransform_.quaternion = Normalize(worldTransform_.quaternion);
 
-
 	ICharacter::Update();
 	worldTransformBody_.UpdateMatrix();
 	worldTransformHead_.UpdateMatrix();
 	worldTransformL_arm_.UpdateMatrix();
 	worldTransformR_arm_.UpdateMatrix();
 	BoxCollider::Update(&worldTransform_);
-
-
 }
 
 void Player::Draw(const ViewProjection& viewProjection)
@@ -112,6 +113,7 @@ void Player::OnCollision(Collider* collider)
 		ImGui::End();
 	}
 	else if (collider->GetcollitionAttribute() == kCollitionAttributeWall) {
+		worldTransform_.translation_ = previousPosition_;
 		ImGui::Begin("Wall");
 		ImGui::Text("Hit");
 		ImGui::End();
@@ -190,7 +192,6 @@ void Player::Move()
 	float dot = Dot({ 0.0f,0.0f,1.0f }, move);
 	moveQuaternion_ = MakeRotateAxisAngleQuaternion(cross, std::acos(dot));
 	//FIXME: クォータニオンで回転は出来たものの、平べったくなってしまう
-
 }
 
 void Player::ApplyGlobalVariables()

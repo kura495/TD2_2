@@ -120,4 +120,7 @@ private:
 
 	bool isDead_ = false;
 
+	Vector3 currentPosition_;  // 現在のフレームでの位置
+	Vector3 previousPosition_; // 前のフレームでの位置
+
 };
