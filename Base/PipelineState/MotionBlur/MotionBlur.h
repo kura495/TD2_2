@@ -3,6 +3,7 @@
 #include "Base/PipelineState/IPipelineStateObject.h"
 #include "Base/Manager/PSOManager.h"
 
+
 class MotionBlur : public IPipelineStateObject
 {
 public:

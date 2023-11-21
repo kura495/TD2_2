@@ -2,9 +2,9 @@
 
 void MotionBlur::ShaderCompile()
 {
-	vertexShaderBlob = ShaderCompiler::GetInstance()->CompileShader(L"resources/hlsl/Object3D.VS.hlsl", L"vs_6_0");
+	vertexShaderBlob = ShaderCompiler::GetInstance()->CompileShader(L"resources/hlsl/MotionBlur.VS.hlsl", L"vs_6_0");
 	assert(vertexShaderBlob != nullptr);
-	pixelShaderBlob = ShaderCompiler::GetInstance()->CompileShader(L"resources/hlsl/Object3D.PS.hlsl", L"ps_6_0");
+	pixelShaderBlob = ShaderCompiler::GetInstance()->CompileShader(L"resources/hlsl/MotionBlur.PS.hlsl", L"ps_6_0");
 }
 
 void MotionBlur::CreateRootSignature()

@@ -131,6 +131,9 @@
     <Filter Include="Engine\Base\PipeLineState\MotionBlur">
       <UniqueIdentifier>{8657b7f2-469f-42b4-9ae9-1c609af69ab8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\Base\Primitive\QuadMesh">
+      <UniqueIdentifier>{54398785-6c1b-4b9a-b309-78e5cb295a8b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="externals\imgui\imgui.cpp">
@@ -257,12 +260,6 @@
     <ClCompile Include="GameObject\BuffItem\BuffItem.cpp">
       <Filter>Objectソース\BuffItem</Filter>
     </ClCompile>
-    <ClCompile Include="Base\Mesh.cpp">
-      <Filter>Engine\Base\Primitive\Mesh</Filter>
-    </ClCompile>
-    <ClCompile Include="Base\Sphere.cpp">
-      <Filter>Engine\Base\Primitive\Sphere</Filter>
-    </ClCompile>
     <ClCompile Include="Base\Renderer\Renderer.cpp">
       <Filter>Engine\Base\Renderer</Filter>
     </ClCompile>
@@ -277,6 +274,15 @@
     </ClCompile>
     <ClCompile Include="Base\PipelineState\MotionBlur\MotionBlur.cpp">
       <Filter>Engine\Base\PipeLineState\MotionBlur</Filter>
+    </ClCompile>
+    <ClCompile Include="Base\Primitive\QuadMesh\QuadMesh.cpp">
+      <Filter>Engine\Base\Primitive\QuadMesh</Filter>
+    </ClCompile>
+    <ClCompile Include="Base\Primitive\Sphere\Sphere.cpp">
+      <Filter>Engine\Base\Primitive\Sphere</Filter>
+    </ClCompile>
+    <ClCompile Include="Base\Primitive\Mesh\Mesh.cpp">
+      <Filter>Engine\Base\Primitive\Mesh</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -434,9 +440,6 @@
     <ClInclude Include="Base\PipelineState\IPipelineStateObject.h">
       <Filter>Engine\Base\PipeLineState</Filter>
     </ClInclude>
-    <ClInclude Include="Base\Mesh.h">
-      <Filter>Engine\Base\Primitive\Mesh</Filter>
-    </ClInclude>
     <ClInclude Include="Base\PipelineState\PipeLineTags.h">
       <Filter>Engine\Base\PipeLineState</Filter>
     </ClInclude>
@@ -452,11 +455,17 @@
     <ClInclude Include="Base\Renderer\Renderer.h">
       <Filter>Engine\Base\Renderer</Filter>
     </ClInclude>
-    <ClInclude Include="Base\Sphere.h">
-      <Filter>Engine\Base\Primitive\Sphere</Filter>
-    </ClInclude>
     <ClInclude Include="Base\PipelineState\MotionBlur\MotionBlur.h">
       <Filter>Engine\Base\PipeLineState\MotionBlur</Filter>
+    </ClInclude>
+    <ClInclude Include="Base\Primitive\QuadMesh\QuadMesh.h">
+      <Filter>Engine\Base\Primitive\QuadMesh</Filter>
+    </ClInclude>
+    <ClInclude Include="Base\Primitive\Sphere\Sphere.h">
+      <Filter>Engine\Base\Primitive\Sphere</Filter>
+    </ClInclude>
+    <ClInclude Include="Base\Primitive\Mesh\Mesh.h">
+      <Filter>Engine\Base\Primitive\Mesh</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -476,13 +485,10 @@
     <FxCompile Include="resources\hlsl\Object3d.VS.hlsl">
       <Filter>リソース ファイル\hlsl</Filter>
     </FxCompile>
-    <FxCompile Include="resources\hlsl\PostProsess.hlsl">
+    <FxCompile Include="resources\hlsl\MotionBlur.PS.hlsl">
       <Filter>リソース ファイル\hlsl</Filter>
     </FxCompile>
-    <FxCompile Include="resources\hlsl\Sprite.PS.hlsl">
-      <Filter>リソース ファイル\hlsl</Filter>
-    </FxCompile>
-    <FxCompile Include="resources\hlsl\Sprite.VS.hlsl">
+    <FxCompile Include="resources\hlsl\MotionBlur.VS.hlsl">
       <Filter>リソース ファイル\hlsl</Filter>
     </FxCompile>
   </ItemGroup>
