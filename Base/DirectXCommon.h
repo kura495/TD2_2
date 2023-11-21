@@ -44,7 +44,7 @@ public:
 	ID3D12GraphicsCommandList*GetcommandList()const { return commandList.Get(); }
 	ID3D12Device* GetDevice()const { return device.Get(); }
 	DXGI_SWAP_CHAIN_DESC1 GetSwapChainDesc()const { return swapChainDesc; }
-	D3D12_DESCRIPTOR_HEAP_DESC GetrtvDesc()const { return rtvDescriptorHeap->GetDesc(); }
+	D3D12_DESCRIPTOR_HEAP_DESC GetrtvDescFormHeap()const { return rtvDescriptorHeap->GetDesc(); }D3D12_RENDER_TARGET_VIEW_DESC GetrtvDesc()const { return rtvDesc; }
 	Microsoft::WRL::ComPtr<ID3D12DescriptorHeap>
 	 GetsrvDescriptorHeap()const { return srvDescriptorHeap.Get(); }
 	Microsoft::WRL::ComPtr<ID3D12Resource> GetswapChainResources()const { return swapChainResources[0]; }

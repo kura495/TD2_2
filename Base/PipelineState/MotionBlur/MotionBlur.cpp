@@ -4,6 +4,7 @@ void MotionBlur::Initalize()
 {
 	IPipelineStateObject::Initalize();
 	directX_ = DirectXCommon::GetInstance();
+	CreateHeap();
 }
 
 void MotionBlur::ShaderCompile()
@@ -150,7 +151,7 @@ void MotionBlur::CreatePipelineStateObject()
 void MotionBlur::CreateHeap()
 {
 	//作成済みのヒープ情報でもう一つ作る
-	D3D12_DESCRIPTOR_HEAP_DESC heapDesc = directX_->GetrtvDesc();
+	D3D12_DESCRIPTOR_HEAP_DESC heapDesc = directX_->GetrtvDescFormHeap();
 	//使っているバックバッファの情報を利用
 	Microsoft::WRL::ComPtr<ID3D12Resource> bbuff = directX_->GetswapChainResources();
 	D3D12_RESOURCE_DESC resDesc = directX_->GetswapChainResources()->GetDesc();
@@ -178,4 +179,11 @@ void MotionBlur::CreateHeap()
 	heapDesc.Flags = D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE;
 
 	hr = directX_->GetDevice()->CreateDescriptorHeap(&heapDesc,IID_PPV_ARGS(_peraSRVHeap.ReleaseAndGetAddressOf()));
+	D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc = {};
+	srvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;
+	srvDesc.Format = rtvDesc.Format;
+	srvDesc.Texture2D.MipLevels = 1;
+	srvDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
+	//シェーダーリソースビューを作る
+	directX_->GetDevice()->CreateShaderResourceView(_peraResource.Get(),&srvDesc,_peraSRVHeap->GetCPUDescriptorHandleForHeapStart());
 }

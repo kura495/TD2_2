@@ -34,7 +34,7 @@ private:
 	DirectXCommon* directX = nullptr;
 	TextureManager* textureManager = nullptr;
 
-	std::unique_ptr<Renderer> renderer_ = nullptr;
+	Renderer* renderer_ = nullptr;
 
 	ImGuiManager* imGuiManager = nullptr;
 	Input* input = nullptr;

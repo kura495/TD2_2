@@ -5,6 +5,7 @@
 #include "Base/DirectXCommon.h"
 
 #include "PipelineState/Standard/Standard.h"
+#include "PipelineState/MotionBlur/MotionBlur.h"
 
 class PSOManager
 {
@@ -23,6 +24,10 @@ public:
 	}
 
 private:
+	PSOManager() = default;
+	~PSOManager() = default;
+	PSOManager(const PSOManager& obj) = delete;
+	PSOManager& operator=(const PSOManager& obj) = delete;
 
 	std::map<PipelineType,PipelineStateObject> Pipeline_;
 

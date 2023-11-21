@@ -153,6 +153,8 @@ void GamePlayState::Initialize()
 	followCamera->Initalize();
 	followCamera->SetTarget(&player->GetWorldTransform());
 	player->SetViewProjection(&followCamera->GetViewProjection());
+
+	renderer_ = Renderer::GetInstance();
 }
 
 void GamePlayState::Update()
