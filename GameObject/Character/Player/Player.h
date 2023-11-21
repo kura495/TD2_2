@@ -39,7 +39,7 @@ public:
 		return worldTransform_;
 	}
 
-	void OnCollision(const uint32_t collisionAttribute)override;
+	void OnCollision(Collider* collider)override;
 
 	void SetParent(const WorldTransform* parent);
 	void DeleteParent() {

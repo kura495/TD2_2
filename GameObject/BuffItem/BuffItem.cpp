@@ -25,10 +25,10 @@ void BuffItem::Draw(const ViewProjection& viewProjection)
 	ICharacter::Draw(viewProjection);
 }
 
-void BuffItem::OnCollision(uint32_t collisionAttribute)
+void BuffItem::OnCollision(Collider* collider)
 {
 	return;
-	collisionAttribute;
+	collider;
 }
 
 void BuffItem::SetScale(Vector3 scale)
