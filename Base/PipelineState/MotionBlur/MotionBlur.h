@@ -17,6 +17,7 @@ public:
 	void CreatePipelineStateObject() override;
 
 	void CreateHeap();
+	void ChengeRenderTarget();
 
 private:
 	DirectXCommon* directX_;

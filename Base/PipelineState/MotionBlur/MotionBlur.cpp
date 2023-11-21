@@ -187,3 +187,9 @@ void MotionBlur::CreateHeap()
 	//シェーダーリソースビューを作る
 	directX_->GetDevice()->CreateShaderResourceView(_peraResource.Get(),&srvDesc,_peraSRVHeap->GetCPUDescriptorHandleForHeapStart());
 }
+
+void MotionBlur::ChengeRenderTarget()
+{
+	D3D12_CPU_DESCRIPTOR_HANDLE rtvHeapPointer = _peraRTVHeap->GetCPUDescriptorHandleForHeapStart();
+
+}
