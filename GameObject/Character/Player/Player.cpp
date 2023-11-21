@@ -28,6 +28,23 @@ void Player::Update()
 	//パッドの状態をゲット
 	input->GetJoystickState(0, joyState);
 
+	float normalizedX = static_cast<float>(joyState.Gamepad.sThumbLX) / SHRT_MAX;
+	if (normalizedX > threshold_) {
+		isStickRight_ = true;
+	}
+	else {
+		isStickRight_ = false;
+	}
+
+	if (normalizedX < -threshold_)
+	{
+		isStickLeft_ = true;
+
+	}
+	else {
+		isStickLeft_ = false;
+	}
+
 	if (behaviorRequest_) {
 		//ふるまいの変更
 		behavior_ = behaviorRequest_.value();
@@ -44,6 +61,8 @@ void Player::Update()
 		case Behavior::kDash:
 			BehaviorDashInit();
 			break;
+		case Behavior::kDrift:
+			BehaviorDriftInitialize();
 		}
 		behaviorRequest_ = std::nullopt;
 	}
@@ -59,6 +78,9 @@ void Player::Update()
 	case Behavior::kDash:
 		BehaviorDashUpdate();
 		break;
+	case Behavior::kDrift:
+		BehaviorDriftUpdate();
+
 	}
 
 	PullDown();
@@ -82,7 +104,7 @@ void Player::Update()
 	worldTransformR_arm_.UpdateMatrix();
 	BoxCollider::Update(&worldTransform_);
 
-
+	joyStatePre = joyState;
 }
 
 void Player::Draw(const ViewProjection& viewProjection)
@@ -213,8 +235,10 @@ void Player::BehaviorRootUpdate()
 		behaviorRequest_ = Behavior::kAttack;
 	}
 	//Aでダッシュ
-	if (joyState.Gamepad.wButtons & XINPUT_GAMEPAD_A) {
-		behaviorRequest_ = Behavior::kDash;
+	if (workDash_.coolTime_++ >= dashCoolTime) {
+		if (joyState.Gamepad.wButtons & XINPUT_GAMEPAD_A) {
+			behaviorRequest_ = Behavior::kDash;
+		}
 	}
 
 }
@@ -236,11 +260,12 @@ void Player::BehaviorDashInit()
 	workDash_.dashParameter_ = 0;
 	//プレイヤーの旋回の補間を切って一瞬で目標角度をに付くようにしている	
 	worldTransform_.rotation_.y = targetAngle;
+	workDash_.coolTime_ = 0;
 }
 
 void Player::BehaviorDashUpdate()
 {
-	Vector3 move = { 0.0f,0.0f,1.0f };
+	Vector3 move = { (float)joyState.Gamepad.sThumbLX / SHRT_MAX, 0.0f,(float)joyState.Gamepad.sThumbLY / SHRT_MAX, };
 	//正規化をして斜めの移動量を正しくする
 	move.z = Normalize(move).z * workDash_.dashSpeed_;
 	//プレイヤーの正面方向に移動するようにする
@@ -250,9 +275,133 @@ void Player::BehaviorDashUpdate()
 	move = TransformNormal(move, rotateMatrix);
 	//移動
 	worldTransform_.translation_ = Add(worldTransform_.translation_, move);
+
+	if (!(joyStatePre.Gamepad.wButtons & XINPUT_GAMEPAD_A)) {
+		if ((joyState.Gamepad.wButtons & XINPUT_GAMEPAD_A) && (isStickRight_ == true || isStickLeft_ == true) ) {
+			behaviorRequest_ = Behavior::kDrift;
+		}
+	}
+	else {
+		workDrift_.movePre_ = move;
+	}
 	if (++workDash_.dashParameter_ >= behaviorDashTime) {
 		behaviorRequest_ = Behavior::kRoot;
 	}
+}
+
+void Player::BehaviorDriftInitialize() {
+	workDrift_.kSpeed_ = 1.0f;
+	workDrift_.driftParameter_ = 0;
+	workDrift_.driftChargeParameter_ = 0;
+	workDrift_.isStickRightPre_ = isStickRight_;
+	workDrift_.isStickLeftPre_ = isStickLeft_;
+	workDrift_.isDrifting_ = false;
+}
+
+
+void Player::BehaviorDriftUpdate() {
+	
+
+	float angle = (float)joyState.Gamepad.sThumbLX / 360.0f * M_PI / 180.0f;
+
+	if (workDrift_.isStickRightPre_) {
+		if (angle < 0.0f) {
+			angle = 0.0f;
+		}
+	}
+	else if (workDrift_.isStickLeftPre_) {
+		if (angle > 0.0f) {
+			angle = 0.0f;
+		}
+	}
+	
+	worldTransform_.rotation_.y = angle;
+
+	//移動量
+	Vector3 rote = {
+		(float)joyState.Gamepad.sThumbLX / SHRT_MAX,
+		0.0f,
+		(float)joyState.Gamepad.sThumbLY / SHRT_MAX,
+	};
+
+	if (workDrift_.isDrifting_ == false)
+	{
+		ImGui::Begin("DriftCharge");
+		ImGui::Text("kSpeed %f", workDrift_.kSpeed_);
+		ImGui::Text("pa %o", workDrift_.driftChargeParameter_);
+		ImGui::End();
+		workDrift_.driftChargeParameter_++;
+
+		//移動量に速さを反映
+		Vector3 move = Normalize(workDrift_.movePre_);
+		move.x *= workDrift_.kSpeed_;
+		move.y *= workDrift_.kSpeed_;
+		move.z *= workDrift_.kSpeed_;
+
+		//移動ベクトルをカメラの角度だけ回転する
+		//Matrix4x4 rotateMatrix = MakeRotateYMatrix(viewProjection_->rotation.y);
+		//move_ = TransformNormal(move_, rotateMatrix);
+
+		//移動
+		worldTransform_.translation_ = Add(worldTransform_.translation_, move);
+
+		workDrift_.rotationAmount_ = {
+			(float)joyState.Gamepad.sThumbLX / SHRT_MAX,
+			0.0f,
+			(float)joyState.Gamepad.sThumbLY / SHRT_MAX,
+		};
+
+		if (!(joyState.Gamepad.wButtons & XINPUT_GAMEPAD_A))
+		{
+			workDrift_.isDrifting_ = true;
+		}
+	}
+
+	if (workDrift_.isDrifting_)
+	{
+		workDrift_.isStickLeftPre_ = false;
+		workDrift_.isStickRightPre_ = false;
+		ImGui::Begin("Drift");
+		ImGui::Text("pa %o", workDrift_.driftParameter_);
+		ImGui::End();
+		workDrift_.kSpeed_ = 1.5f;
+		workDrift_.driftParameter_++;
+		//移動量
+		Vector3 moveDrift = {
+			workDrift_.rotationAmount_.x,
+			0.0f,
+			workDrift_.rotationAmount_.z,
+		};
+
+		//移動量に速さを反映
+		moveDrift = Normalize(moveDrift);
+		moveDrift.x *= workDrift_.kSpeed_;
+		moveDrift.y *= workDrift_.kSpeed_;
+		moveDrift.z *= workDrift_.kSpeed_;
+
+		//移動ベクトルをカメラの角度だけ回転する
+		Matrix4x4 rotateMatrix = MakeRotateMatrix(viewProjection_->rotation_);
+		moveDrift = TransformNormal(moveDrift, rotateMatrix);
+
+		//移動
+		worldTransform_.translation_ = Add(worldTransform_.translation_, moveDrift);
+
+		moveDrift = Normalize(moveDrift);
+		Vector3 cross = Normalize(Cross({ 0.0f,0.0f,1.0f }, moveDrift));
+		float dot = Dot({ 0.0f,0.0f,1.0f }, moveDrift);
+		moveQuaternion_ = MakeRotateAxisAngleQuaternion(cross, std::acos(dot));
+
+		worldTransform_.quaternion = Slerp(worldTransform_.quaternion, moveQuaternion_, 0.2f);
+		worldTransform_.quaternion = Normalize(worldTransform_.quaternion);
+	}
+
+	if (workDrift_.driftChargeParameter_ >= behaviorDriftChargeTime_ || workDrift_.driftParameter_ >= behaviorDriftTime_)
+	{
+		workDrift_.isDrifting_ = false;
+		behaviorRequest_ = Behavior::kRoot;
+
+	}
+
 }
 
 
