@@ -19,6 +19,9 @@
 struct PipelineStateObject {
 	Microsoft::WRL::ComPtr<ID3D12RootSignature> rootSignature;
 	Microsoft::WRL::ComPtr<ID3D12PipelineState> graphicsPipelineState;
+	Microsoft::WRL::ComPtr<ID3D12Resource>_peraResource;
+	Microsoft::WRL::ComPtr<ID3D12DescriptorHeap>_peraRTVHeap;
+	Microsoft::WRL::ComPtr<ID3D12DescriptorHeap>_peraSRVHeap;
 };
 
 class DirectXCommon
@@ -47,6 +50,9 @@ public:
 	D3D12_DESCRIPTOR_HEAP_DESC GetrtvDescFormHeap()const { return rtvDescriptorHeap->GetDesc(); }D3D12_RENDER_TARGET_VIEW_DESC GetrtvDesc()const { return rtvDesc; }
 	Microsoft::WRL::ComPtr<ID3D12DescriptorHeap>
 	 GetsrvDescriptorHeap()const { return srvDescriptorHeap.Get(); }
+	Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> GetdsvDescriptorHeap() {
+		return dsvDescriptorHeap.Get();
+	}
 	Microsoft::WRL::ComPtr<ID3D12Resource> GetswapChainResources()const { return swapChainResources[0]; }
 #pragma endregion	
 

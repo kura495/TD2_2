@@ -161,35 +161,29 @@ void MotionBlur::CreateHeap()
 
 	D3D12_CLEAR_VALUE clearValue = CD3DX12_CLEAR_VALUE(DXGI_FORMAT_R8G8B8A8_UNORM, clsClr);
 
-	hr = directX_->GetDevice()->CreateCommittedResource(&heapProp,D3D12_HEAP_FLAG_NONE,&resDesc,D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE,&clearValue,IID_PPV_ARGS(_peraResource.ReleaseAndGetAddressOf()));
+	hr = directX_->GetDevice()->CreateCommittedResource(&heapProp,D3D12_HEAP_FLAG_NONE,&resDesc,D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE,&clearValue,IID_PPV_ARGS(PipelineStateObject_._peraResource.ReleaseAndGetAddressOf()));
 	//RTVヒープを作る
 	heapDesc.NumDescriptors = 1;
-	hr = directX_->GetDevice()->CreateDescriptorHeap(&heapDesc, IID_PPV_ARGS(_peraRTVHeap.ReleaseAndGetAddressOf()));
+	hr = directX_->GetDevice()->CreateDescriptorHeap(&heapDesc, IID_PPV_ARGS(PipelineStateObject_._peraRTVHeap.ReleaseAndGetAddressOf()));
 
 	D3D12_RENDER_TARGET_VIEW_DESC rtvDesc = {};
 	rtvDesc.ViewDimension = D3D12_RTV_DIMENSION_TEXTURE2D;
 	rtvDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
 
 	//レンダーターゲットビューを作る
-	directX_->GetDevice()->CreateRenderTargetView(_peraResource.Get(),&rtvDesc,_peraRTVHeap->GetCPUDescriptorHandleForHeapStart());
+	directX_->GetDevice()->CreateRenderTargetView(PipelineStateObject_._peraResource.Get(),&rtvDesc, PipelineStateObject_._peraRTVHeap->GetCPUDescriptorHandleForHeapStart());
 
 	//SRVヒープを作る
 	heapDesc.NumDescriptors = 1;
 	heapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV;
 	heapDesc.Flags = D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE;
 
-	hr = directX_->GetDevice()->CreateDescriptorHeap(&heapDesc,IID_PPV_ARGS(_peraSRVHeap.ReleaseAndGetAddressOf()));
+	hr = directX_->GetDevice()->CreateDescriptorHeap(&heapDesc,IID_PPV_ARGS(PipelineStateObject_._peraSRVHeap.ReleaseAndGetAddressOf()));
 	D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc = {};
 	srvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;
 	srvDesc.Format = rtvDesc.Format;
 	srvDesc.Texture2D.MipLevels = 1;
 	srvDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
 	//シェーダーリソースビューを作る
-	directX_->GetDevice()->CreateShaderResourceView(_peraResource.Get(),&srvDesc,_peraSRVHeap->GetCPUDescriptorHandleForHeapStart());
-}
-
-void MotionBlur::ChengeRenderTarget()
-{
-	D3D12_CPU_DESCRIPTOR_HANDLE rtvHeapPointer = _peraRTVHeap->GetCPUDescriptorHandleForHeapStart();
-
+	directX_->GetDevice()->CreateShaderResourceView(PipelineStateObject_._peraResource.Get(),&srvDesc, PipelineStateObject_._peraSRVHeap->GetCPUDescriptorHandleForHeapStart());
 }

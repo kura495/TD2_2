@@ -14,6 +14,8 @@ public:
 	//void Update();
 	void Draw(PipelineType Type);
 
+	void ChengeRenderTarget(PipelineType Type);
+
 private:
 	Renderer() = default;
 	~Renderer() = default;
@@ -22,4 +24,5 @@ private:
 
 	Microsoft::WRL::ComPtr<ID3D12GraphicsCommandList>commandList = nullptr;
 	PSOManager* PSOManager_ = nullptr;
+	DirectXCommon* directX_;
 };
