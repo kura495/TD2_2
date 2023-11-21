@@ -16,14 +16,32 @@ enum class Behavior {
 	kRoot,//通常
 	kAttack,//攻撃中
 	kDash,//ダッシュ中
+	kDrift, // ドリフト中
 };
 //ダッシュ用ワーク
 struct WorkDash {
 	//ダッシュ用の媒介変数
 	uint32_t dashParameter_ = 0;
+	uint32_t coolTime_ = 0;
 	//ダッシュ用スピード
 	float dashSpeed_ = 5.0f;
+
 };
+const uint32_t dashCoolTime = 60;
+
+struct WorkDrift {
+	uint32_t driftParameter_;
+	uint32_t driftChargeParameter_;
+	float kSpeed_;
+	Vector3 movePre_;
+	Vector3 rotationAmount_;
+	bool isStickRightPre_;
+	bool isStickLeftPre_;
+	bool isDrifting_;
+};
+
+const uint32_t behaviorDriftTime_ = 60;
+const uint32_t behaviorDriftChargeTime_ = 300;
 
 class Player : public ICharacter, public BoxCollider
 {
@@ -58,6 +76,8 @@ public:
 
 	void SetIsDead(bool isDead) { isDead_ = isDead; }
 
+	bool GetIsStickRight() { return workDrift_.isStickRightPre_; }
+	bool GetIsStickLeft() { return workDrift_.isStickLeftPre_; }
 private:
 
 
@@ -73,7 +93,13 @@ private:
 	//ダッシュ
 	void BehaviorDashInit();
 	void BehaviorDashUpdate();
+	// ドリフト
+	void BehaviorDriftInitialize();
+	void BehaviorDriftUpdate();
+
+
 	WorkDash workDash_;
+	WorkDrift workDrift_;
 	//ダッシュの時間
 	const uint32_t behaviorDashTime = 20;
 
@@ -84,6 +110,7 @@ private:
 	//キー入力とパッド
 	Input* input = nullptr;
 	XINPUT_STATE joyState;
+	XINPUT_STATE joyStatePre;
 	
 	//各パーツのローカル座標
 	WorldTransform worldTransformBody_;
@@ -121,4 +148,10 @@ private:
 	Vector3 currentPosition_;  // 現在のフレームでの位置
 	Vector3 previousPosition_; // 前のフレームでの位置
 
+	// スティックが倒れている方
+	bool isStickRight_ = false;
+	bool isStickLeft_ = false;
+	float threshold_ = 0.5f;
+
+	const float M_PI = 3.14159265359f;
 };

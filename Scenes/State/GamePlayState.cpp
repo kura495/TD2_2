@@ -203,6 +203,8 @@ void GamePlayState::Update()
 
 	player->Update();
 
+	followCamera->SetIsStickPre(player->GetIsStickRight(), player->GetIsStickLeft());
+
 	followCamera->Update();
 	viewProjection_ = followCamera->GetViewProjection();
 	wallWorldTransform_[0].UpdateMatrix();
