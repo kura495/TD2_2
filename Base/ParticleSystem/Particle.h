@@ -35,9 +35,9 @@ private:
 	Microsoft::WRL::ComPtr<ID3D12Resource> materialResource = nullptr;
 	Material* materialData = nullptr;
 
-	//ƒp[ƒeƒBƒNƒ‹‚Ì”
+	//ãƒ‘ãƒ¼ãƒ†ã‚£ã‚¯ãƒ«ã®æ•°
 	int particleVolume_;
-	//ƒp[ƒeƒBƒNƒ‹‚Ì”•ª‚Ìtransform
+	//ãƒ‘ãƒ¼ãƒ†ã‚£ã‚¯ãƒ«ã®æ•°åˆ†ã®transform
 	std::vector<WorldTransform> transform_;
 
 	void CreateResources();
