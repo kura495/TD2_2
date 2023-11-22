@@ -8,6 +8,7 @@
 #include"ImGuiManager.h"
 #include"Scenes/State/GameTitleState.h"
 #include"Scenes/State/GamePlayState.h"
+#include"Scenes/State/GameBossState.h"
 #include"Scenes/State/GameClearState.h"
 #include"Scenes/State/IgameState.h"
 #include"Audio.h"
@@ -21,6 +22,7 @@ public:
 	enum GameStateNo {
 		TITLE,
 		PLAY,
+		Boss,
 		GameStateMax
 	};
 

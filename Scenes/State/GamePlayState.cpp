@@ -230,14 +230,17 @@ void GamePlayState::Update()
 
 	if (player->GetIsDead() == true)
 	{
-		for (int i = 0; i < 17; i++)
+		/*for (int i = 0; i < 17; i++)
 		{
 			player->SetIsDead(false);
 			buffItem_[i]->SetIsHit(false);
-		}
+		}*/
+
+		StateNo = 2;
 	}
 
 	ImGui::Begin("Play");
+	ImGui::Text("%d", StateNo);
 	//ImGui::DragFloat3("itemWorldTransform", &itemWorldTransform_[6].translation_.x, 1.0f);
 	ImGui::End();
 }

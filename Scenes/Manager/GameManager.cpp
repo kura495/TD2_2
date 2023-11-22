@@ -38,7 +38,9 @@ void GameManager::Initialize()
 	//State
 	state[TITLE] = std::make_unique<GameTitleState>();
 	state[PLAY] = std::make_unique<GamePlayState>();
+	state[Boss] = std::make_unique<GameBossState>();
 	state[PLAY]->Initialize();
+	state[Boss]->Initialize();
 	GameState::StateNo = TITLE;
 }
 void GameManager::Gameloop()

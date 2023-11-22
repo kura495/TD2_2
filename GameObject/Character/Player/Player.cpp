@@ -123,10 +123,10 @@ void Player::OnCollision(Collider* collider)
 	if (collider->GetcollitionAttribute() == kCollitionAttributeEnemy) {
 		//敵に当たったらリスタートする
 		isDead_ = true;
-		worldTransform_.translation_ = { 0.0f,0.0f,0.0f };
+	/*	worldTransform_.translation_ = { 0.0f,0.0f,0.0f };
 		speed = 0.5f;
 		worldTransform_.UpdateMatrix();
-		behaviorRequest_ = Behavior::kRoot;
+		behaviorRequest_ = Behavior::kRoot;*/
 	}
 	else if (collider->GetcollitionAttribute() == kCollitionAttributeGround) {
 		IsOnGraund = true;

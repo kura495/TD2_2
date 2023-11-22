@@ -278,6 +278,9 @@
     <ClCompile Include="Base\PipelineState\MotionBlur\MotionBlur.cpp">
       <Filter>Engine\Base\PipeLineState\MotionBlur</Filter>
     </ClCompile>
+    <ClCompile Include="Scenes\State\GameBossState.cpp">
+      <Filter>Scenesソース\State</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="externals\imgui\imconfig.h">
@@ -457,6 +460,9 @@
     </ClInclude>
     <ClInclude Include="Base\PipelineState\MotionBlur\MotionBlur.h">
       <Filter>Engine\Base\PipeLineState\MotionBlur</Filter>
+    </ClInclude>
+    <ClInclude Include="Scenes\State\GameBossState.h">
+      <Filter>Scenesヘッダー\State</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
