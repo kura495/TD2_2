@@ -27,6 +27,8 @@
 #include "GameObject/Character/Player/Player.h"
 #include "GameObject/FollowCamera/FollowCamera.h"
 
+#include "Base/ParticleSystem/Particle.h"
+
 class GamePlayState :public GameState
 {
 public:
@@ -44,40 +46,11 @@ private:
 	Light* light_ = nullptr;
 	DirectXCommon* DirectX_ = nullptr;
 	GlobalVariables* globalVariables = nullptr;
-	std::unique_ptr<CollisionManager> collisionManager_;
-
-	std::unique_ptr<FollowCamera> followCamera;
-
-	//地面
-	std::unique_ptr<Model> groundModel_ = nullptr;
-	std::unique_ptr<Ground> ground_;
 	
-	//天球
-	std::unique_ptr<Skydome> skydome_;
-	std::unique_ptr<Model> skydomeModel_;
 
-	std::unique_ptr<Player> player;
-	//プレイヤーモデル
-	std::unique_ptr<Model> modelFighterBody_ = nullptr;
-	std::unique_ptr<Model> modelFighterHead_ = nullptr;
-	std::unique_ptr<Model> modelFighterL_arm_ = nullptr;
-	std::unique_ptr<Model> modelFighterR_arm_ = nullptr;
-	std::unique_ptr<Model> modelFighterWeapon = nullptr;
-
-	//壁
-	std::unique_ptr<Model> wallModel_ = nullptr;
-	std::unique_ptr<Wall> wall_[14];
-	WorldTransform wallWorldTransform_[14];
-
-	//バフアイテム
-	std::unique_ptr<Model> buffItemModel_ = nullptr;
-	std::unique_ptr<BuffItem> buffItem_[16];
-	WorldTransform buffItemWorldTransform_[16];
-
-	//
-	WorldTransform worldTransform_;
-	WorldTransform worldTransform_Sprite;
 	ViewProjection viewProjection_;
 
 	Renderer* renderer_;
+
+	std::unique_ptr<Particle> particle;
 };

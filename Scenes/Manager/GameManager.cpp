@@ -30,6 +30,7 @@ void GameManager::Initialize()
 	imGuiManager->Initialize(winApp, directX);
 	//TextureManager
 	textureManager = TextureManager::GetInstance();
+	textureManager->Initialize(directX);
 	//Light
 	light = Light::GetInstance();
 	light->Initialize();

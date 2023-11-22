@@ -128,6 +128,9 @@
     <Filter Include="Scenes\State">
       <UniqueIdentifier>{815f09b2-983d-4b5d-9155-7098162ef22a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\Base\ParticleSystem\PipeLine">
+      <UniqueIdentifier>{c1ced9c5-c3e5-421c-b6f3-82a4db9640ee}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="externals\imgui\imgui.cpp">
@@ -277,6 +280,9 @@
     </ClCompile>
     <ClCompile Include="Base\ParticleSystem\Particle.cpp">
       <Filter>Engine\Base\ParticleSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="Base\ParticleSystem\Pipeline\ParticlePipeLine.cpp">
+      <Filter>Engine\Base\ParticleSystem\PipeLine</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -461,6 +467,9 @@
     <ClInclude Include="Scenes\Manager\GameManager.h">
       <Filter>Scenes\Manager</Filter>
     </ClInclude>
+    <ClInclude Include="Base\ParticleSystem\PipeLine\ParticlePipeLine.h">
+      <Filter>Engine\Base\ParticleSystem\PipeLine</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="externals\imgui\LICENSE.txt">
@@ -469,6 +478,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="resources\hlsl\Object3d.hlsli">
+      <Filter>リソース ファイル\hlsl</Filter>
+    </None>
+    <None Include="resources\hlsl\Particle.hlsli">
       <Filter>リソース ファイル\hlsl</Filter>
     </None>
   </ItemGroup>
@@ -483,6 +495,12 @@
       <Filter>リソース ファイル\hlsl</Filter>
     </FxCompile>
     <FxCompile Include="resources\hlsl\MotionBlur.VS.hlsl">
+      <Filter>リソース ファイル\hlsl</Filter>
+    </FxCompile>
+    <FxCompile Include="resources\hlsl\Particle.PS.hlsl">
+      <Filter>リソース ファイル\hlsl</Filter>
+    </FxCompile>
+    <FxCompile Include="resources\hlsl\Particle.VS.hlsl">
       <Filter>リソース ファイル\hlsl</Filter>
     </FxCompile>
   </ItemGroup>

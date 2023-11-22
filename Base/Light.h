@@ -16,10 +16,12 @@ class Light
 	Vector4 color;//ライトの色
 	Vector3 direction;//ライトの向き
 	float intensity;//ライトの輝度
-};
+	};
 
 public:
+
 	static Light* GetInstance();
+
 	void Initialize();
 	void ImGui(const char* Title);
 	ID3D12Resource* GetDirectionalLight()const {
