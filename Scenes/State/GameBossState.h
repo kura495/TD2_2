@@ -21,6 +21,8 @@
 #include "Base/Utility/CollisionManager.h"
 #include "GameObject/Ground/Ground.h"
 #include "GameObject/Skydome/Skydome.h"
+#include "GameObject/Character/Player/Player.h"
+#include "GameObject/FollowCamera/FollowCamera.h"
 
 class GameBossState : public GameState
 {
@@ -40,6 +42,8 @@ private:
 	GlobalVariables* globalVariables = nullptr;
 	std::unique_ptr<CollisionManager> collisionManager_;
 
+	std::unique_ptr<FollowCamera> followCamera;
+
 	//地面
 	std::unique_ptr<Model> groundModel_ = nullptr;
 	std::unique_ptr<Ground> ground_;
@@ -47,6 +51,14 @@ private:
 	//天球
 	std::unique_ptr<Skydome> skydome_;
 	std::unique_ptr<Model> skydomeModel_;
+
+	std::unique_ptr<Player> player;
+	//プレイヤーモデル
+	std::unique_ptr<Model> modelFighterBody_ = nullptr;
+	std::unique_ptr<Model> modelFighterHead_ = nullptr;
+	std::unique_ptr<Model> modelFighterL_arm_ = nullptr;
+	std::unique_ptr<Model> modelFighterR_arm_ = nullptr;
+	std::unique_ptr<Model> modelFighterWeapon = nullptr;
 
 	//
 	WorldTransform worldTransform_;
