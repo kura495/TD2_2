@@ -273,21 +273,17 @@ void Player::BehaviorDashUpdate()
 		//回転行列を作る
 		Matrix4x4 rotateMatrix = MakeRotateMatrix(viewProjection_->rotation_);
 		//移動ベクトルをカメラの角度だけ回転
-		workDash_.move_ = TransformNormal(workDash_.move_, rotateMatrix);
-		Vector3 rotate = Normalize(workDash_.move_);
+		Vector3 moveQ = TransformNormal(workDash_.move_, rotateMatrix);
+		Vector3 rotate = Normalize(moveQ);
 		Vector3 cross = Normalize(Cross({ 0.0f,0.0f,1.0f }, rotate));
 		float dot = Dot({ 0.0f,0.0f,1.0f }, rotate);
 		moveQuaternion_ = MakeRotateAxisAngleQuaternion(cross, std::acos(dot));
-		/*worldTransform_.quaternion.x = workDash_.quaternionPre_.x + moveQuaternion_.x;
-		worldTransform_.quaternion.y = workDash_.quaternionPre_.y + moveQuaternion_.y;
-		worldTransform_.quaternion.z = workDash_.quaternionPre_.z + moveQuaternion_.z;*/
 
 		if (workDash_.isDash) {
 			Vector3 move = workDash_.movePre_;
-			rotateMatrix = MakeRotateMatrix(viewProjection_->rotation_);
+			//rotateMatrix = MakeRotateMatrix(viewProjection_->rotation_);
 			//移動ベクトルをカメラの角度だけ回転
-			move = TransformNormal(move, rotateMatrix);
-			//プレイヤーの正面方向に移動するようにする
+			//move = TransformNormal(move, rotateMatrix);
 			//回転行列を作る
 			rotateMatrix = MakeRotateMatrix(worldTransform_.quaternion);
 			//移動ベクトルをカメラの角度だけ回転
@@ -324,6 +320,10 @@ void Player::BehaviorDashUpdate()
 	else {
 		Vector3 move = workDash_.move_;
 		workDash_.movePre_ = workDash_.move_;
+		//回転行列を作る
+		Matrix4x4 rotateMatrix = MakeRotateMatrix(viewProjection_->rotation_);
+		//移動ベクトルをカメラの角度だけ回転
+		move = TransformNormal(workDash_.move_, rotateMatrix);
 		//正規化をして斜めの移動量を正しくする
 		move.x = Normalize(move).x * workDash_.dashSpeed_;
 		move.y = Normalize(move).y * workDash_.dashSpeed_;
