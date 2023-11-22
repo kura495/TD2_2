@@ -24,10 +24,10 @@ void Wall::Draw(const ViewProjection& viewProjection)
 	ICharacter::Draw(viewProjection);
 }
 
-void Wall::OnCollision(uint32_t collisionAttribute)
+void Wall::OnCollision(Collider* collider)
 {
 	return;
-	collisionAttribute;
+	collider;
 }
 
 void Wall::SetScale(Vector3 scale)

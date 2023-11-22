@@ -187,3 +187,4 @@ void MotionBlur::CreateHeap()
 	//シェーダーリソースビューを作る
 	directX_->GetDevice()->CreateShaderResourceView(PipelineStateObject_._peraResource.Get(),&srvDesc, PipelineStateObject_._peraSRVHeap->GetCPUDescriptorHandleForHeapStart());
 }
+
