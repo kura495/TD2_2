@@ -284,8 +284,9 @@ void Player::BehaviorDashUpdate()
 
 		if (workDash_.isDash) {
 			Vector3 move = workDash_.movePre_;
-			//正規化をして斜めの移動量を正しくする
-			move.z = Normalize(move).z * workDash_.dashSpeed_;
+			rotateMatrix = MakeRotateMatrix(viewProjection_->rotation_);
+			//移動ベクトルをカメラの角度だけ回転
+			move = TransformNormal(move, rotateMatrix);
 			//プレイヤーの正面方向に移動するようにする
 			//回転行列を作る
 			rotateMatrix = MakeRotateMatrix(worldTransform_.quaternion);
