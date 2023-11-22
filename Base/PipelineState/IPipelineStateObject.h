@@ -8,8 +8,7 @@ public:
 
 	~IPipelineStateObject() {};
 
-	void Initalize() {
-		
+	virtual void Initalize() {	
 		ShaderCompile();
 		CreateRootSignature();
 		CreateInputLayOut();

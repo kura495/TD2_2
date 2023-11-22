@@ -4,12 +4,13 @@
 #include "ModelData.h"
 #include "Audio.h"
 #include "Input.h"
-#include "Mesh.h"
+#include "Base/Primitive/Mesh/Mesh.h"
 #include "Sprite.h"
 #include "Light.h"
-#include "Sphere.h"
+#include "Base/Primitive/Sphere/Sphere.h"
 #include "TextureManager.h"
 #include "Model.h"
+#include "Base/Renderer/Renderer.h"
 #define DIRECTINPUT_VERSION 0x0800//DirectInputのバージョン指定
 #include <dinput.h>
 #pragma comment(lib,"dinput8.lib")
@@ -78,6 +79,5 @@ private:
 	WorldTransform worldTransform_Sprite;
 	ViewProjection viewProjection_;
 
-	//3Dオブジェクトたち
-	//プレイヤーモデル
+	Renderer* renderer_;
 };

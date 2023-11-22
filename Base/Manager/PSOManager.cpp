@@ -13,5 +13,8 @@ ShaderCompiler* shaderCompiler = ShaderCompiler::GetInstance();
 
 	std::unique_ptr<Standard> standard = std::make_unique<Standard>();
 	standard->Initalize();
-	AddPipeline(standard->GetPSO(),PipelineType::Standerd);
+	AddPipeline(standard->GetPSO(), PipelineType::Standerd);
+	std::unique_ptr<MotionBlur> motionBlur = std::make_unique<MotionBlur>();
+	motionBlur->Initalize();
+	AddPipeline(motionBlur->GetPSO(),PipelineType::MotionBlur);
 }
