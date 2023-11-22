@@ -39,9 +39,9 @@ void GameManager::Initialize()
 	state[TITLE] = std::make_unique<GameTitleState>();
 	state[PLAY] = std::make_unique<GamePlayState>();
 	state[Boss] = std::make_unique<GameBossState>();
-	state[PLAY]->Initialize();
-	state[Boss]->Initialize();
-	GameState::StateNo = TITLE;
+	state[TITLE]->Initialize();
+	currentSceneNum_ = TITLE;
+	/*state[Boss]->Initialize();*/
 }
 void GameManager::Gameloop()
 {
@@ -51,12 +51,19 @@ void GameManager::Gameloop()
 			DispatchMessage(&msg);
 		}
 		else {
+			prevSceneNum_ = currentSceneNum_;
+			currentSceneNum_ = state[currentSceneNum_]->GetSceneNum();
+
+			if (prevSceneNum_ != currentSceneNum_)
+			{
+				state[currentSceneNum_]->Initialize();
+			}
 			imGuiManager->BeginFrame();
 			directX->PreView();
 			renderer_->Draw(PipelineType::Standerd);
 			input->Update();
-			state[GameState::StateNo]->Update();
-			state[GameState::StateNo]->Draw();
+			state[currentSceneNum_]->Update();
+			state[currentSceneNum_]->Draw();
 			imGuiManager->EndFrame();
 			directX->PostView();
 		}
