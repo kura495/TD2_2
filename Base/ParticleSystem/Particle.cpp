@@ -21,8 +21,13 @@ void Particle::Initalize(int particleVolume)
 	
 	CreateResources();
 	for (int Volume_i = 0; Volume_i < particleVolume_; Volume_i++) {
-		
+		InstancingData[Volume_i].Initialize();
+		InstancingData[Volume_i].constMap->matWorld = CreateIdentity4x4();
+		InstancingData[Volume_i].translation_ = { Volume_i * 0.1f,Volume_i * 0.1f, Volume_i * 0.1f };
+		InstancingData[Volume_i].UpdateMatrix();
 	}
+
+	CreateSRV();
 
 	materialData->enableLighting = false;
 	materialData->color = { 1.0f,1.0f,1.0f,1.0f };
@@ -58,11 +63,8 @@ void Particle::Draw(const ViewProjection& viewProjection)
 	//テクスチャ
 	directX_->GetcommandList()->SetGraphicsRootDescriptorTable(3, textureManager_->GetGPUHandle(modelData.TextureIndex));
 
-	for (int Volume_i = 0; Volume_i < particleVolume_; Volume_i++) {
-		//WorldTransform
-		directX_->GetcommandList()->SetGraphicsRootConstantBufferView(1, transform_[Volume_i].constBuff_->GetGPUVirtualAddress());
+		directX_->GetcommandList()->SetGraphicsRootDescriptorTable(1, instancingSRVHandleGPU);
 		directX_->GetcommandList()->DrawInstanced(UINT(modelData.vertices.size()), particleVolume_, 0, 0);
-	}
 }
 
 void Particle::CreateResources()
@@ -81,8 +83,39 @@ void Particle::CreateResources()
 	//maping materialResource
 	materialResource.Get()->Map(0, nullptr, reinterpret_cast<void**>(&materialData));
 	//Create InstancingResources
-	//インスタンスの数
-	const uint32_t kNumInstance = 10;
 	InstancingResource = directX_->CreateBufferResource(sizeof(WorldTransform)* kNumInstance);
+	//maping InstancingResources
+	InstancingResource->Map(0,nullptr,reinterpret_cast<void**>(&InstancingData));
+}
 
+void Particle::CreateSRV()
+{
+	uint32_t descriptorSizeSRV = directX_->GetDevice()->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
+
+	D3D12_SHADER_RESOURCE_VIEW_DESC instancingSrvDesc{};
+	instancingSrvDesc.Format = DXGI_FORMAT_UNKNOWN;
+	instancingSrvDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
+	instancingSrvDesc.ViewDimension = D3D12_SRV_DIMENSION_BUFFER;
+	instancingSrvDesc.Buffer.FirstElement = 0;
+	instancingSrvDesc.Buffer.Flags = D3D12_BUFFER_SRV_FLAG_NONE;
+	instancingSrvDesc.Buffer.NumElements = kNumInstance;
+	instancingSrvDesc.Buffer.StructureByteStride = sizeof(WorldTransform);
+
+	instancingSRVHandleCPU = GetCPUDescriptorHandle(directX_->GetsrvDescriptorHeap(), descriptorSizeSRV, 1);
+	instancingSRVHandleGPU = GetGPUDescriptorHandle(directX_->GetsrvDescriptorHeap(), descriptorSizeSRV, 1);
+	directX_->GetDevice()->CreateShaderResourceView(InstancingResource.Get(),&instancingSrvDesc,instancingSRVHandleCPU);
+}
+
+D3D12_CPU_DESCRIPTOR_HANDLE Particle::GetCPUDescriptorHandle(Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> descriptorHeap, uint32_t descriptorSize, uint32_t index)
+{
+	D3D12_CPU_DESCRIPTOR_HANDLE handleCPU = descriptorHeap->GetCPUDescriptorHandleForHeapStart();
+	handleCPU.ptr += (descriptorSize * index);
+	return handleCPU;
+}
+
+D3D12_GPU_DESCRIPTOR_HANDLE Particle::GetGPUDescriptorHandle(Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> descriptorHeap, uint32_t descriptorSize, uint32_t index)
+{
+	D3D12_GPU_DESCRIPTOR_HANDLE handleGPU = descriptorHeap->GetGPUDescriptorHandleForHeapStart();
+	handleGPU.ptr += (descriptorSize * index);
+	return handleGPU;
 }

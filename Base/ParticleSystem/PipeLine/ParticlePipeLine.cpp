@@ -17,6 +17,7 @@ void ParticlePipeLine::CreateRootSignature()
 	rootParameters[0].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;//CSVで使う
 	rootParameters[0].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;//PIXELShaderで使う
 	rootParameters[0].Descriptor.ShaderRegister = 0;//レジスタ番号を0にバインド
+	//インスタンシングで使う
 	//DescriptorRange
 	D3D12_DESCRIPTOR_RANGE descriptorRangeForInstancing[1] = {};
 	descriptorRangeForInstancing[0].BaseShaderRegister = 0;//0から始まる

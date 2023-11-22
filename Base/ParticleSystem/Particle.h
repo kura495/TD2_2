@@ -47,9 +47,17 @@ private:
 	std::vector<WorldTransform> transform_;
 
 	void CreateResources();
+	void CreateSRV();
 
 	Light* light_;
 
 	std::unique_ptr<ParticlePipeLine> Pipeline_;
+	//インスタンスの数
+	const uint32_t kNumInstance = 10;
+	D3D12_CPU_DESCRIPTOR_HANDLE instancingSRVHandleCPU;
+	D3D12_GPU_DESCRIPTOR_HANDLE instancingSRVHandleGPU;
+
+	D3D12_CPU_DESCRIPTOR_HANDLE GetCPUDescriptorHandle(Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> descriptorHeap, uint32_t descriptorSize, uint32_t index);
+	D3D12_GPU_DESCRIPTOR_HANDLE GetGPUDescriptorHandle(Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> descriptorHeap, uint32_t descriptorSize, uint32_t index);
 };
 
