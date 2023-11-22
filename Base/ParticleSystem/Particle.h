@@ -39,7 +39,7 @@ private:
 	Material* materialData = nullptr;
 	//Instancing用にTransformMatrixを複数格納できるResourcesを作る
 	Microsoft::WRL::ComPtr<ID3D12Resource> InstancingResource = nullptr;
-	WorldTransform* InstancingData = nullptr;
+	WorldTransform* InstancingDeta = nullptr;
 
 	//パーティクルの数
 	int particleVolume_;

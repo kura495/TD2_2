@@ -21,10 +21,10 @@ void Particle::Initalize(int particleVolume)
 	
 	CreateResources();
 	for (int Volume_i = 0; Volume_i < particleVolume_; Volume_i++) {
-		InstancingData[Volume_i].Initialize();
-		InstancingData[Volume_i].constMap->matWorld = CreateIdentity4x4();
-		InstancingData[Volume_i].translation_ = { Volume_i * 0.1f,Volume_i * 0.1f, Volume_i * 0.1f };
-		InstancingData[Volume_i].UpdateMatrix();
+		InstancingDeta[Volume_i].Initialize();
+		InstancingDeta[Volume_i].matWorld_ = CreateIdentity4x4();
+		InstancingDeta[Volume_i].translation_ = { Volume_i * 0.1f,Volume_i * 0.1f, Volume_i * 0.1f };
+		InstancingDeta[Volume_i].UpdateMatrix();
 	}
 
 	CreateSRV();
@@ -83,9 +83,9 @@ void Particle::CreateResources()
 	//maping materialResource
 	materialResource.Get()->Map(0, nullptr, reinterpret_cast<void**>(&materialData));
 	//Create InstancingResources
-	InstancingResource = directX_->CreateBufferResource(sizeof(WorldTransform)* kNumInstance);
+	InstancingResource = directX_->CreateBufferResource(sizeof(Matrix4x4)* kNumInstance);
 	//maping InstancingResources
-	InstancingResource->Map(0,nullptr,reinterpret_cast<void**>(&InstancingData));
+	InstancingResource->Map(0,nullptr,reinterpret_cast<void**>(&InstancingDeta->matWorld_));
 }
 
 void Particle::CreateSRV()
@@ -101,8 +101,8 @@ void Particle::CreateSRV()
 	instancingSrvDesc.Buffer.NumElements = kNumInstance;
 	instancingSrvDesc.Buffer.StructureByteStride = sizeof(WorldTransform);
 
-	instancingSRVHandleCPU = GetCPUDescriptorHandle(directX_->GetsrvDescriptorHeap(), descriptorSizeSRV, 1);
-	instancingSRVHandleGPU = GetGPUDescriptorHandle(directX_->GetsrvDescriptorHeap(), descriptorSizeSRV, 1);
+	instancingSRVHandleCPU = GetCPUDescriptorHandle(directX_->GetsrvDescriptorHeap(), descriptorSizeSRV, 100);
+	instancingSRVHandleGPU = GetGPUDescriptorHandle(directX_->GetsrvDescriptorHeap(), descriptorSizeSRV, 100);
 	directX_->GetDevice()->CreateShaderResourceView(InstancingResource.Get(),&instancingSrvDesc,instancingSRVHandleCPU);
 }
 
