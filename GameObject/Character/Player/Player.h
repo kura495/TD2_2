@@ -22,12 +22,22 @@ enum class Behavior {
 struct WorkDash {
 	//ダッシュ用の媒介変数
 	uint32_t dashParameter_ = 0;
+	uint32_t chargeParameter_ = 0;
 	uint32_t coolTime_ = 0;
 	//ダッシュ用スピード
-	float dashSpeed_ = 5.0f;
-
+	float dashSpeed_ = 10.0f;
+	float dashPower_ = 0.0f;
+	float kSpeed_ = 1.0f;
+	Vector3 move_;
+	Vector3 movePre_;
+	Vector3 scale_;
+	Quaternion quaternionPre_;
+	bool isPowerCharge;
+	bool isDash;
 };
-const uint32_t dashCoolTime = 60;
+const uint32_t dashCoolTime_ = 60;
+const uint32_t chargeTime = 300;
+const float dashPowerMax_ = 5.0f;
 
 struct WorkDrift {
 	uint32_t driftParameter_;
@@ -101,7 +111,7 @@ private:
 	WorkDash workDash_;
 	WorkDrift workDrift_;
 	//ダッシュの時間
-	const uint32_t behaviorDashTime = 20;
+	const uint32_t behaviorDashTime = 60;
 
 	//ふるまい
 	Behavior behavior_ = Behavior::kRoot;

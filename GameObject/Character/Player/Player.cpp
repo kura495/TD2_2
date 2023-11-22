@@ -235,7 +235,7 @@ void Player::BehaviorRootUpdate()
 	Move();
 	
 	//Aでダッシュ
-	if (workDash_.coolTime_++ >= dashCoolTime) {
+	if (workDash_.coolTime_++ >= dashCoolTime_) {
 		if (joyState.Gamepad.wButtons & XINPUT_GAMEPAD_A) {
 			behaviorRequest_ = Behavior::kDash;
 		}
@@ -247,37 +247,102 @@ void Player::BehaviorRootUpdate()
 void Player::BehaviorDashInit()
 {
 	workDash_.dashParameter_ = 0;
+	workDash_.chargeParameter_ = 0;
 	//プレイヤーの旋回の補間を切って一瞬で目標角度をに付くようにしている	
 	worldTransform_.rotation_.y = targetAngle;
 	workDash_.coolTime_ = 0;
+	workDash_.isPowerCharge = true;
+	workDash_.isDash = false;
+	workDash_.dashPower_ = 0.0f;
+	workDash_.kSpeed_ = 1.0f;
+	workDash_.scale_ = worldTransformBody_.scale_;
+	workDash_.quaternionPre_ = worldTransform_.quaternion;
 }
 
 void Player::BehaviorDashUpdate()
 {
-	Vector3 move = { (float)joyState.Gamepad.sThumbLX / SHRT_MAX, 0.0f,(float)joyState.Gamepad.sThumbLY / SHRT_MAX, };
-	//正規化をして斜めの移動量を正しくする
-	move.z = Normalize(move).z * workDash_.dashSpeed_;
-	//プレイヤーの正面方向に移動するようにする
-	//回転行列を作る
-	Matrix4x4 rotateMatrix = MakeRotateMatrix(worldTransform_.rotation_);
-	//移動ベクトルをカメラの角度だけ回転
-	move = TransformNormal(move, rotateMatrix);
-	//移動
-	worldTransform_.translation_ = Add(worldTransform_.translation_, move);
+	Input::GetInstance()->GetJoystickState(0, joyState);
+	if (workDash_.isPowerCharge) {
+		workDash_.move_  = {(float)joyState.Gamepad.sThumbLX / SHRT_MAX, 0.0f,(float)joyState.Gamepad.sThumbLY / SHRT_MAX };
 
-	if (!(joyStatePre.Gamepad.wButtons & XINPUT_GAMEPAD_A)) {
-		if ((joyState.Gamepad.wButtons & XINPUT_GAMEPAD_A) && (isStickRight_ == true || isStickLeft_ == true)) {
-			behaviorRequest_ = Behavior::kDrift;
+		if (workDash_.scale_.x > 0.5f) {
+			workDash_.scale_ = Subtract(workDash_.scale_, Vector3{ 0.005f, 0.005f, 0.005f });
 		}
+		worldTransformBody_.scale_ = workDash_.scale_;
+
+		//回転行列を作る
+		Matrix4x4 rotateMatrix = MakeRotateMatrix(viewProjection_->rotation_);
+		//移動ベクトルをカメラの角度だけ回転
+		workDash_.move_ = TransformNormal(workDash_.move_, rotateMatrix);
+		Vector3 rotate = Normalize(workDash_.move_);
+		Vector3 cross = Normalize(Cross({ 0.0f,0.0f,1.0f }, rotate));
+		float dot = Dot({ 0.0f,0.0f,1.0f }, rotate);
+		moveQuaternion_ = MakeRotateAxisAngleQuaternion(cross, std::acos(dot));
+		/*worldTransform_.quaternion.x = workDash_.quaternionPre_.x + moveQuaternion_.x;
+		worldTransform_.quaternion.y = workDash_.quaternionPre_.y + moveQuaternion_.y;
+		worldTransform_.quaternion.z = workDash_.quaternionPre_.z + moveQuaternion_.z;*/
+
+		if (workDash_.isDash) {
+			Vector3 move = workDash_.movePre_;
+			//正規化をして斜めの移動量を正しくする
+			move.z = Normalize(move).z * workDash_.dashSpeed_;
+			//プレイヤーの正面方向に移動するようにする
+			//回転行列を作る
+			rotateMatrix = MakeRotateMatrix(worldTransform_.quaternion);
+			//移動ベクトルをカメラの角度だけ回転
+			move = TransformNormal(move, rotateMatrix);
+			move.x *= workDash_.kSpeed_; 
+			move.y *= workDash_.kSpeed_;
+			move.z *= workDash_.kSpeed_;
+
+			if (workDash_.kSpeed_ < 0.0f) {
+				workDash_.kSpeed_ = 0.0f;
+			}
+			else {
+				workDash_.kSpeed_ -= 0.01f;
+			}
+			//移動
+			worldTransform_.translation_ = Add(worldTransform_.translation_, move);
+		}
+
+		if (!(joyStatePre.Gamepad.wButtons & XINPUT_GAMEPAD_A)) {
+			workDash_.isPowerCharge = false;
+			workDash_.isDash = true;
+			workDash_.chargeParameter_ = 0;
+			workDash_.kSpeed_ = 1.0f;
+			worldTransformBody_.scale_ = Vector3{ 1.0f, 1.0f, 1.0f };
+			workDash_.scale_ = Vector3{ 1.0f, 1.0f, 1.0f };
+		}
+
+		if (workDash_.chargeParameter_++ > chargeTime) {
+			worldTransformBody_.scale_ = Vector3{ 1.0f, 1.0f, 1.0f };
+			behaviorRequest_ = Behavior::kRoot;
+		}
+
 	}
 	else {
-		if (move.x != 0.0f || move.y != 0.0f || move.z != 0.0f) {
-			workDrift_.movePre_ = move;
+		Vector3 move = workDash_.move_;
+		workDash_.movePre_ = workDash_.move_;
+		//正規化をして斜めの移動量を正しくする
+		move.x = Normalize(move).x * workDash_.dashSpeed_;
+		move.y = Normalize(move).y * workDash_.dashSpeed_;
+		move.z = Normalize(move).z * workDash_.dashSpeed_;
+
+		//移動
+		worldTransform_.translation_ = Add(worldTransform_.translation_, move);
+		workDash_.dashParameter_++;
+		if ((joyState.Gamepad.wButtons & XINPUT_GAMEPAD_A)) {
+			workDash_.isPowerCharge = true;
+			workDash_.dashParameter_ = 0;
 		}
+		
+
 	}
-	if (++workDash_.dashParameter_ >= behaviorDashTime) {
+
+	if (workDash_.dashParameter_ >= behaviorDashTime) {
 		behaviorRequest_ = Behavior::kRoot;
 	}
+
 }
 
 void Player::BehaviorDriftInitialize() {
