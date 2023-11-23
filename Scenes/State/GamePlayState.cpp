@@ -235,6 +235,17 @@ void GamePlayState::Initialize()
 	buffItemWorldTransform_[19].translation_ = { 45.0f,3.0f,540.0f };
 	buffItemWorldTransform_[20].translation_ = { -45.0f,3.0f,540.0f };
 	buffItemWorldTransform_[21].translation_ = { 0.0f,3.0f,570.0f };
+	buffItemWorldTransform_[22].translation_ = { 0.0f,23.0f,690.0f };
+
+	buffItemWorldTransform_[23].translation_ = { 20.0f,23.0f, 760.0f };
+	buffItemWorldTransform_[24].translation_ = { 10.0f,33.0f, 770.0f };
+	buffItemWorldTransform_[25].translation_ = { 0.0f,43.0f,780.0f };
+	buffItemWorldTransform_[26].translation_ = { -10.0f,33.0f,790.0f };
+	buffItemWorldTransform_[27].translation_ = { -20.0f,23.0f,800.0f };
+
+	buffItemWorldTransform_[28].translation_ = { 12.5f,3.0f,792.5f };
+	buffItemWorldTransform_[29].translation_ = { 0.0f,3.0f,780.0f };
+	buffItemWorldTransform_[30].translation_ = { -12.5f,3.0f,767.5f };
 
 	buffItem_[16] = std::make_unique<BuffItem>();
 	buffItem_[16]->Initalize(buffItemModels, { buffItemWorldTransform_[16].translation_.x, buffItemWorldTransform_[16].translation_.y, buffItemWorldTransform_[16].translation_.z });
@@ -249,7 +260,7 @@ void GamePlayState::Initialize()
 		buffItem_[i]->SetScale({ 3.0f, 3.0f, 3.0f });
 	}
 
-	for (int i = 17; i < 22; i++)
+	for (int i = 17; i < 31; i++)
 	{
 		buffItem_[i] = std::make_unique<BuffItem>();
 		buffItem_[i]->Initalize(buffItemModels, { buffItemWorldTransform_[i].translation_.x, buffItemWorldTransform_[i].translation_.y, buffItemWorldTransform_[i].translation_.z });
@@ -288,7 +299,7 @@ void GamePlayState::Update()
 		wall_[i]->Update();
 	}
 
-	for (int i = 0; i < 22; i++)
+	for (int i = 0; i < 31; i++)
 	{
 		buffItem_[i]->Update();
 	}
@@ -320,7 +331,7 @@ void GamePlayState::Update()
 		collisionManager_->AddBoxCollider(wall_[i].get());
 	}
 
-	for (int i = 0; i < 22; i++)
+	for (int i = 0; i < 31; i++)
 	{
 		collisionManager_->AddBoxCollider(buffItem_[i].get());
 	}
@@ -330,7 +341,7 @@ void GamePlayState::Update()
 
 	if (player->GetIsDead() == true)
 	{
-		for (int i = 0; i < 17; i++)
+		for (int i = 0; i < 31; i++)
 		{
 			player->SetIsDead(false);
 			buffItem_[i]->SetIsHit(false);
@@ -356,7 +367,7 @@ void GamePlayState::Draw()
 		wall_[i]->Draw(viewProjection_);
 	}
 
-	for (int i = 0; i < 22; i++)
+	for (int i = 0; i < 31; i++)
 	{
 		buffItem_[i]->Draw(viewProjection_);
 	}
