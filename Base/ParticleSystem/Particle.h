@@ -25,6 +25,9 @@ public:
 	void Draw(const ViewProjection& viewProjection);
 
 private:
+	//インスタンスの数
+	const uint32_t kNumInstance = 10;
+
 	ModelData modelData;
 
 	DirectXCommon* directX_ = nullptr;
@@ -39,7 +42,7 @@ private:
 	Material* materialData = nullptr;
 	//Instancing用にTransformMatrixを複数格納できるResourcesを作る
 	Microsoft::WRL::ComPtr<ID3D12Resource> InstancingResource = nullptr;
-	WorldTransform* InstancingDeta = nullptr;
+	WorldTransform InstancingDeta[10];
 
 	//パーティクルの数
 	int particleVolume_;
@@ -52,8 +55,7 @@ private:
 	Light* light_;
 
 	std::unique_ptr<ParticlePipeLine> Pipeline_;
-	//インスタンスの数
-	const uint32_t kNumInstance = 10;
+
 	D3D12_CPU_DESCRIPTOR_HANDLE instancingSRVHandleCPU;
 	D3D12_GPU_DESCRIPTOR_HANDLE instancingSRVHandleGPU;
 
