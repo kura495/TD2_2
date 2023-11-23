@@ -75,89 +75,89 @@ void GamePlayState::Initialize()
 	//ステージ1枚目
 	wall_[0] = std::make_unique<Wall>();
 	wall_[0]->Initalize(wallModels, { wallWorldTransform_[0].translation_.x,wallWorldTransform_[0].translation_.y,wallWorldTransform_[0].translation_.z });
-	wall_[0]->SetScale({ 18.0f, 3.0f, 3.0f });
+	wall_[0]->SetScale({ 18.0f, 10.0f, 3.0f });
 
 	wall_[1] = std::make_unique<Wall>();
 	wall_[1]->Initalize(wallModels, { wallWorldTransform_[1].translation_.x,wallWorldTransform_[1].translation_.y,wallWorldTransform_[1].translation_.z });
-	wall_[1]->SetScale({ 3.0f, 3.0f, 3.0f });
+	wall_[1]->SetScale({ 3.0f, 10.0f, 3.0f });
 
 	wall_[2] = std::make_unique<Wall>();
 	wall_[2]->Initalize(wallModels, { wallWorldTransform_[2].translation_.x,wallWorldTransform_[2].translation_.y,wallWorldTransform_[2].translation_.z });
-	wall_[2]->SetScale({ 3.0f, 3.0f, 3.0f });
+	wall_[2]->SetScale({ 3.0f, 10.0f, 3.0f });
 
 	wall_[3] = std::make_unique<Wall>();
 	wall_[3]->Initalize(wallModels, { wallWorldTransform_[3].translation_.x,wallWorldTransform_[3].translation_.y,wallWorldTransform_[3].translation_.z });
-	wall_[3]->SetScale({ 8.0f, 3.0f, 3.0f });
+	wall_[3]->SetScale({ 8.0f, 10.0f, 3.0f });
 
 	wall_[4] = std::make_unique<Wall>();
 	wall_[4]->Initalize(wallModels, { wallWorldTransform_[4].translation_.x,wallWorldTransform_[4].translation_.y,wallWorldTransform_[4].translation_.z });
-	wall_[4]->SetScale({ 3.0f, 3.0f, 18.0f });
+	wall_[4]->SetScale({ 3.0f, 10.0f, 18.0f });
 
 	wall_[5] = std::make_unique<Wall>();
 	wall_[5]->Initalize(wallModels, { wallWorldTransform_[5].translation_.x,wallWorldTransform_[5].translation_.y,wallWorldTransform_[5].translation_.z });
-	wall_[5]->SetScale({ 3.0f, 3.0f, 3.0f });
+	wall_[5]->SetScale({ 3.0f, 10.0f, 3.0f });
 
 	wall_[6] = std::make_unique<Wall>();
 	wall_[6]->Initalize(wallModels, { wallWorldTransform_[6].translation_.x,wallWorldTransform_[6].translation_.y,wallWorldTransform_[6].translation_.z });
-	wall_[6]->SetScale({ 3.0f, 3.0f, 3.0f });
+	wall_[6]->SetScale({ 3.0f, 10.0f, 3.0f });
 
 	wall_[7] = std::make_unique<Wall>();
 	wall_[7]->Initalize(wallModels, { wallWorldTransform_[7].translation_.x,wallWorldTransform_[7].translation_.y,wallWorldTransform_[7].translation_.z });
-	wall_[7]->SetScale({ 3.0f, 3.0f, 3.0f });
+	wall_[7]->SetScale({ 3.0f, 10.0f, 3.0f });
 
 	wall_[8] = std::make_unique<Wall>();
 	wall_[8]->Initalize(wallModels, { wallWorldTransform_[8].translation_.x,wallWorldTransform_[8].translation_.y,wallWorldTransform_[8].translation_.z });
-	wall_[8]->SetScale({ 3.0f, 3.0f, 3.0f });
+	wall_[8]->SetScale({ 3.0f, 10.0f, 3.0f });
 
 	wall_[9] = std::make_unique<Wall>();
 	wall_[9]->Initalize(wallModels, { wallWorldTransform_[9].translation_.x,wallWorldTransform_[9].translation_.y,wallWorldTransform_[9].translation_.z });
-	wall_[9]->SetScale({ 20.0f, 3.0f, 3.0f });
+	wall_[9]->SetScale({ 20.0f, 10.0f, 3.0f });
 
 	wall_[10] = std::make_unique<Wall>();
 	wall_[10]->Initalize(wallModels, { wallWorldTransform_[10].translation_.x,wallWorldTransform_[10].translation_.y,wallWorldTransform_[10].translation_.z });
-	wall_[10]->SetScale({ 20.0f, 3.0f, 3.0f });
+	wall_[10]->SetScale({ 20.0f, 10.0f, 3.0f });
 
 	wall_[11] = std::make_unique<Wall>();
 	wall_[11]->Initalize(wallModels, { wallWorldTransform_[11].translation_.x,wallWorldTransform_[11].translation_.y,wallWorldTransform_[11].translation_.z });
-	wall_[11]->SetScale({ 3.0f, 3.0f, 17.0f });
+	wall_[11]->SetScale({ 3.0f, 10.0f, 17.0f });
 
 	wall_[12] = std::make_unique<Wall>();
 	wall_[12]->Initalize(wallModels, { wallWorldTransform_[12].translation_.x,wallWorldTransform_[12].translation_.y,wallWorldTransform_[12].translation_.z });
-	wall_[12]->SetScale({ 22.0f, 3.0f, 3.0f });
+	wall_[12]->SetScale({ 22.0f, 10.0f, 3.0f });
 
 	wall_[13] = std::make_unique<Wall>();
 	wall_[13]->Initalize(wallModels, { wallWorldTransform_[13].translation_.x,wallWorldTransform_[13].translation_.y,wallWorldTransform_[13].translation_.z });
-	wall_[13]->SetScale({ 3.0f, 3.0f, 20.0f });
+	wall_[13]->SetScale({ 3.0f, 10.0f, 20.0f });
 
 	//画面端の壁
 	wall_[14] = std::make_unique<Wall>();
 	wall_[14]->Initalize(wallModels, { wallWorldTransform_[14].translation_.x,wallWorldTransform_[14].translation_.y,wallWorldTransform_[14].translation_.z });
-	wall_[14]->SetScale({ 3.0f, 3.0f, 558.0f });
+	wall_[14]->SetScale({ 3.0f, 10.0f, 558.0f });
 
 	wall_[15] = std::make_unique<Wall>();
 	wall_[15]->Initalize(wallModels, { wallWorldTransform_[15].translation_.x,wallWorldTransform_[15].translation_.y,wallWorldTransform_[15].translation_.z });
-	wall_[15]->SetScale({ 3.0f, 3.0f, 558.0f });
+	wall_[15]->SetScale({ 3.0f, 10.0f, 558.0f });
 
 	wall_[16] = std::make_unique<Wall>();
 	wall_[16]->Initalize(wallModels, { wallWorldTransform_[16].translation_.x,wallWorldTransform_[16].translation_.y,wallWorldTransform_[16].translation_.z });
-	wall_[16]->SetScale({ 120.0f, 3.0f, 3.0f });
+	wall_[16]->SetScale({ 120.0f, 10.0f, 3.0f });
 
 	wall_[17] = std::make_unique<Wall>();
 	wall_[17]->Initalize(wallModels, { wallWorldTransform_[17].translation_.x,wallWorldTransform_[17].translation_.y,wallWorldTransform_[17].translation_.z });
-	wall_[17]->SetScale({ 120.0f, 3.0f, 3.0f });
+	wall_[17]->SetScale({ 120.0f, 10.0f, 3.0f });
 
 	//ステージ2枚目
 	wall_[18] = std::make_unique<Wall>();
 	wall_[18]->Initalize(wallModels, { wallWorldTransform_[18].translation_.x,wallWorldTransform_[18].translation_.y,wallWorldTransform_[18].translation_.z });
-	wall_[18]->SetScale({ 12.0f, 3.0f, 3.0f });
+	wall_[18]->SetScale({ 12.0f, 10.0f, 3.0f });
 
 	wall_[19] = std::make_unique<Wall>();
 	wall_[19]->Initalize(wallModels, { wallWorldTransform_[19].translation_.x,wallWorldTransform_[19].translation_.y,wallWorldTransform_[19].translation_.z });
-	wall_[19]->SetScale({ 12.0f, 3.0f, 3.0f });
+	wall_[19]->SetScale({ 12.0f, 10.0f, 3.0f });
 
 	wall_[20] = std::make_unique<Wall>();
 	wall_[20]->Initalize(wallModels, { wallWorldTransform_[20].translation_.x,wallWorldTransform_[20].translation_.y,wallWorldTransform_[20].translation_.z });
-	wall_[20]->SetScale({ 5.0f, 3.0f, 3.0f });
+	wall_[20]->SetScale({ 5.0f, 10.0f, 3.0f });
 
 	wall_[21] = std::make_unique<Wall>();
 	wall_[21]->Initalize(wallModels, { wallWorldTransform_[21].translation_.x,wallWorldTransform_[21].translation_.y,wallWorldTransform_[21].translation_.z });
