@@ -38,6 +38,15 @@ void GameBossState::Initialize()
 	player->Initialize(playerModels);
 	player->SetScale({ 3.0f, 3.0f, 3.0f });
 
+	bossModel_.reset(Model::CreateModelFromObj("resources/Cube", "Cube.obj"));
+	std::vector<Model*> bossModels = {
+		bossModel_.get() };
+
+	boss_ = std::make_unique<Boss>();
+	boss_->Initialize(bossModels, { 0.0f,0.0f,50.0f });
+	boss_->SetScale({ 8.0f, 8.0f, 8.0f });
+
+
 	followCamera = std::make_unique<FollowCamera>();
 	followCamera->Initalize();
 	followCamera->SetTarget(&player->GetWorldTransform());
@@ -52,6 +61,8 @@ void GameBossState::Update()
 
 	player->Update();
 
+	boss_->Update();
+
 	followCamera->SetIsStickPre(player->GetIsStickRight(), player->GetIsStickLeft());
 
 	followCamera->Update();
@@ -61,14 +72,18 @@ void GameBossState::Update()
 
 	collisionManager_->AddBoxCollider(player.get());
 	collisionManager_->AddBoxCollider(ground_.get());
+	collisionManager_->AddBoxCollider(boss_.get());
 
 	collisionManager_->CheckAllCollisions();
 	collisionManager_->ClearCollider();
 
-	/*time++;
-	if (time >= 60) {
-		StateNo = 1;
-	}*/
+	if (player->GetIsDead() == true)
+	{
+		ImGui::Begin("Hit");
+		//ImGui::Text("%d", StateNo);
+		//ImGui::DragFloat3("itemWorldTransform", &itemWorldTransform_[6].translation_.x, 1.0f);
+		ImGui::End();
+	}
 }
 
 void GameBossState::Draw()
@@ -76,6 +91,8 @@ void GameBossState::Draw()
 	ground_->Draw(viewProjection_);
 
 	player->Draw(viewProjection_);
+
+	boss_->Draw(viewProjection_);
 
 	skydome_->Draw(viewProjection_);
 }

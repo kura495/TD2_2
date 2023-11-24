@@ -22,6 +22,7 @@
 #include "GameObject/Ground/Ground.h"
 #include "GameObject/Skydome/Skydome.h"
 #include "GameObject/Character/Player/Player.h"
+#include "GameObject/Character/Boss/Boss.h"
 #include "GameObject/FollowCamera/FollowCamera.h"
 
 class GameBossState : public GameState
@@ -59,6 +60,9 @@ private:
 	std::unique_ptr<Model> modelFighterL_arm_ = nullptr;
 	std::unique_ptr<Model> modelFighterR_arm_ = nullptr;
 	std::unique_ptr<Model> modelFighterWeapon = nullptr;
+
+	std::unique_ptr<Boss> boss_;
+	std::unique_ptr<Model> bossModel_;
 
 	//
 	WorldTransform worldTransform_;

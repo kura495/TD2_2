@@ -236,7 +236,15 @@ void GamePlayState::Update()
 			buffItem_[i]->SetIsHit(false);
 		}*/
 
-		StateNo = 2;
+		if (StateNo != 2)
+		{
+			StateNo = 2;
+		}
+
+		ImGui::Begin("Hit");
+		//ImGui::Text("%d", StateNo);
+		//ImGui::DragFloat3("itemWorldTransform", &itemWorldTransform_[6].translation_.x, 1.0f);
+		ImGui::End();
 	}
 
 	ImGui::Begin("Play");

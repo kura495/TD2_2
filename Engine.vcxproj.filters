@@ -131,6 +131,12 @@
     <Filter Include="Engine\Base\PipeLineState\MotionBlur">
       <UniqueIdentifier>{8657b7f2-469f-42b4-9ae9-1c609af69ab8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Objectヘッダー\Character\Boss">
+      <UniqueIdentifier>{674156b6-632d-4799-b826-d3ad8e3b6d0c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Objectソース\Character\Boss">
+      <UniqueIdentifier>{d67b46bf-145e-4dc7-8460-19585a190ca8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="externals\imgui\imgui.cpp">
@@ -280,6 +286,9 @@
     </ClCompile>
     <ClCompile Include="Scenes\State\GameBossState.cpp">
       <Filter>Scenesソース\State</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject\Character\Boss\Boss.cpp">
+      <Filter>Objectソース\Character\Boss</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -463,6 +472,9 @@
     </ClInclude>
     <ClInclude Include="Scenes\State\GameBossState.h">
       <Filter>Scenesヘッダー\State</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\Character\Boss\Boss.h">
+      <Filter>Objectヘッダー\Character\Boss</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
