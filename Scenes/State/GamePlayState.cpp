@@ -153,8 +153,8 @@ void GamePlayState::Initialize()
 	buffItem_[16] = std::make_unique<BuffItem>();
 	buffItem_[16]->Initalize(buffItemModels, { buffItemWorldTransform_[16].translation_.x, buffItemWorldTransform_[16].translation_.y, buffItemWorldTransform_[16].translation_.z });
 	buffItem_[16]->SetScale({ 5.0f, 5.0f, 5.0f });
-	buffItem_[16]->SetcollitionAttribute(kCollitionAttributeEnemy);
-	buffItem_[16]->SetcollisionMask(kCollitionAttributeEnemy);
+	buffItem_[16]->SetcollitionAttribute(kCollitionAttributeGoal);
+	buffItem_[16]->SetcollisionMask(kCollitionAttributeGoal);
 
 	for (int i = 0; i < 16; i++)
 	{
@@ -228,7 +228,7 @@ void GamePlayState::Update()
 	collisionManager_->CheckAllCollisions();
 	collisionManager_->ClearCollider();
 
-	if (player->GetIsDead() == true)
+	if (player->GetIsGoal() == true)
 	{
 		/*for (int i = 0; i < 17; i++)
 		{
@@ -236,10 +236,8 @@ void GamePlayState::Update()
 			buffItem_[i]->SetIsHit(false);
 		}*/
 
-		if (StateNo != 2)
-		{
-			StateNo = 2;
-		}
+		StateNo = 2;
+
 
 		ImGui::Begin("Hit");
 		//ImGui::Text("%d", StateNo);

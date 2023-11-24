@@ -79,6 +79,7 @@ void GameBossState::Update()
 
 	if (player->GetIsDead() == true)
 	{
+		StateNo = 3;
 		ImGui::Begin("Hit");
 		//ImGui::Text("%d", StateNo);
 		//ImGui::DragFloat3("itemWorldTransform", &itemWorldTransform_[6].translation_.x, 1.0f);

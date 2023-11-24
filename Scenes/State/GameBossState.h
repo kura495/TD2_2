@@ -70,7 +70,5 @@ private:
 	ViewProjection viewProjection_;
 
 	//3Dオブジェクトたち
-
-	int time;
 };
 

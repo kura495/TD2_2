@@ -84,6 +84,8 @@ public:
 
 	bool GetIsDead() { return isDead_; }
 
+	bool GetIsGoal() { return isGoal_; }
+
 	void SetIsDead(bool isDead) { isDead_ = isDead; }
 
 	bool GetIsStickRight() { return workDrift_.isStickRightPre_; }
@@ -154,6 +156,8 @@ private:
 	bool isDead_ = false;
 
 	bool isHit_ = false;
+
+	bool isGoal_ = false;
 
 	Vector3 currentPosition_;  // 現在のフレームでの位置
 	Vector3 previousPosition_; // 前のフレームでの位置

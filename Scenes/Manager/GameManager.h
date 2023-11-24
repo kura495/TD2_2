@@ -22,7 +22,8 @@ public:
 	enum GameStateNo {
 		TITLE,
 		PLAY,
-		Boss,
+		BOSS,
+		CLEAR,
 		GameStateMax
 	};
 
