@@ -41,6 +41,8 @@ private:
 
 	//ふるまい
 	BossBehavior behavior_ = BossBehavior::kRoot;
+	//次のふるまいリクエスト
+	std::optional<BossBehavior> behaviorRequest_ = std::nullopt;
 
 	float speed = 0.5f;
 

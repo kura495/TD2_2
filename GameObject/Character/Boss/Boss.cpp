@@ -22,6 +22,32 @@ void Boss::Initialize(const std::vector<Model*>& models)
 
 void Boss::Update()
 {
+	if (behaviorRequest_) {
+		//ふるまいの変更
+		behavior_ = behaviorRequest_.value();
+		//各ふるまいごとに初期化
+		switch (behavior_)
+		{
+		case BossBehavior::kRoot:
+		default:
+			BehaviorRootInit();
+			break;
+		case BossBehavior::kAttack:
+			BehaviorAttackInitialize();
+		}
+		behaviorRequest_ = std::nullopt;
+	}
+	switch (behavior_)
+	{
+	case BossBehavior::kRoot:
+	default:
+		BehaviorRootUpdate();
+		break;
+	case BossBehavior::kAttack:
+		BehaviorAttackUpdate();
+
+	}
+
 	ICharacter::Update();
 	BoxCollider::Update(&worldTransform_);
 }
