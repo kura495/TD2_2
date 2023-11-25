@@ -14,7 +14,6 @@
 
 enum class Behavior {
 	kRoot,//通常
-	kAttack,//攻撃中
 	kDash,//ダッシュ中
 	kDrift, // ドリフト中
 };

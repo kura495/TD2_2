@@ -43,7 +43,7 @@ void GameBossState::Initialize()
 		bossModel_.get() };
 
 	boss_ = std::make_unique<Boss>();
-	boss_->Initialize(bossModels, { 0.0f,0.0f,50.0f });
+	boss_->Initialize(bossModels);
 	boss_->SetScale({ 8.0f, 8.0f, 8.0f });
 
 

@@ -7,13 +7,18 @@
 #include "Base/Utility/BoxCollider.h"
 #include "Base/Utility/CollisionConfig.h"
 
+enum class BossBehavior {
+	kRoot,//通常
+	kAttack,//攻撃中
+};
+
 class Boss : public ICharacter, public BoxCollider
 {
 public:
 	Boss();
 	~Boss();
 
-	void Initialize(const std::vector<Model*>& models, Vector3 position);
+	void Initialize(const std::vector<Model*>& models);
 	void Update();
 	void Draw(const ViewProjection& viewProjection);
 
@@ -26,6 +31,19 @@ public:
 	void SetIsHit(bool isHit) { isHit_ = isHit; }
 
 private:
+	//通常
+	void BehaviorRootInit();
+	void BehaviorRootUpdate();
+
+	//攻撃
+	void BehaviorAttackInitialize();
+	void BehaviorAttackUpdate();
+
+	//ふるまい
+	BossBehavior behavior_ = BossBehavior::kRoot;
+
+	float speed = 0.5f;
+
 	bool isHit_ = false;
 };
 

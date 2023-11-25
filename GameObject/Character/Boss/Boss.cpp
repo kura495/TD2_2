@@ -3,11 +3,15 @@
 Boss::Boss() {}
 Boss::~Boss() {}
 
-void Boss::Initialize(const std::vector<Model*>& models, Vector3 position)
+void Boss::Initialize(const std::vector<Model*>& models)
 {
 	ICharacter::Initialize(models);
-	worldTransform_.translation_ = position;
-	worldTransform_.UpdateMatrix();
+	
+	worldTransform_.Initialize();
+
+	worldTransform_.translation_.z = 50.0f;
+
+	BoxCollider::Initialize();
 	BoxCollider::SetcollisionMask(~kCollitionAttributeEnemy);
 	BoxCollider::SetcollitionAttribute(kCollitionAttributeEnemy);
 	BoxCollider::SetParent(worldTransform_);
