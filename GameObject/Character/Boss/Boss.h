@@ -28,7 +28,11 @@ public:
 
 	void SetPosition(Vector3 position);
 
+	bool GetIsHit() { return isHit_; }
+
 	void SetIsHit(bool isHit) { isHit_ = isHit; }
+
+	bool GetIsAttack() { return isAttack_; }
 
 private:
 	//通常
@@ -47,5 +51,7 @@ private:
 	float speed = 0.5f;
 
 	bool isHit_ = false;
+
+	bool isAttack_ = false;
 };
 

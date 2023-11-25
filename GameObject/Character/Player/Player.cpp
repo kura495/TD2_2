@@ -121,7 +121,7 @@ void Player::OnCollision(Collider* collider)
 
 	if (collider->GetcollitionAttribute() == kCollitionAttributeEnemy) {
 		//敵に当たったらリスタートする
-		isDead_ = true;
+		//isDead_ = true;
 	/*	worldTransform_.translation_ = { 0.0f,0.0f,0.0f };
 		speed = 0.5f;
 		worldTransform_.UpdateMatrix();

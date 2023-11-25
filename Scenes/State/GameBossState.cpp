@@ -77,7 +77,7 @@ void GameBossState::Update()
 	collisionManager_->CheckAllCollisions();
 	collisionManager_->ClearCollider();
 
-	if (player->GetIsDead() == true)
+	if (boss_->GetIsHit() == true)
 	{
 		StateNo = 3;
 		ImGui::Begin("Hit");

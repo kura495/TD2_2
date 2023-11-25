@@ -58,7 +58,7 @@ void Boss::Draw(const ViewProjection& viewProjection)
 
 void Boss::OnCollision(Collider* collider)
 {
-	if (collider->GetcollitionAttribute() == kCollitionAttributePlayer)
+	if (isAttack_ == true && collider->GetcollitionAttribute() == kCollitionAttributePlayer)
 	{
 		isHit_ = true;
 	}
@@ -102,5 +102,6 @@ void Boss::BehaviorAttackInitialize()
 
 void Boss::BehaviorAttackUpdate()
 {
+	isAttack_ = true;
 	worldTransform_.translation_.z -= speed;
 }
