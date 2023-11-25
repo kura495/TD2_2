@@ -30,7 +30,7 @@ void Boss::Update()
 		{
 		case BossBehavior::kRoot:
 		default:
-			BehaviorRootInit();
+			BehaviorRootInitialize();
 			break;
 		case BossBehavior::kAttack:
 			BehaviorAttackInitialize();
@@ -45,7 +45,6 @@ void Boss::Update()
 		break;
 	case BossBehavior::kAttack:
 		BehaviorAttackUpdate();
-
 	}
 
 	ICharacter::Update();
@@ -76,3 +75,32 @@ void Boss::SetPosition(Vector3 position)
 	worldTransform_.translation_ = position;
 }
 
+void Boss::BehaviorRootInitialize()
+{
+}
+
+void Boss::BehaviorRootUpdate()
+{
+	worldTransform_.translation_.x += speed;
+
+	if (worldTransform_.translation_.x <= -40.0f)
+	{
+		speed *= -1;
+		behaviorRequest_ = BossBehavior::kAttack;
+	}
+
+	if (worldTransform_.translation_.x >= 40.0f)
+	{
+		speed *= -1;
+	}
+}
+
+void Boss::BehaviorAttackInitialize()
+{
+
+}
+
+void Boss::BehaviorAttackUpdate()
+{
+	worldTransform_.translation_.z -= speed;
+}

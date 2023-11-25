@@ -32,7 +32,7 @@ public:
 
 private:
 	//通常
-	void BehaviorRootInit();
+	void BehaviorRootInitialize();
 	void BehaviorRootUpdate();
 
 	//攻撃
