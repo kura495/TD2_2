@@ -61,16 +61,16 @@ void GamePlayState::Initialize()
 	wallWorldTransform_[18].translation_ = { 53.0f,0.0f,530.0f };
 	wallWorldTransform_[19].translation_ = { -53.0f,0.0f,530.0f };
 	wallWorldTransform_[20].translation_ = { 0.0f,0.0f, 580.0f };
-	wallWorldTransform_[21].translation_ = { 0.0f,0.0f, 680.0f };
-	wallWorldTransform_[22].translation_ = { 0.0f,10.0f, 690.0f };
-	wallWorldTransform_[23].translation_ = { 0.0f,0.0f, 700.0f };
-	wallWorldTransform_[24].translation_ = { 30.0f,0.0f, 750.0f };
-	wallWorldTransform_[25].translation_ = { 20.0f,10.0f, 760.0f };
-	wallWorldTransform_[26].translation_ = { 10.0f,20.0f, 770.0f };
-	wallWorldTransform_[27].translation_ = { 0.0f,30.0f, 780.0f };
-	wallWorldTransform_[28].translation_ = { -10.0f,20.0f, 790.0f };
-	wallWorldTransform_[29].translation_ = { -20.0f,10.0f, 800.0f };
-	wallWorldTransform_[30].translation_ = { -30.0f,0.0f, 810.0f };
+	wallWorldTransform_[21].translation_ = { 0.0f,0.0f, 675.0f };
+	wallWorldTransform_[22].translation_ = { 0.0f,4.0f, 690.0f };
+	wallWorldTransform_[23].translation_ = { 0.0f,0.0f, 705.0f };
+	wallWorldTransform_[24].translation_ = { 30.0f,0.0f, 755.0f };
+	wallWorldTransform_[25].translation_ = { 20.0f,4.0f, 765.0f };
+	wallWorldTransform_[26].translation_ = { 10.0f,8.0f, 775.0f };
+	wallWorldTransform_[27].translation_ = { 0.0f,12.0f, 785.0f };
+	wallWorldTransform_[28].translation_ = { -10.0f,8.0f, 795.0f };
+	wallWorldTransform_[29].translation_ = { -20.0f,4.0f, 805.0f };
+	wallWorldTransform_[30].translation_ = { -30.0f,0.0f, 815.0f };
 
 	//ステージ1枚目
 	wall_[0] = std::make_unique<Wall>();
@@ -161,43 +161,43 @@ void GamePlayState::Initialize()
 
 	wall_[21] = std::make_unique<Wall>();
 	wall_[21]->Initalize(wallModels, { wallWorldTransform_[21].translation_.x,wallWorldTransform_[21].translation_.y,wallWorldTransform_[21].translation_.z });
-	wall_[21]->SetScale({ 5.0f, 5.0f, 5.0f });
+	wall_[21]->SetScale({ 8.0f, 2.0f, 8.0f });
 
 	wall_[22] = std::make_unique<Wall>();
 	wall_[22]->Initalize(wallModels, { wallWorldTransform_[22].translation_.x,wallWorldTransform_[22].translation_.y,wallWorldTransform_[22].translation_.z });
-	wall_[22]->SetScale({ 5.0f, 5.0f, 5.0f });
+	wall_[22]->SetScale({ 8.0f, 2.0f, 8.0f });
 
 	wall_[23] = std::make_unique<Wall>();
 	wall_[23]->Initalize(wallModels, { wallWorldTransform_[23].translation_.x,wallWorldTransform_[23].translation_.y,wallWorldTransform_[23].translation_.z });
-	wall_[23]->SetScale({ 5.0f, 5.0f, 5.0f });
+	wall_[23]->SetScale({ 8.0f, 2.0f, 8.0f });
 
 	wall_[24] = std::make_unique<Wall>();
 	wall_[24]->Initalize(wallModels, { wallWorldTransform_[24].translation_.x,wallWorldTransform_[24].translation_.y,wallWorldTransform_[24].translation_.z });
-	wall_[24]->SetScale({ 5.0f, 5.0f, 5.0f });
+	wall_[24]->SetScale({ 8.0f, 2.0f, 5.0f });
 
 	wall_[25] = std::make_unique<Wall>();
 	wall_[25]->Initalize(wallModels, { wallWorldTransform_[25].translation_.x,wallWorldTransform_[25].translation_.y,wallWorldTransform_[25].translation_.z });
-	wall_[25]->SetScale({ 5.0f, 5.0f, 5.0f });
+	wall_[25]->SetScale({ 8.0f, 2.0f, 5.0f });
 
 	wall_[26] = std::make_unique<Wall>();
 	wall_[26]->Initalize(wallModels, { wallWorldTransform_[26].translation_.x,wallWorldTransform_[26].translation_.y,wallWorldTransform_[26].translation_.z });
-	wall_[26]->SetScale({ 5.0f, 5.0f, 5.0f });
+	wall_[26]->SetScale({ 8.0f, 2.0f, 5.0f });
 
 	wall_[27] = std::make_unique<Wall>();
 	wall_[27]->Initalize(wallModels, { wallWorldTransform_[27].translation_.x,wallWorldTransform_[27].translation_.y,wallWorldTransform_[27].translation_.z });
-	wall_[27]->SetScale({ 5.0f, 5.0f, 5.0f });
+	wall_[27]->SetScale({ 8.0f, 2.0f, 5.0f });
 
 	wall_[28] = std::make_unique<Wall>();
 	wall_[28]->Initalize(wallModels, { wallWorldTransform_[28].translation_.x,wallWorldTransform_[28].translation_.y,wallWorldTransform_[28].translation_.z });
-	wall_[28]->SetScale({ 5.0f, 5.0f, 5.0f });
+	wall_[28]->SetScale({ 8.0f, 2.0f, 5.0f });
 
 	wall_[29] = std::make_unique<Wall>();
 	wall_[29]->Initalize(wallModels, { wallWorldTransform_[29].translation_.x,wallWorldTransform_[29].translation_.y,wallWorldTransform_[29].translation_.z });
-	wall_[29]->SetScale({ 5.0f, 5.0f, 5.0f });
+	wall_[29]->SetScale({ 8.0f, 2.0f, 5.0f });
 
 	wall_[30] = std::make_unique<Wall>();
 	wall_[30]->Initalize(wallModels, { wallWorldTransform_[30].translation_.x,wallWorldTransform_[30].translation_.y,wallWorldTransform_[30].translation_.z });
-	wall_[30]->SetScale({ 5.0f, 5.0f, 5.0f });
+	wall_[30]->SetScale({ 8.0f, 2.0f, 5.0f });
 
 	//バフアイテム
 	buffItemModel_.reset(Model::CreateModelFromObj("resources/Item", "Item.obj"));
@@ -235,13 +235,13 @@ void GamePlayState::Initialize()
 	buffItemWorldTransform_[19].translation_ = { 45.0f,3.0f,540.0f };
 	buffItemWorldTransform_[20].translation_ = { -45.0f,3.0f,540.0f };
 	buffItemWorldTransform_[21].translation_ = { 0.0f,3.0f,570.0f };
-	buffItemWorldTransform_[22].translation_ = { 0.0f,23.0f,690.0f };
+	buffItemWorldTransform_[22].translation_ = { 0.0f,13.0f,690.0f };
 
-	buffItemWorldTransform_[23].translation_ = { 20.0f,23.0f, 760.0f };
-	buffItemWorldTransform_[24].translation_ = { 10.0f,33.0f, 770.0f };
-	buffItemWorldTransform_[25].translation_ = { 0.0f,43.0f,780.0f };
-	buffItemWorldTransform_[26].translation_ = { -10.0f,33.0f,790.0f };
-	buffItemWorldTransform_[27].translation_ = { -20.0f,23.0f,800.0f };
+	buffItemWorldTransform_[23].translation_ = { 20.0f,13.0f, 760.0f };
+	buffItemWorldTransform_[24].translation_ = { 10.0f,17.0f, 770.0f };
+	buffItemWorldTransform_[25].translation_ = { 0.0f,21.0f,780.0f };
+	buffItemWorldTransform_[26].translation_ = { -10.0f,17.0f,790.0f };
+	buffItemWorldTransform_[27].translation_ = { -20.0f,13.0f,800.0f };
 
 	buffItemWorldTransform_[28].translation_ = { 12.5f,3.0f,792.5f };
 	buffItemWorldTransform_[29].translation_ = { 0.0f,3.0f,780.0f };
