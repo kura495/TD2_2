@@ -80,9 +80,9 @@ void Particle::CreateResources()
 	//maping materialResource
 	materialResource.Get()->Map(0, nullptr, reinterpret_cast<void**>(&materialData));
 	//Create InstancingResources
-	InstancingResource = directX_->CreateBufferResource(sizeof(WorldTransform)* kNumInstance);
+	InstancingResource = directX_->CreateBufferResource(sizeof(ConstBufferDataWorldTransform)* kNumInstance);
 	//maping InstancingResources
-	InstancingResource->Map(0,nullptr,reinterpret_cast<void**>(&InstancingDeta->matWorld_));
+	InstancingResource->Map(0,nullptr,reinterpret_cast<void**>(&InstancingDeta->constMap));
 }
 
 void Particle::CreateSRV()
@@ -96,7 +96,7 @@ void Particle::CreateSRV()
 	instancingSrvDesc.Buffer.FirstElement = 0;
 	instancingSrvDesc.Buffer.Flags = D3D12_BUFFER_SRV_FLAG_NONE;
 	instancingSrvDesc.Buffer.NumElements = kNumInstance;
-	instancingSrvDesc.Buffer.StructureByteStride = sizeof(WorldTransform);
+	instancingSrvDesc.Buffer.StructureByteStride = sizeof(ConstBufferDataWorldTransform);
 
 	instancingSRVHandleCPU = GetCPUDescriptorHandle(directX_->GetsrvDescriptorHeap(), descriptorSizeSRV, 10);
 	instancingSRVHandleGPU = GetGPUDescriptorHandle(directX_->GetsrvDescriptorHeap(), descriptorSizeSRV, 10);
