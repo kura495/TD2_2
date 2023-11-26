@@ -18,14 +18,15 @@ void Particle::Initalize(int particleVolume)
 
 	particleVolume_ = particleVolume;
 
-	
-	for (int Volume_i = 0; Volume_i < particleVolume_; Volume_i++) {
-		InstancingDeta[Volume_i].Initialize();
-		InstancingDeta[Volume_i].translation_ = { Volume_i * 0.1f,Volume_i * 0.1f, Volume_i * 0.1f };
-		InstancingDeta[Volume_i].constMap->matWorld = MakeAffineMatrix( InstancingDeta[Volume_i].scale_, InstancingDeta[Volume_i].quaternion,InstancingDeta[Volume_i].translation_);
-	}
 	CreateResources();
-	CreateSRV();
+	CreateSRV();	
+	for (int Volume_i = 0; Volume_i < particleVolume_; ++Volume_i) {
+		InstancingDeta[Volume_i].translation_ = { Volume_i * 0.1f,Volume_i * 0.1f, Volume_i * 0.1f };
+		InstancingDeta[Volume_i].matWorld_ = MakeAffineMatrix( InstancingDeta[Volume_i].scale_, InstancingDeta[Volume_i].quaternion,InstancingDeta[Volume_i].translation_);
+		constMapWVPDeta[Volume_i]->matWorld = InstancingDeta[Volume_i].matWorld_;
+		constMapWVPDeta[Volume_i]->color = {1.0f,1.0f,1.0f,1.0f};
+	}
+
 
 	materialData->enableLighting = false;
 	materialData->color = { 1.0f,1.0f,1.0f,1.0f };
@@ -60,6 +61,11 @@ void Particle::Draw(const ViewProjection& viewProjection)
 	directX_->GetcommandList()->SetGraphicsRootConstantBufferView(0, materialResource->GetGPUVirtualAddress());
 	//テクスチャ
 	directX_->GetcommandList()->SetGraphicsRootDescriptorTable(3, textureManager_->GetGPUHandle(modelData.TextureIndex));
+	Matrix4x4 VewProj = Multiply(viewProjection.matView, viewProjection.matProjection);
+	for (int Volume_i = 0; Volume_i < particleVolume_; ++Volume_i) {
+		constMapWVPDeta[Volume_i]->matWorld = Multiply(InstancingDeta[Volume_i].matWorld_, VewProj);
+	}
+
 	//インスタンシング用WVP
 	directX_->GetcommandList()->SetGraphicsRootDescriptorTable(1, instancingSRVHandleGPU);
 
@@ -82,9 +88,9 @@ void Particle::CreateResources()
 	//maping materialResource
 	materialResource.Get()->Map(0, nullptr, reinterpret_cast<void**>(&materialData));
 	//Create InstancingResources
-	InstancingResource = directX_->CreateBufferResource(sizeof(ConstBufferDataWorldTransform)* kNumInstance);
+	InstancingResource = directX_->CreateBufferResource(sizeof(ParticleWVPData)* kNumInstance);
 	//maping InstancingResources
-	InstancingResource->Map(0,nullptr,reinterpret_cast<void**>(&InstancingDeta->constMap));
+	InstancingResource->Map(0,nullptr,reinterpret_cast<void**>(&constMapWVPDeta));
 	
 }
 
@@ -99,11 +105,11 @@ void Particle::CreateSRV()
 	instancingSrvDesc.Buffer.FirstElement = 0;
 	instancingSrvDesc.Buffer.Flags = D3D12_BUFFER_SRV_FLAG_NONE;
 	instancingSrvDesc.Buffer.NumElements = kNumInstance;
-	instancingSrvDesc.Buffer.StructureByteStride = sizeof(ConstBufferDataWorldTransform);
+	instancingSrvDesc.Buffer.StructureByteStride = sizeof(ParticleWVPData);
 
 	instancingSRVHandleCPU = GetCPUDescriptorHandle(directX_->GetsrvDescriptorHeap(), descriptorSizeSRV, 3);
 	instancingSRVHandleGPU = GetGPUDescriptorHandle(directX_->GetsrvDescriptorHeap(), descriptorSizeSRV, 3);
-	directX_->GetDevice()->CreateShaderResourceView(InstancingResource.Get(),&instancingSrvDesc,instancingSRVHandleCPU);
+	directX_->GetDevice()->CreateShaderResourceView(InstancingResource.Get(),&instancingSrvDesc, instancingSRVHandleCPU);
 }
 
 D3D12_CPU_DESCRIPTOR_HANDLE Particle::GetCPUDescriptorHandle(Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> descriptorHeap, uint32_t descriptorSize, uint32_t index)

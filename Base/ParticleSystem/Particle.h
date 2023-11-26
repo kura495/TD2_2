@@ -12,6 +12,11 @@
 
 #include "PipeLine/ParticlePipeLine.h"
 
+struct ParticleWVPData {
+	Matrix4x4 matWorld; // ローカル → ワールド変換行列
+	Vector4 color;
+};
+
 class Particle
 {
 public:
@@ -43,6 +48,7 @@ private:
 	//Instancing用にTransformMatrixを複数格納できるResourcesを作る
 	Microsoft::WRL::ComPtr<ID3D12Resource> InstancingResource = nullptr;
 	WorldTransform InstancingDeta[10];
+	ParticleWVPData* constMapWVPDeta[10];
 
 	//パーティクルの数
 	int particleVolume_;
