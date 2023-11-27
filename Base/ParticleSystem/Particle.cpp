@@ -20,11 +20,10 @@ void Particle::Initalize(int particleVolume)
 
 	CreateResources();
 	CreateSRV();	
-	for (int Volume_i = 0; Volume_i < particleVolume_; ++Volume_i) {
+	for (int Volume_i = 0; Volume_i < particleVolume_; Volume_i++) {
 		InstancingDeta[Volume_i].translation_ = { Volume_i * 0.1f,Volume_i * 0.1f, Volume_i * 0.1f };
 		InstancingDeta[Volume_i].matWorld_ = MakeAffineMatrix( InstancingDeta[Volume_i].scale_, InstancingDeta[Volume_i].quaternion,InstancingDeta[Volume_i].translation_);
-		constMapWVPDeta[Volume_i]->matWorld = InstancingDeta[Volume_i].matWorld_;
-		constMapWVPDeta[Volume_i]->color = {1.0f,1.0f,1.0f,1.0f};
+		constMapWVPDeta[Volume_i].constMap->matWorld = InstancingDeta[Volume_i].matWorld_;
 	}
 
 

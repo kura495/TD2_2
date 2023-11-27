@@ -2,7 +2,6 @@
 struct TransformationMatrix
 {
     float32_t4x4 matWorld;
-    float32_t4 color;
 };
 struct ViewProjectionMatrix
 {
@@ -24,6 +23,5 @@ VertexShaderOutput main(VertexShaderInput input ,uint32_t instanceId : SV_Instan
     VertexShaderOutput output;
     output.position = mul(input.position,gTransformationMatrices[instanceId].matWorld);
     output.texcoord = input.texcoord;
-    output.color = gTransformationMatrices[instanceId].color;
     return output;
 }

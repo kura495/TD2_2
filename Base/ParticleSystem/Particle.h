@@ -13,8 +13,7 @@
 #include "PipeLine/ParticlePipeLine.h"
 
 struct ParticleWVPData {
-	Matrix4x4 matWorld; // ローカル → ワールド変換行列
-	Vector4 color;
+	Matrix4x4 matWorld; // ローカル → ワールド
 };
 
 class Particle
