@@ -21,9 +21,11 @@ void Particle::Initalize(int particleVolume)
 	CreateResources();
 	CreateSRV();	
 	for (int Volume_i = 0; Volume_i < particleVolume_; Volume_i++) {
+		
 		InstancingDeta[Volume_i].translation_ = { Volume_i * 0.1f,Volume_i * 0.1f, Volume_i * 0.1f };
 		InstancingDeta[Volume_i].matWorld_ = MakeAffineMatrix( InstancingDeta[Volume_i].scale_, InstancingDeta[Volume_i].quaternion,InstancingDeta[Volume_i].translation_);
-		constMapWVPDeta[Volume_i].constMap->matWorld = InstancingDeta[Volume_i].matWorld_;
+		constMapWVPDeta[Volume_i] = new ParticleWVPData();
+		constMapWVPDeta[Volume_i]->matWorld = InstancingDeta[Volume_i].matWorld_;
 	}
 
 
@@ -60,9 +62,9 @@ void Particle::Draw(const ViewProjection& viewProjection)
 	directX_->GetcommandList()->SetGraphicsRootConstantBufferView(0, materialResource->GetGPUVirtualAddress());
 	//テクスチャ
 	directX_->GetcommandList()->SetGraphicsRootDescriptorTable(3, textureManager_->GetGPUHandle(modelData.TextureIndex));
-	Matrix4x4 VewProj = Multiply(viewProjection.matView, viewProjection.matProjection);
+	Matrix4x4 ViewProj = Multiply(viewProjection.matView, viewProjection.matProjection);
 	for (int Volume_i = 0; Volume_i < particleVolume_; ++Volume_i) {
-		constMapWVPDeta[Volume_i]->matWorld = Multiply(InstancingDeta[Volume_i].matWorld_, VewProj);
+		constMapWVPDeta[Volume_i]->matWorld = Multiply(InstancingDeta[Volume_i].matWorld_, ViewProj);
 	}
 
 	//インスタンシング用WVP
