@@ -49,6 +49,22 @@ void Player::Update()
 		isStickLeft_ = false;
 	}
 
+	if (joyState.Gamepad.wButtons & XINPUT_GAMEPAD_B && isHit_)
+	{
+		behaviorRequest_ = Behavior::kJump;
+	}
+
+	if (!isHit_ && behavior_ != Behavior::kJump) {
+		worldTransform_.translation_ = Add(worldTransform_.translation_, workJump_.velocity_);
+
+		const float kGravityAcceleration_ = 0.05f;
+
+		Vector3 accelerationVector_ = { 0.0f,-kGravityAcceleration_,0.0f };
+
+		workJump_.velocity_ = Add(workJump_.velocity_, accelerationVector_);
+	}
+
+
 	if (behaviorRequest_) {
 		//ふるまいの変更
 		behavior_ = behaviorRequest_.value();
@@ -64,6 +80,10 @@ void Player::Update()
 			break;
 		case Behavior::kDrift:
 			BehaviorDriftInitialize();
+			break;
+		case Behavior::kJump:
+			BehaviorJumpInitialize();
+			break;
 		}
 		behaviorRequest_ = std::nullopt;
 	}
@@ -78,7 +98,10 @@ void Player::Update()
 		break;
 	case Behavior::kDrift:
 		BehaviorDriftUpdate();
-
+		break;
+	case Behavior::kJump:
+		BehaviorJumpUpdate();
+		break;
 	}
 
 	ImGui::Begin("a");
@@ -107,6 +130,8 @@ void Player::Update()
 	BoxCollider::Update(&worldTransform_);
 
 	joyStatePre = joyState;
+
+	isHit_ = false;
 }
 
 void Player::Draw(const ViewProjection& viewProjection)
@@ -130,13 +155,16 @@ void Player::OnCollision(Collider* collider)
 	}
 	else if (collider->GetcollitionAttribute() == kCollitionAttributeGround) {
 		IsOnGraund = true;
+		isHit_ = true;
+		workJump_.velocity_.y = 0.0f;
 		ImGui::Begin("Ground");
 		ImGui::Text("Hit");
 		ImGui::End();
 	}
 	else if (collider->GetcollitionAttribute() == kCollitionAttributeWall) {
 		worldTransform_.translation_ = previousPosition_;
-
+		isHit_ = true;
+		workJump_.velocity_.y = 0.0f;
 		ImGui::Begin("Wall");
 		ImGui::Text("Hit");
 		ImGui::End();
@@ -227,6 +255,7 @@ void Player::BehaviorRootInit()
 	InitializeFloatingGimmick();
 	worldTransformL_arm_.rotation_.x = 0.0f;
 	worldTransformR_arm_.rotation_.x = 0.0f;
+	workJump_.kSpped_ = 1.0f;
 }
 
 void Player::BehaviorRootUpdate()
@@ -318,6 +347,7 @@ void Player::BehaviorDashUpdate()
 
 	}
 	else {
+		workJump_.kSpped_ = workDash_.dashSpeed_;
 		Vector3 move = workDash_.move_;
 		workDash_.movePre_ = workDash_.move_;
 		//回転行列を作る
@@ -467,6 +497,33 @@ void Player::BehaviorDriftUpdate() {
 
 }
 
+void Player::BehaviorJumpInitialize() {
+	isHit_ = false;
+
+	workJump_.velocity_ = { (float)joyState.Gamepad.sThumbLX / (SHRT_MAX * 2), workJump_.kJumpFirstSpeed_, (float)joyState.Gamepad.sThumbLY / (SHRT_MAX * 2) };
+	Matrix4x4 rotateMatrix = MakeRotateMatrix(viewProjection_->rotation_);
+
+	workJump_.velocity_ = TransformNormal(workJump_.velocity_, rotateMatrix);
+	workJump_.velocity_ = Normalize(workJump_.velocity_);
+	workJump_.velocity_.x *= workJump_.kSpped_;
+	workJump_.velocity_.z *= workJump_.kSpped_;
+}
+
+void Player::BehaviorJumpUpdate() {
+	worldTransform_.translation_ = Add(worldTransform_.translation_, workJump_.velocity_);
+
+	const float kGravityAcceleration_ = 0.05f;
+
+	Vector3 accelerationVector_ = { 0.0f,-kGravityAcceleration_,0.0f };
+
+	workJump_.velocity_ = Add(workJump_.velocity_, accelerationVector_);
+
+	if (isHit_)
+	{
+		workJump_.velocity_.y = 0.0f;
+		behaviorRequest_ = Behavior::kRoot;
+	}
+}
 
 void Player::InitializeFloatingGimmick() {
 	floatingParameter_ = 0.0f;
