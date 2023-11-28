@@ -61,7 +61,7 @@ void Particle::Draw(const ViewProjection& viewProjection)
 	directX_->GetcommandList()->SetGraphicsRootDescriptorTable(3, textureManager_->GetGPUHandle(modelData.TextureIndex));
 	Matrix4x4 ViewProj = Multiply(viewProjection.matView, viewProjection.matProjection);
 	for (int Volume_i = 0; Volume_i < particleVolume_; ++Volume_i) {
-		constMapWVPDeta[Volume_i].matWorld = Multiply(InstancingDeta[Volume_i].matWorld_, ViewProj);
+		particleWVPData[Volume_i].matWorld = Multiply(InstancingDeta[Volume_i].matWorld_, ViewProj);
 	}
 
 	//インスタンシング用WVP
@@ -88,7 +88,7 @@ void Particle::CreateResources()
 	//Create InstancingResources
 	InstancingResource = directX_->CreateBufferResource(sizeof(ParticleWVPData)* kNumInstance);
 	//maping InstancingResources
-	InstancingResource->Map(0,nullptr,reinterpret_cast<void**>(&constMapWVPDeta));
+	InstancingResource->Map(0,nullptr,reinterpret_cast<void**>(&particleWVPData));
 	
 }
 
