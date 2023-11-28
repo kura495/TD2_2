@@ -69,6 +69,9 @@ private:
 
 	bool isDead_ = false;
 
+	//相殺している
+	bool isOffset_ = false;
+
 	Player* player_ = nullptr;
 
 	int underAttackTimer = 60;

@@ -139,6 +139,12 @@ void Player::Update()
 		}
 	}
 
+	if (isOffset_)
+	{
+		worldTransform_.translation_ = previousPosition_;
+		isOffset_ = false;
+	}
+
 	if (isSpeedUp_)
 	{
 		workDash_.dashSpeed_ += 0.03f;
@@ -174,15 +180,22 @@ void Player::Draw(const ViewProjection& viewProjection)
 void Player::OnCollision(Collider* collider)
 {
 
-	if (collider->GetcollitionAttribute() == kCollitionAttributeEnemy && boss_->GetIsAttack() == true) {
-		//敵に当たったらリスタートする
-		//isDead_ = true;
-	/*	worldTransform_.translation_ = { 0.0f,0.0f,0.0f };
-		speed = 0.5f;
-		worldTransform_.UpdateMatrix();
-		behaviorRequest_ = Behavior::kRoot;*/
-		isEnemyHit_ = true;
+	if (collider->GetcollitionAttribute() == kCollitionAttributeEnemy)
+	{
+		if (boss_->GetIsAttack() == false && workDash_.isDash == false)
+		{
+			worldTransform_.translation_ = previousPosition_;
+		}
 
+		if (boss_->GetIsAttack() == true && workDash_.isDash == false)
+		{
+			isEnemyHit_ = true;
+		}
+
+		if (boss_->GetIsAttack() == true && workDash_.isDash == true)
+		{
+			isOffset_ = true;
+		}
 	}
 	else if (collider->GetcollitionAttribute() == kCollitionAttributeGround) {
 		/*if (workJump_.velocity_.y < 0.0f) {
