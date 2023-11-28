@@ -49,7 +49,7 @@ void Particle::Update()
 		particles[Volume_i].translate += velcity;
 		float alpha = 1.0f - (particles[Volume_i].currentTime / particles[Volume_i].lifeTime);
 		particles[Volume_i].color.w = alpha;
-		//particles[Volume_i].currentTime += kDeltaTime;
+		particles[Volume_i].currentTime += kDeltaTime;
 		particles[Volume_i].matWorld = MakeAffineMatrix({1.0f,1.0f,1.0f}, Vector3{0.0f,0.0f,0.0f}, particles[Volume_i].translate);
 		++numInstance;
 	}
@@ -129,8 +129,8 @@ void Particle::CreateSRV()
 	instancingSrvDesc.Buffer.NumElements = kNumMaxInstance;
 	instancingSrvDesc.Buffer.StructureByteStride = sizeof(ParticleForGPU);
 
-	instancingSRVHandleCPU = GetCPUDescriptorHandle(directX_->GetsrvDescriptorHeap(), descriptorSizeSRV, 3);
-	instancingSRVHandleGPU = GetGPUDescriptorHandle(directX_->GetsrvDescriptorHeap(), descriptorSizeSRV, 3);
+	instancingSRVHandleCPU = GetCPUDescriptorHandle(directX_->GetsrvDescriptorHeap(), descriptorSizeSRV, 100);
+	instancingSRVHandleGPU = GetGPUDescriptorHandle(directX_->GetsrvDescriptorHeap(), descriptorSizeSRV, 100);
 	directX_->GetDevice()->CreateShaderResourceView(InstancingResource.Get(),&instancingSrvDesc, instancingSRVHandleCPU);
 }
 

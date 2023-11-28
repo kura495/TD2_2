@@ -8,7 +8,7 @@ class TextureManager
 {
 public:
 	// デスクリプターの数
-	static const size_t kMaxTexture = 256;
+	static const size_t kMaxTexture = 99;
 
 	/// <summary>
 	/// テクスチャ
@@ -22,6 +22,8 @@ public:
 		CD3DX12_GPU_DESCRIPTOR_HANDLE textureSrvHandleGPU;
 		// 名前
 		std::string name;
+		// 使っているかどうか
+		bool IsUsed = false;
 	};
 
 	static TextureManager* GetInstance();
@@ -40,7 +42,6 @@ private:
 
 	HRESULT hr;
 	
-	bool IsusedTextureIndex[kMaxTexture];
 	DirectXCommon* directX_ = nullptr;
 	// テクスチャコンテナ
 	std::array<Texture, kMaxTexture> textures_;
