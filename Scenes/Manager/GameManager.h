@@ -8,6 +8,7 @@
 #include"ImGuiManager.h"
 #include"Scenes/State/GameTitleState.h"
 #include"Scenes/State/GamePlayState.h"
+#include"Scenes/State/GameBossState.h"
 #include"Scenes/State/GameClearState.h"
 #include"Scenes/State/IgameState.h"
 #include"Audio.h"
@@ -21,6 +22,8 @@ public:
 	enum GameStateNo {
 		TITLE,
 		PLAY,
+		BOSS,
+		CLEAR,
 		GameStateMax
 	};
 
@@ -46,6 +49,9 @@ private:
 	//State
 	std::unique_ptr<GameState>state[GameStateMax];
 	Vector4 ClearColor{ 0.1f,0.25f,0.5f,1.0f };
+
+	int currentSceneNum_;
+	int prevSceneNum_;
 	
 	void Initialize();
 	void Gameloop();

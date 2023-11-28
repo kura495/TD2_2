@@ -1,0 +1,107 @@
+#include "Boss.h"
+
+Boss::Boss() {}
+Boss::~Boss() {}
+
+void Boss::Initialize(const std::vector<Model*>& models)
+{
+	ICharacter::Initialize(models);
+	
+	worldTransform_.Initialize();
+
+	worldTransform_.translation_.z = 50.0f;
+
+	BoxCollider::Initialize();
+	BoxCollider::SetcollisionMask(~kCollitionAttributeEnemy);
+	BoxCollider::SetcollitionAttribute(kCollitionAttributeEnemy);
+	BoxCollider::SetParent(worldTransform_);
+	BoxCollider::SetSize({ 1.0f,1.0f,1.0f });
+
+	isHit_ = false;
+}
+
+void Boss::Update()
+{
+	if (behaviorRequest_) {
+		//ふるまいの変更
+		behavior_ = behaviorRequest_.value();
+		//各ふるまいごとに初期化
+		switch (behavior_)
+		{
+		case BossBehavior::kRoot:
+		default:
+			BehaviorRootInitialize();
+			break;
+		case BossBehavior::kAttack:
+			BehaviorAttackInitialize();
+		}
+		behaviorRequest_ = std::nullopt;
+	}
+	switch (behavior_)
+	{
+	case BossBehavior::kRoot:
+	default:
+		BehaviorRootUpdate();
+		break;
+	case BossBehavior::kAttack:
+		BehaviorAttackUpdate();
+	}
+
+	ICharacter::Update();
+	BoxCollider::Update(&worldTransform_);
+}
+
+void Boss::Draw(const ViewProjection& viewProjection)
+{
+	ICharacter::Draw(viewProjection);
+}
+
+void Boss::OnCollision(Collider* collider)
+{
+	if (isAttack_ == true && collider->GetcollitionAttribute() == kCollitionAttributePlayer)
+	{
+		isHit_ = true;
+	}
+}
+
+void Boss::SetScale(Vector3 scale)
+{
+	worldTransform_.scale_ = scale;
+	BoxCollider::SetSize({ 1.0f * scale.x,1.0f * scale.y,1.0f * scale.z });
+}
+
+void Boss::SetPosition(Vector3 position)
+{
+	worldTransform_.translation_ = position;
+}
+
+void Boss::BehaviorRootInitialize()
+{
+}
+
+void Boss::BehaviorRootUpdate()
+{
+	worldTransform_.translation_.x += speed;
+
+	if (worldTransform_.translation_.x <= -40.0f)
+	{
+		speed *= -1;
+		behaviorRequest_ = BossBehavior::kAttack;
+	}
+
+	if (worldTransform_.translation_.x >= 40.0f)
+	{
+		speed *= -1;
+	}
+}
+
+void Boss::BehaviorAttackInitialize()
+{
+
+}
+
+void Boss::BehaviorAttackUpdate()
+{
+	isAttack_ = true;
+	worldTransform_.translation_.z -= speed;
+}

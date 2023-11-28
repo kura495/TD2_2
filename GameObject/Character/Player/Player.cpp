@@ -112,7 +112,6 @@ void Player::Update()
 
 	if (worldTransform_.translation_.y <= -10.0f) {
 		//地面から落ちたらリスタートする
-		isDead_ = true;
 		worldTransform_.translation_ = { 0.0f,0.0f,0.0f };
 		speed = 0.5f;
 		worldTransform_.UpdateMatrix();
@@ -147,11 +146,11 @@ void Player::OnCollision(Collider* collider)
 
 	if (collider->GetcollitionAttribute() == kCollitionAttributeEnemy) {
 		//敵に当たったらリスタートする
-		isDead_ = true;
-		worldTransform_.translation_ = { 0.0f,0.0f,0.0f };
+		//isDead_ = true;
+	/*	worldTransform_.translation_ = { 0.0f,0.0f,0.0f };
 		speed = 0.5f;
 		worldTransform_.UpdateMatrix();
-		behaviorRequest_ = Behavior::kRoot;
+		behaviorRequest_ = Behavior::kRoot;*/
 	}
 	else if (collider->GetcollitionAttribute() == kCollitionAttributeGround) {
 		IsOnGraund = true;
@@ -177,10 +176,7 @@ void Player::OnCollision(Collider* collider)
 		ImGui::End();
 	}
 	else if (collider->GetcollitionAttribute() == kCollitionAttributeGoal) {
-		//ゴールしたらリスタートする
-		worldTransform_.translation_ = { 0.0f,0.0f,0.0f };
-		worldTransform_.UpdateMatrix();
-		behaviorRequest_ = Behavior::kRoot;
+		isGoal_ = true;
 	}
 	else {
 		return;
