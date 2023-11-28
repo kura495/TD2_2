@@ -28,6 +28,7 @@ class Particle
 public:
 
 	void Initalize(int particleVolume,const std::string filePath);
+	void Initalize(int particleVolume,const std::string filePath,Vector3 Pos);
 
 	void Update();
 
@@ -35,7 +36,7 @@ public:
 
 	void PreDraw();
 
-	void SetPos(Vector3 Pos) { particles->translate = Pos; };
+	void SetPos(Vector3 Pos);
 
 private:
 	//インスタンスの数
