@@ -198,7 +198,7 @@ void Player::OnCollision(Collider* collider)
 		return;
 	}
 	
-#endif
+
 }
 
 void Player::SetParent(const WorldTransform* parent)
