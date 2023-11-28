@@ -29,7 +29,7 @@ void GamePlayState::Initialize()
 	ground_[1]->SetScale({ 12.0f, 1.0f, 40.0f });
 
 	//壁
-	wallModel_.reset(Model::CreateModelFromObj("resources/Fence", "fencekaminari.obj"));
+	wallModel_.reset(Model::CreateModelFromObj("resources/Cube", "Cube.obj"));
 	std::vector<Model*> wallModels = {
 		wallModel_.get() };
 
