@@ -47,6 +47,7 @@ struct ViewProjection {
 	//カメラ行列
 	Matrix4x4 CameraMatrix;
 
+
 	/// <summary>
 	/// 初期化
 	/// </summary>
