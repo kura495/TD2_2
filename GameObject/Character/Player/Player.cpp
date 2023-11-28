@@ -194,8 +194,7 @@ void Player::OnCollision(Collider* collider)
 	
 	}
 	else if (collider->GetcollitionAttribute() == kCollitionAttributeWall) {
-
-		
+		worldTransform_.translation_ = previousPosition_;
 		if (!IsOnGraund) {
 			worldTransform_.translation_ = previousPosition_;
 			worldTransform_.translation_.y = 0.0f;
