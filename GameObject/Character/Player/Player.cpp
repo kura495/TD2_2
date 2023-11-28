@@ -1,4 +1,5 @@
 #include "Player.h"
+#include "GameObject/Character/Boss/Boss.h"
 
 void Player::Initialize(const std::vector<Model*>& models)
 {
@@ -49,20 +50,14 @@ void Player::Update()
 		isStickLeft_ = false;
 	}
 
-	if (joyState.Gamepad.wButtons & XINPUT_GAMEPAD_B && IsOnGraund)
-	{
-		behaviorRequest_ = Behavior::kJump;
-	}
-
-	if (!IsOnGraund && behavior_ != Behavior::kJump) {
+	/*if (worldTransform_.translation_.y > 0.0f && behavior_ != Behavior::kJump) {
 		worldTransform_.translation_ = Add(worldTransform_.translation_, workJump_.velocity_);
 
-		const float kGravityAcceleration_ = 0.05f;
-
-		Vector3 accelerationVector_ = { 0.0f,-kGravityAcceleration_,0.0f };
+		Vector3 accelerationVector_ = { 0.0f,-workJump_.kGravityAcceleration_,0.0f };
 
 		workJump_.velocity_ = Add(workJump_.velocity_, accelerationVector_);
-	}
+	}*/
+	
 
 
 	if (behaviorRequest_) {
@@ -98,13 +93,23 @@ void Player::Update()
 		break;
 	}
 
+	if (joyState.Gamepad.wButtons & XINPUT_GAMEPAD_B && IsOnGraund)
+	{
+		//behaviorRequest_ = Behavior::kJump;
+		workJump_.velocity_ = Normalize(workJump_.velocity_);
+		workJump_.velocity_.y = workJump_.kJumpFirstSpeed_;
+		workJump_.velocity_.x *= workJump_.kSpped_;
+		workJump_.velocity_.z *= workJump_.kSpped_;
+		worldTransform_.translation_ = Add(worldTransform_.translation_, workJump_.velocity_);
+	}
+
 
 	PullDown();
 
 	if (worldTransform_.translation_.y <= -10.0f) {
 		//地面から落ちたらリスタートする
-		isDead_ = true;
 		worldTransform_.translation_ = { 0.0f,0.0f,0.0f };
+		workJump_.velocity_ = { 0.0f, 0.0f, 0.0f };
 		speed = 0.5f;
 		worldTransform_.UpdateMatrix();
 	}
@@ -112,6 +117,30 @@ void Player::Update()
 	worldTransform_.quaternion = Slerp(worldTransform_.quaternion, moveQuaternion_, 0.3f);
 
 	worldTransform_.quaternion = Normalize(worldTransform_.quaternion);
+
+	//if (isEnemyHit_)
+	//{
+	//	Vector3 currentBossPosition = boss_->GetCurrentPosition();
+	//	Vector3 previousBossPosition = boss_->GetPreviousPosition();
+
+	//	Vector3 velocity = Subtract(currentBossPosition, previousBossPosition);
+
+	//	worldTransform_.translation_ = Subtract(worldTransform_.translation_, velocity);
+
+	///*	isEnemyHit_ = false;*/
+	//}
+
+	if (isSpeedUp_)
+	{
+		workDash_.dashSpeed_ += 0.03f;
+
+		isSpeedUp_ = false;
+	}
+
+	if (workDash_.dashSpeed_ >= 7.0f)
+	{
+		workDash_.dashSpeed_ = 7.0f;
+	}
 
 	ICharacter::Update();
 	worldTransformBody_.UpdateMatrix();
@@ -140,59 +169,65 @@ void Player::Draw(const ViewProjection& viewProjection)
 
 void Player::OnCollision(Collider* collider)
 {
-#ifdef _DEBUG
-	if (collider->GetcollitionAttribute() == kCollitionAttributeEnemy) {
+
+	if (collider->GetcollitionAttribute() == kCollitionAttributeEnemy && workDash_.isDash == true) {
 		//敵に当たったらリスタートする
-		isDead_ = true;
-		worldTransform_.translation_ = { 0.0f,0.0f,0.0f };
+		//isDead_ = true;
+	/*	worldTransform_.translation_ = { 0.0f,0.0f,0.0f };
 		speed = 0.5f;
 		worldTransform_.UpdateMatrix();
-		behaviorRequest_ = Behavior::kRoot;
+		behaviorRequest_ = Behavior::kRoot;*/
+		isEnemyHit_ = true;
+
 	}
 	else if (collider->GetcollitionAttribute() == kCollitionAttributeGround) {
-		IsOnGraund = true;
+		/*if (workJump_.velocity_.y < 0.0f) {
+			IsOnGraund = true;
+		}*/
+		if (worldTransform_.translation_.y <= 0.0f) {
+			IsOnGraund = true;
+			worldTransform_.translation_.y = 0.0f;
+			workJump_.velocity_.y = 0.0f;
+		}
+		
 		isHit_ = true;
-		workJump_.velocity_.y = 0.0f;
+		
+		//workJump_.velocity_.y = 0.0f;
 		ImGui::Begin("Ground");
 		ImGui::Text("Hit");
 		ImGui::End();
 	
 	}
 	else if (collider->GetcollitionAttribute() == kCollitionAttributeWall) {
-		worldTransform_.translation_ = previousPosition_;
+
 		
 		if (!IsOnGraund) {
-			workJump_.velocity_.x *= -10.0f;
-			workJump_.velocity_.z *= -10.0f;
+			worldTransform_.translation_ = previousPosition_;
+			worldTransform_.translation_.y = 0.0f;
 		}
 		
 
 		
 		
 		isHit_ = true;
-		//workJump_.velocity_.y = 0.0f;
+		workJump_.velocity_.y = 0.0f;
 		ImGui::Begin("Wall");
 		ImGui::Text("Hit");
 		ImGui::End();
 	}
 	else if (collider->GetcollitionAttribute() == kCollitionAttributeBuffItem) {
-     /*   speed += 0.1f;*/
+		isSpeedUp_ = true;
 		ImGui::Begin("BuffItem");
 		ImGui::Text("Hit");
 		ImGui::Text("%f", speed);
 		ImGui::End();
 	}
 	else if (collider->GetcollitionAttribute() == kCollitionAttributeGoal) {
-		//ゴールしたらリスタートする
-		worldTransform_.translation_ = { 0.0f,0.0f,0.0f };
-		worldTransform_.UpdateMatrix();
-		behaviorRequest_ = Behavior::kRoot;
+		isGoal_ = true;
 	}
 	else {
 		return;
 	}
-	
-#endif
 }
 
 void Player::SetParent(const WorldTransform* parent)
@@ -230,7 +265,11 @@ void Player::Move()
 {
 	//移動量
 	if (joyState.Gamepad.sThumbLX == 0 && joyState.Gamepad.sThumbLX == 0 && joyState.Gamepad.sThumbLY == 0 && joyState.Gamepad.sThumbLY == 0) {
-		workJump_.velocity_ = { 0.0f, 0.0f, 0.0f };
+		if (IsOnGraund) {
+			workJump_.velocity_.x = 0.0f;
+			workJump_.velocity_.z = 0.0f;
+		}
+		
 		return;
 	}
 	Vector3 move{
@@ -240,13 +279,17 @@ void Player::Move()
 	move.x = Normalize(move).x * speed;
 	move.y = Normalize(move).y * speed;
 	move.z = Normalize(move).z * speed;
-	workJump_.velocity_ = move;
+	
 
 	//カメラの正面方向に移動するようにする
 	//回転行列を作る
 	Matrix4x4 rotateMatrix = MakeRotateMatrix(viewProjection_->rotation_);
 	//移動ベクトルをカメラの角度だけ回転
 	move = TransformNormal(move, rotateMatrix);
+	if (IsOnGraund) {
+		workJump_.velocity_.x = move.x;
+		workJump_.velocity_.z = move.z;
+	}
 	//移動
 	worldTransform_.translation_ = Add(worldTransform_.translation_, move);
 	
@@ -257,7 +300,6 @@ void Player::Move()
 	Vector3 cross = Normalize(Cross({ 0.0f,0.0f,1.0f }, move));
 	float dot = Dot({ 0.0f,0.0f,1.0f }, move);
 	moveQuaternion_ = MakeRotateAxisAngleQuaternion(cross, std::acos(dot));
-	//FIXME: クォータニオンで回転は出来たものの、平べったくなってしまう
 }
 
 void Player::ApplyGlobalVariables()
@@ -279,14 +321,18 @@ void Player::BehaviorRootInit()
 void Player::BehaviorRootUpdate()
 {
 	UpdateFloatingGimmick();
-	Move();
-	
-	//Aでダッシュ
-	if (workDash_.coolTime_++ >= dashCoolTime_) {
-		if (joyState.Gamepad.wButtons & XINPUT_GAMEPAD_A) {
-			behaviorRequest_ = Behavior::kDash;
+	if (IsOnGraund) {
+		Move();
+		//Aでダッシュ
+		if (workDash_.coolTime_++ >= dashCoolTime_) {
+			if (joyState.Gamepad.wButtons & XINPUT_GAMEPAD_A) {
+				behaviorRequest_ = Behavior::kDash;
+			}
 		}
 	}
+	
+	
+	
 
 }
 
@@ -308,9 +354,11 @@ void Player::BehaviorDashInit()
 
 void Player::BehaviorDashUpdate()
 {
+	
 	Input::GetInstance()->GetJoystickState(0, joyState);
-	if (workDash_.isPowerCharge) {
-		workDash_.move_  = {(float)joyState.Gamepad.sThumbLX / SHRT_MAX, 0.0f,(float)joyState.Gamepad.sThumbLY / SHRT_MAX };
+	if (IsOnGraund) {
+		if (workDash_.isPowerCharge) {
+			workDash_.move_ = { (float)joyState.Gamepad.sThumbLX / SHRT_MAX, 0.0f,(float)joyState.Gamepad.sThumbLY / SHRT_MAX };
 
 		if (workDash_.scale_.x > 0.5f) {
 			workDash_.scale_ = Subtract(workDash_.scale_, Vector3{ 0.005f, 0.005f, 0.005f });
@@ -319,82 +367,106 @@ void Player::BehaviorDashUpdate()
 		}
 		worldTransformBody_.scale_ = workDash_.scale_;
 
-		//回転行列を作る
-		Matrix4x4 rotateMatrix = MakeRotateMatrix(viewProjection_->rotation_);
-		//移動ベクトルをカメラの角度だけ回転
-		Vector3 moveQ = TransformNormal(workDash_.move_, rotateMatrix);
-		Vector3 rotate = Normalize(moveQ);
-		Vector3 cross = Normalize(Cross({ 0.0f,0.0f,1.0f }, rotate));
-		float dot = Dot({ 0.0f,0.0f,1.0f }, rotate);
-		moveQuaternion_ = MakeRotateAxisAngleQuaternion(cross, std::acos(dot));
-
-		if (workDash_.isDash) {
-			Vector3 move = workDash_.movePre_;
-			//rotateMatrix = MakeRotateMatrix(viewProjection_->rotation_);
-			//移動ベクトルをカメラの角度だけ回転
-			//move = TransformNormal(move, rotateMatrix);
 			//回転行列を作る
-			rotateMatrix = MakeRotateMatrix(worldTransform_.quaternion);
+			Matrix4x4 rotateMatrix = MakeRotateMatrix(viewProjection_->rotation_);
 			//移動ベクトルをカメラの角度だけ回転
-			move = TransformNormal(move, rotateMatrix);
-			move.x *= workDash_.kSpeed_; 
-			move.y *= workDash_.kSpeed_;
-			move.z *= workDash_.kSpeed_;
+			Vector3 moveQ = TransformNormal(workDash_.move_, rotateMatrix);
+			Vector3 rotate = Normalize(moveQ);
+			Vector3 cross = Normalize(Cross({ 0.0f,0.0f,1.0f }, rotate));
+			float dot = Dot({ 0.0f,0.0f,1.0f }, rotate);
+			moveQuaternion_ = MakeRotateAxisAngleQuaternion(cross, std::acos(dot));
 
-			if (workDash_.kSpeed_ < 0.0f) {
-				workDash_.kSpeed_ = 0.0f;
+			if (workDash_.isDash) {
+				Vector3 move = workDash_.movePre_;
+				//rotateMatrix = MakeRotateMatrix(viewProjection_->rotation_);
+				//移動ベクトルをカメラの角度だけ回転
+				//move = TransformNormal(move, rotateMatrix);
+				//回転行列を作る
+				rotateMatrix = MakeRotateMatrix(worldTransform_.quaternion);
+				//移動ベクトルをカメラの角度だけ回転
+				move = TransformNormal(move, rotateMatrix);
+				move.x *= workDash_.kSpeed_;
+				move.y *= workDash_.kSpeed_;
+				move.z *= workDash_.kSpeed_;
+
+				if (workDash_.kSpeed_ < 0.0f) {
+					workDash_.kSpeed_ = 0.0f;
+				}
+				else {
+					workDash_.kSpeed_ -= 0.01f;
+				}
+				//移動
+				worldTransform_.translation_ = Add(worldTransform_.translation_, move);
+
+				rotateMatrix = MakeRotateMatrix(viewProjection_->rotation_);
+				move = TransformNormal(move, rotateMatrix);
+				if (IsOnGraund) {
+					workJump_.velocity_.x = move.x;
+					workJump_.velocity_.z = move.z;
+				}
+
+				if (joyState.Gamepad.wButtons & XINPUT_GAMEPAD_B && IsOnGraund)
+				{
+					worldTransformBody_.scale_ = Vector3{ 1.0f, 1.0f, 1.0f };
+					workJump_.kSpped_ = workDash_.kSpeed_;
+				}
 			}
-			else {
-				workDash_.kSpeed_ -= 0.01f;
+
+			if (!(joyStatePre.Gamepad.wButtons & XINPUT_GAMEPAD_A)) {
+				workDash_.isPowerCharge = false;
+				workDash_.isDash = true;
+				workDash_.chargeParameter_ = 0;
+				workDash_.kSpeed_ = 1.0f;
+				worldTransformBody_.scale_ = Vector3{ 1.0f, 1.0f, 1.0f };
+				workDash_.scale_ = Vector3{ 1.0f, 1.0f, 1.0f };
 			}
+
+			if (workDash_.chargeParameter_++ > chargeTime) {
+				worldTransformBody_.scale_ = Vector3{ 1.0f, 1.0f, 1.0f };
+				workDash_.isDash = false;
+				behaviorRequest_ = Behavior::kRoot;
+				workDash_.isDash = false;
+			}
+
+		}
+		else {
+			workJump_.kSpped_ = workDash_.dashSpeed_;
+			Vector3 move = workDash_.move_;
+			workDash_.movePre_ = workDash_.move_;
+			//回転行列を作る
+			Matrix4x4 rotateMatrix = MakeRotateMatrix(viewProjection_->rotation_);
+			//移動ベクトルをカメラの角度だけ回転
+			move = TransformNormal(workDash_.move_, rotateMatrix);
+			if (IsOnGraund) {
+				workJump_.velocity_.x = Normalize(move).x;
+				workJump_.velocity_.z = Normalize(move).z;
+			}
+
+			//正規化をして斜めの移動量を正しくする
+			move.x = Normalize(move).x * workDash_.dashSpeed_;
+			move.y = Normalize(move).y * workDash_.dashSpeed_;
+			move.z = Normalize(move).z * workDash_.dashSpeed_;
+
 			//移動
 			worldTransform_.translation_ = Add(worldTransform_.translation_, move);
-			workJump_.velocity_ = move;
-		}
 
-		if (!(joyStatePre.Gamepad.wButtons & XINPUT_GAMEPAD_A)) {
-			workDash_.isPowerCharge = false;
-			workDash_.isDash = true;
-			workDash_.chargeParameter_ = 0;
-			workDash_.kSpeed_ = 1.0f;
-			worldTransformBody_.scale_ = Vector3{ 1.0f, 1.0f, 1.0f };
-			workDash_.scale_ = Vector3{ 1.0f, 1.0f, 1.0f };
-		}
+			workDash_.dashParameter_++;
+			if ((joyState.Gamepad.wButtons & XINPUT_GAMEPAD_A)) {
+				workDash_.isPowerCharge = true;
+				workDash_.dashParameter_ = 0;
+			}
 
-		if (workDash_.chargeParameter_++ > chargeTime) {
-			worldTransformBody_.scale_ = Vector3{ 1.0f, 1.0f, 1.0f };
-			behaviorRequest_ = Behavior::kRoot;
-			workDash_.isDash = false;
+
 		}
 
 	}
 	else {
-		workJump_.kSpped_ = workDash_.dashSpeed_;
-		Vector3 move = workDash_.move_;
-		workDash_.movePre_ = workDash_.move_;
-		//回転行列を作る
-		Matrix4x4 rotateMatrix = MakeRotateMatrix(viewProjection_->rotation_);
-		//移動ベクトルをカメラの角度だけ回転
-		move = TransformNormal(workDash_.move_, rotateMatrix);
-		//正規化をして斜めの移動量を正しくする
-		move.x = Normalize(move).x * workDash_.dashSpeed_;
-		move.y = Normalize(move).y * workDash_.dashSpeed_;
-		move.z = Normalize(move).z * workDash_.dashSpeed_;
-
-		//移動
-		worldTransform_.translation_ = Add(worldTransform_.translation_, move);
-		workJump_.velocity_ = move;
-
-		workDash_.dashParameter_++;
-		if ((joyState.Gamepad.wButtons & XINPUT_GAMEPAD_A)) {
-			workDash_.isPowerCharge = true;
-			workDash_.dashParameter_ = 0;
-		}
-		
-
+		behaviorRequest_ = Behavior::kRoot;
 	}
+	
 
 	if (workDash_.dashParameter_ >= behaviorDashTime) {
+		workDash_.isDash = false;
 		behaviorRequest_ = Behavior::kRoot;
 		workDash_.isDash = false;
 	}
@@ -406,29 +478,29 @@ void Player::BehaviorJumpInitialize() {
 	isHit_ = false;
 
 	//workJump_.velocity_ = { (float)joyState.Gamepad.sThumbLX / (SHRT_MAX * 2), workJump_.kJumpFirstSpeed_, (float)joyState.Gamepad.sThumbLY / (SHRT_MAX * 2) };
-	Matrix4x4 rotateMatrix = MakeRotateMatrix(viewProjection_->rotation_);
+	//Matrix4x4 rotateMatrix = MakeRotateMatrix(viewProjection_->rotation_);
 
-	workJump_.velocity_ = TransformNormal(workJump_.velocity_, rotateMatrix);
-	workJump_.velocity_ = Normalize(workJump_.velocity_);
-	workJump_.velocity_.y = workJump_.kJumpFirstSpeed_;
-	workJump_.velocity_.x *= workJump_.kSpped_;
-	workJump_.velocity_.z *= workJump_.kSpped_;
+	//workJump_.velocity_ = TransformNormal(workJump_.velocity_, rotateMatrix);
+	
 }
 
 void Player::BehaviorJumpUpdate() {
+	//worldTransform_.translation_ = Add(worldTransform_.translation_, workJump_.velocity_);
+
+	//const float kGravityAcceleration_ = 0.05f;
+
+	//Vector3 accelerationVector_ = { 0.0f,-kGravityAcceleration_,0.0f };
+
+	//workJump_.velocity_ = Add(workJump_.velocity_, accelerationVector_);
+
+	//if (IsOnGraund)
+	//{
+	//	workJump_.velocity_.y = 0.0f;
+	//	//worldTransform_.translation_.y = 0.0f;
+	//	behaviorRequest_ = Behavior::kRoot;
+	//}
 	worldTransform_.translation_ = Add(worldTransform_.translation_, workJump_.velocity_);
-
-	const float kGravityAcceleration_ = 0.05f;
-
-	Vector3 accelerationVector_ = { 0.0f,-kGravityAcceleration_,0.0f };
-
-	workJump_.velocity_ = Add(workJump_.velocity_, accelerationVector_);
-
-	if (isHit_)
-	{
-		workJump_.velocity_.y = 0.0f;
-		behaviorRequest_ = Behavior::kRoot;
-	}
+	behaviorRequest_ = Behavior::kRoot;
 }
 
 void Player::InitializeFloatingGimmick() {
@@ -455,10 +527,20 @@ void Player::PullDown()
 {
 	if (IsOnGraund) {
 		IsOnGraund = false;
+		workJump_.Flag_ = false;
 		return;
 	}
 	else {
-		worldTransform_.translation_.y -= DownForce;
+		
+		worldTransform_.translation_ = Add(worldTransform_.translation_, workJump_.velocity_);
+
+		
+
+		Vector3 accelerationVector_ = { 0.0f,-workJump_.kGravityAcceleration_,0.0f };
+
+		workJump_.velocity_ = Add(workJump_.velocity_, accelerationVector_);
+
+		//worldTransform_.translation_.y -= DownForce;
 	}
 }
 

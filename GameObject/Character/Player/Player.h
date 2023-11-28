@@ -11,10 +11,12 @@
 #include "Base/Utility/CollisionConfig.h"
 
 #include "GameObject/BuffItem/BuffItem.h"
+#include "GameObject/Character/Boss/Boss.h"
+
+class Boss;
 
 enum class Behavior {
 	kRoot,//通常
-	kAttack,//攻撃中
 	kDash,//ダッシュ中
 	kDrift, // ドリフト中
 	kJump, // ジャンプ
@@ -56,9 +58,10 @@ const uint32_t behaviorDriftChargeTime_ = 3000;
 
 struct WorkJump {
 	Vector3 velocity_ = {0.0f, 0.0f, 0.0f};
-	float kJumpFirstSpeed_ = 2.0f;
+	float kJumpFirstSpeed_ = 1.0f;
 	float kGravityAcceleration_ = 0.05f;
 	float kSpped_ = 1.0f;
+	bool Flag_ = false;
 };
 
 class Player : public ICharacter, public BoxCollider
@@ -92,13 +95,21 @@ public:
 
 	bool GetIsDead() { return isDead_; }
 
+	bool GetIsGoal() { return isGoal_; }
+
 	void SetIsDead(bool isDead) { isDead_ = isDead; }
 
 	bool GetIsStickRight() { return workDrift_.isStickRightPre_; }
 	bool GetIsStickLeft() { return workDrift_.isStickLeftPre_; }
+
+	bool GetIsDash() { return  workDash_.isDash; };
+
+	Vector3 GetCurrentPosition() { return currentPosition_; };
+	Vector3 GetPreviousPosition() { return previousPosition_; };
+
+	void SetBoss(Boss* boss) { boss_ = boss; }
+
 private:
-
-
 	void WorldTransformInitalize();
 
 	void Move();
@@ -165,6 +176,12 @@ private:
 
 	bool isHit_ = false;
 
+	bool isGoal_ = false;
+
+	bool isEnemyHit_ = false;
+
+	bool isSpeedUp_ = false;
+
 	Vector3 currentPosition_;  // 現在のフレームでの位置
 	Vector3 previousPosition_; // 前のフレームでの位置
 
@@ -174,4 +191,6 @@ private:
 	float threshold_ = 0.5f;
 
 	const float M_PI = 3.14159265359f;
+
+	Boss* boss_ = nullptr;
 };
