@@ -25,8 +25,8 @@ struct ViewProjection {
 #pragma region ビュー行列の設定
 	// X,Y,Z軸回りのローカル回転角
 	Vector3 rotation_ = { 0, 0, 0 };
-	// ローカル座標
-	Vector3 translation_ = { 0, 0, -50 };
+	// ローカル座標//ｚの元の座標は-50
+	Vector3 translation_ = { 0, 0, -10 };
 #pragma endregion
 
 #pragma region 射影行列の設定
@@ -44,6 +44,9 @@ struct ViewProjection {
 	Matrix4x4 matView;
 	// 射影行列
 	Matrix4x4 matProjection;
+	//カメラ行列
+	Matrix4x4 CameraMatrix;
+
 
 	/// <summary>
 	/// 初期化

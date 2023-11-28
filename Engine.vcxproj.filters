@@ -11,24 +11,6 @@
     <Filter Include="リソース ファイル\hlsl">
       <UniqueIdentifier>{35d39956-fa52-4e51-b1d6-3e70ed846589}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Scenesソース">
-      <UniqueIdentifier>{4daa0f17-004f-4069-be16-b52ffc9211c4}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Scenesソース\Manager">
-      <UniqueIdentifier>{d7d1cf80-41a1-433d-aa34-ec9099cfbd06}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Scenesソース\State">
-      <UniqueIdentifier>{815f09b2-983d-4b5d-9155-7098162ef22a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Scenesヘッダー">
-      <UniqueIdentifier>{ce7a2ccb-3c79-4d96-9a64-5c69d1f951a3}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Scenesヘッダー\State">
-      <UniqueIdentifier>{23c14a85-fee4-41c0-bb09-43b1d5f71aa3}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Scenesヘッダー\Manager">
-      <UniqueIdentifier>{a12342b7-6a3c-4011-a2ee-bc9da68c4b95}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Engine">
       <UniqueIdentifier>{861af4d5-3558-4d04-b401-56f592d6ea2c}</UniqueIdentifier>
     </Filter>
@@ -131,6 +113,23 @@
     <Filter Include="Engine\Base\PipeLineState\MotionBlur">
       <UniqueIdentifier>{8657b7f2-469f-42b4-9ae9-1c609af69ab8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\Base\Primitive\QuadMesh">
+      <UniqueIdentifier>{54398785-6c1b-4b9a-b309-78e5cb295a8b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Base\ParticleSystem">
+      <UniqueIdentifier>{33326f37-b3c3-4c6c-b544-797017a3b31a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scenes">
+      <UniqueIdentifier>{4daa0f17-004f-4069-be16-b52ffc9211c4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scenes\Manager">
+      <UniqueIdentifier>{d7d1cf80-41a1-433d-aa34-ec9099cfbd06}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scenes\State">
+      <UniqueIdentifier>{815f09b2-983d-4b5d-9155-7098162ef22a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Base\ParticleSystem\PipeLine">
+      <UniqueIdentifier>{c1ced9c5-c3e5-421c-b6f3-82a4db9640ee}</UniqueIdentifier>
     <Filter Include="Objectヘッダー\Character\Boss">
       <UniqueIdentifier>{674156b6-632d-4799-b826-d3ad8e3b6d0c}</UniqueIdentifier>
     </Filter>
@@ -161,16 +160,16 @@
       <Filter>imgui</Filter>
     </ClCompile>
     <ClCompile Include="Scenes\Manager\GameManager.cpp">
-      <Filter>Scenesソース\Manager</Filter>
+      <Filter>Scenes\Manager</Filter>
     </ClCompile>
     <ClCompile Include="Scenes\State\GameClearState.cpp">
-      <Filter>Scenesソース\State</Filter>
+      <Filter>Scenes\State</Filter>
     </ClCompile>
     <ClCompile Include="Scenes\State\GamePlayState.cpp">
-      <Filter>Scenesソース\State</Filter>
+      <Filter>Scenes\State</Filter>
     </ClCompile>
     <ClCompile Include="Scenes\State\GameTitleState.cpp">
-      <Filter>Scenesソース\State</Filter>
+      <Filter>Scenes\State</Filter>
     </ClCompile>
     <ClCompile Include="Base\Input\Input.cpp">
       <Filter>Engine\Base\Input</Filter>
@@ -223,9 +222,6 @@
     <ClCompile Include="Base\MyEngine.cpp">
       <Filter>Engine\Base</Filter>
     </ClCompile>
-    <ClCompile Include="Base\Particle.cpp">
-      <Filter>Engine\Base</Filter>
-    </ClCompile>
     <ClCompile Include="Base\Sprite.cpp">
       <Filter>Engine\Base</Filter>
     </ClCompile>
@@ -263,12 +259,6 @@
     <ClCompile Include="GameObject\BuffItem\BuffItem.cpp">
       <Filter>Objectソース\BuffItem</Filter>
     </ClCompile>
-    <ClCompile Include="Base\Mesh.cpp">
-      <Filter>Engine\Base\Primitive\Mesh</Filter>
-    </ClCompile>
-    <ClCompile Include="Base\Sphere.cpp">
-      <Filter>Engine\Base\Primitive\Sphere</Filter>
-    </ClCompile>
     <ClCompile Include="Base\Renderer\Renderer.cpp">
       <Filter>Engine\Base\Renderer</Filter>
     </ClCompile>
@@ -284,6 +274,21 @@
     <ClCompile Include="Base\PipelineState\MotionBlur\MotionBlur.cpp">
       <Filter>Engine\Base\PipeLineState\MotionBlur</Filter>
     </ClCompile>
+    <ClCompile Include="Base\Primitive\QuadMesh\QuadMesh.cpp">
+      <Filter>Engine\Base\Primitive\QuadMesh</Filter>
+    </ClCompile>
+    <ClCompile Include="Base\Primitive\Sphere\Sphere.cpp">
+      <Filter>Engine\Base\Primitive\Sphere</Filter>
+    </ClCompile>
+    <ClCompile Include="Base\Primitive\Mesh\Mesh.cpp">
+      <Filter>Engine\Base\Primitive\Mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="Base\ParticleSystem\Particle.cpp">
+      <Filter>Engine\Base\ParticleSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="Base\ParticleSystem\Pipeline\ParticlePipeLine.cpp">
+      <Filter>Engine\Base\ParticleSystem\PipeLine</Filter>
+
     <ClCompile Include="Scenes\State\GameBossState.cpp">
       <Filter>Scenesソース\State</Filter>
     </ClCompile>
@@ -318,21 +323,6 @@
     </ClInclude>
     <ClInclude Include="externals\imgui\imstb_truetype.h">
       <Filter>imgui</Filter>
-    </ClInclude>
-    <ClInclude Include="Scenes\Manager\GameManager.h">
-      <Filter>Scenesヘッダー\Manager</Filter>
-    </ClInclude>
-    <ClInclude Include="Scenes\State\GameClearState.h">
-      <Filter>Scenesヘッダー\State</Filter>
-    </ClInclude>
-    <ClInclude Include="Scenes\State\GamePlayState.h">
-      <Filter>Scenesヘッダー\State</Filter>
-    </ClInclude>
-    <ClInclude Include="Scenes\State\GameTitleState.h">
-      <Filter>Scenesヘッダー\State</Filter>
-    </ClInclude>
-    <ClInclude Include="Scenes\State\IgameState.h">
-      <Filter>Scenesヘッダー\State</Filter>
     </ClInclude>
     <ClInclude Include="Base\Model_Struct\Material.h">
       <Filter>Engine\Base\Model_Struct</Filter>
@@ -421,9 +411,6 @@
     <ClInclude Include="Base\MyEngine.h">
       <Filter>Engine\Base</Filter>
     </ClInclude>
-    <ClInclude Include="Base\Particle.h">
-      <Filter>Engine\Base</Filter>
-    </ClInclude>
     <ClInclude Include="Base\Sprite.h">
       <Filter>Engine\Base</Filter>
     </ClInclude>
@@ -449,9 +436,6 @@
     <ClInclude Include="Base\PipelineState\IPipelineStateObject.h">
       <Filter>Engine\Base\PipeLineState</Filter>
     </ClInclude>
-    <ClInclude Include="Base\Mesh.h">
-      <Filter>Engine\Base\Primitive\Mesh</Filter>
-    </ClInclude>
     <ClInclude Include="Base\PipelineState\PipeLineTags.h">
       <Filter>Engine\Base\PipeLineState</Filter>
     </ClInclude>
@@ -467,12 +451,38 @@
     <ClInclude Include="Base\Renderer\Renderer.h">
       <Filter>Engine\Base\Renderer</Filter>
     </ClInclude>
-    <ClInclude Include="Base\Sphere.h">
-      <Filter>Engine\Base\Primitive\Sphere</Filter>
-    </ClInclude>
     <ClInclude Include="Base\PipelineState\MotionBlur\MotionBlur.h">
       <Filter>Engine\Base\PipeLineState\MotionBlur</Filter>
     </ClInclude>
+    <ClInclude Include="Base\Primitive\QuadMesh\QuadMesh.h">
+      <Filter>Engine\Base\Primitive\QuadMesh</Filter>
+    </ClInclude>
+    <ClInclude Include="Base\Primitive\Sphere\Sphere.h">
+      <Filter>Engine\Base\Primitive\Sphere</Filter>
+    </ClInclude>
+    <ClInclude Include="Base\Primitive\Mesh\Mesh.h">
+      <Filter>Engine\Base\Primitive\Mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="Base\ParticleSystem\Particle.h">
+      <Filter>Engine\Base\ParticleSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="Scenes\State\GamePlayState.h">
+      <Filter>Scenes\State</Filter>
+    </ClInclude>
+    <ClInclude Include="Scenes\State\GameClearState.h">
+      <Filter>Scenes\State</Filter>
+    </ClInclude>
+    <ClInclude Include="Scenes\State\GameTitleState.h">
+      <Filter>Scenes\State</Filter>
+    </ClInclude>
+    <ClInclude Include="Scenes\State\IgameState.h">
+      <Filter>Scenes\State</Filter>
+    </ClInclude>
+    <ClInclude Include="Scenes\Manager\GameManager.h">
+      <Filter>Scenes\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="Base\ParticleSystem\PipeLine\ParticlePipeLine.h">
+      <Filter>Engine\Base\ParticleSystem\PipeLine</Filter>
     <ClInclude Include="Scenes\State\GameBossState.h">
       <Filter>Scenesヘッダー\State</Filter>
     </ClInclude>
@@ -493,6 +503,9 @@
     <None Include="resources\hlsl\Object3d.hlsli">
       <Filter>リソース ファイル\hlsl</Filter>
     </None>
+    <None Include="resources\hlsl\Particle.hlsli">
+      <Filter>リソース ファイル\hlsl</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="resources\hlsl\Object3d.PS.hlsl">
@@ -501,13 +514,16 @@
     <FxCompile Include="resources\hlsl\Object3d.VS.hlsl">
       <Filter>リソース ファイル\hlsl</Filter>
     </FxCompile>
-    <FxCompile Include="resources\hlsl\PostProsess.hlsl">
+    <FxCompile Include="resources\hlsl\MotionBlur.PS.hlsl">
       <Filter>リソース ファイル\hlsl</Filter>
     </FxCompile>
-    <FxCompile Include="resources\hlsl\Sprite.PS.hlsl">
+    <FxCompile Include="resources\hlsl\MotionBlur.VS.hlsl">
       <Filter>リソース ファイル\hlsl</Filter>
     </FxCompile>
-    <FxCompile Include="resources\hlsl\Sprite.VS.hlsl">
+    <FxCompile Include="resources\hlsl\Particle.PS.hlsl">
+      <Filter>リソース ファイル\hlsl</Filter>
+    </FxCompile>
+    <FxCompile Include="resources\hlsl\Particle.VS.hlsl">
       <Filter>リソース ファイル\hlsl</Filter>
     </FxCompile>
   </ItemGroup>

@@ -4,12 +4,13 @@
 #include "ModelData.h"
 #include "Audio.h"
 #include "Input.h"
-#include "Mesh.h"
+#include "Base/Primitive/Mesh/Mesh.h"
 #include "Sprite.h"
 #include "Light.h"
-#include "Sphere.h"
+#include "Base/Primitive/Sphere/Sphere.h"
 #include "TextureManager.h"
 #include "Model.h"
+#include "Base/Renderer/Renderer.h"
 #define DIRECTINPUT_VERSION 0x0800//DirectInputのバージョン指定
 #include <dinput.h>
 #pragma comment(lib,"dinput8.lib")
@@ -25,6 +26,8 @@
 #include "GameObject/Skydome/Skydome.h"
 #include "GameObject/Character/Player/Player.h"
 #include "GameObject/FollowCamera/FollowCamera.h"
+
+#include "Base/ParticleSystem/Particle.h"
 
 class GamePlayState :public GameState
 {
@@ -43,6 +46,7 @@ private:
 	Light* light_ = nullptr;
 	DirectXCommon* DirectX_ = nullptr;
 	GlobalVariables* globalVariables = nullptr;
+
 	std::unique_ptr<CollisionManager> collisionManager_;
 
 	std::unique_ptr<FollowCamera> followCamera;
@@ -51,17 +55,13 @@ private:
 	std::unique_ptr<Model> groundModel_ = nullptr;
 	std::unique_ptr<Ground> ground_[2];
 	
-	//天球
-	std::unique_ptr<Skydome> skydome_;
-	std::unique_ptr<Model> skydomeModel_;
 
-	std::unique_ptr<Player> player;
-	//プレイヤーモデル
-	std::unique_ptr<Model> modelFighterBody_ = nullptr;
-	std::unique_ptr<Model> modelFighterHead_ = nullptr;
-	std::unique_ptr<Model> modelFighterL_arm_ = nullptr;
-	std::unique_ptr<Model> modelFighterR_arm_ = nullptr;
-	std::unique_ptr<Model> modelFighterWeapon = nullptr;
+
+	ViewProjection viewProjection_;
+
+	Renderer* renderer_;
+
+	std::unique_ptr<Particle> particle;
 
 	//壁
 	std::unique_ptr<Model> wallModel_ = nullptr;
@@ -82,4 +82,5 @@ private:
 	//プレイヤーモデル
 
 	float FOV=45.0f;
+
 };

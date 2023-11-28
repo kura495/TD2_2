@@ -1,56 +1,54 @@
-#include "MotionBlur.h"
+#include "ParticlePipeLine.h"
 
-void MotionBlur::Initalize()
+void ParticlePipeLine::ShaderCompile()
 {
-	IPipelineStateObject::Initalize();
-	directX_ = DirectXCommon::GetInstance();
-	CreateHeap();
-}
-
-void MotionBlur::ShaderCompile()
-{
-	vertexShaderBlob = ShaderCompiler::GetInstance()->CompileShader(L"resources/hlsl/MotionBlur.VS.hlsl", L"vs_6_0");
+	vertexShaderBlob = ShaderCompiler::GetInstance()->CompileShader(L"resources/hlsl/Particle.VS.hlsl", L"vs_6_0");
 	assert(vertexShaderBlob != nullptr);
-	pixelShaderBlob = ShaderCompiler::GetInstance()->CompileShader(L"resources/hlsl/MotionBlur.PS.hlsl", L"ps_6_0");
+	pixelShaderBlob = ShaderCompiler::GetInstance()->CompileShader(L"resources/hlsl/Particle.PS.hlsl", L"ps_6_0");
 }
 
-void MotionBlur::CreateRootSignature()
+void ParticlePipeLine::CreateRootSignature()
 {
 	D3D12_ROOT_SIGNATURE_DESC descriptionRootSignature{};
 	descriptionRootSignature.Flags = D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT;
-	D3D12_ROOT_PARAMETER rootParameters[5] = {};
+	D3D12_ROOT_PARAMETER rootParameters[4] = {};
+	
 	//色に関するルートパラメーター
 	rootParameters[0].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;//CSVで使う
 	rootParameters[0].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;//PIXELShaderで使う
 	rootParameters[0].Descriptor.ShaderRegister = 0;//レジスタ番号を0にバインド
-
-	//頂点位置に関するルートパラメーター(WorldTransform)
-	rootParameters[1].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;//CSVで使う
-	rootParameters[1].ShaderVisibility = D3D12_SHADER_VISIBILITY_VERTEX;//VERTEXShaderで使う
-	rootParameters[1].Descriptor.ShaderRegister = 0;//レジスタ番号を0にバインド
+	//インスタンシングで使う
+	//DescriptorRange
+	D3D12_DESCRIPTOR_RANGE descriptorRangeForInstancing[1] = {};
+	descriptorRangeForInstancing[0].BaseShaderRegister = 0;//0から始まる
+	descriptorRangeForInstancing[0].NumDescriptors = 1;//数は1つ
+	descriptorRangeForInstancing[0].RangeType = D3D12_DESCRIPTOR_RANGE_TYPE_SRV;//SRVを使う
+	descriptorRangeForInstancing[0].OffsetInDescriptorsFromTableStart = D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND;//Offsetを自動計算
+	//DescriptorTable
+	rootParameters[1].ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE;//DescriptorTableを使う
+	rootParameters[1].ShaderVisibility = D3D12_SHADER_VISIBILITY_VERTEX;//VertexShaderで使う
+	rootParameters[1].DescriptorTable.pDescriptorRanges = descriptorRangeForInstancing;//Tableの中身の配列を指定
+	rootParameters[1].DescriptorTable.NumDescriptorRanges = _countof(descriptorRangeForInstancing);
+	//テクスチャで使う
+	//DescriptorRange
+	D3D12_DESCRIPTOR_RANGE descriptorRangeForTexture[1] = {};
+	descriptorRangeForTexture[0].BaseShaderRegister = 0;//0から始まる
+	descriptorRangeForTexture[0].NumDescriptors = 1;//数は1つ
+	descriptorRangeForTexture[0].RangeType = D3D12_DESCRIPTOR_RANGE_TYPE_SRV;//SRVを使う
+	descriptorRangeForTexture[0].OffsetInDescriptorsFromTableStart = D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND;//Offsetを自動計算
+	//DescriptorTable
+	rootParameters[3].ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE;//DescriptorTableを使う
+	rootParameters[3].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;//PixelShaderで使う
+	rootParameters[3].DescriptorTable.pDescriptorRanges = descriptorRangeForTexture;//Tableの中身の配列を指定
+	rootParameters[3].DescriptorTable.NumDescriptorRanges = _countof(descriptorRangeForTexture);
 	//頂点位置に関するルートパラメーター(ViewProjection)
-	rootParameters[4].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;//CSVで使う
-	rootParameters[4].ShaderVisibility = D3D12_SHADER_VISIBILITY_VERTEX;//VERTEXShaderで使う
-	rootParameters[4].Descriptor.ShaderRegister = 1;//レジスタ番号を1にバインド
+	rootParameters[2].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;//CSVで使う
+	rootParameters[2].ShaderVisibility = D3D12_SHADER_VISIBILITY_VERTEX;//VERTEXShaderで使う
+	rootParameters[2].Descriptor.ShaderRegister = 1;//レジスタ番号を1にバインド
 
 	descriptionRootSignature.pParameters = rootParameters;//ルートパラメータ配列へのポインタ
 	descriptionRootSignature.NumParameters = _countof(rootParameters);//配列の長さ
-	//テクスチャで使う
-	//DescriptorRange
-	D3D12_DESCRIPTOR_RANGE descriptorRange[1] = {};
-	descriptorRange[0].BaseShaderRegister = 0;//0から始まる
-	descriptorRange[0].NumDescriptors = 1;//数は1つ
-	descriptorRange[0].RangeType = D3D12_DESCRIPTOR_RANGE_TYPE_SRV;//SRVを使う
-	descriptorRange[0].OffsetInDescriptorsFromTableStart = D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND;//Offsetを自動計算
-	//DescriptorTable
-	rootParameters[2].ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE;//DescriptorTableを使う
-	rootParameters[2].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;//PixelShaderで使う
-	rootParameters[2].DescriptorTable.pDescriptorRanges = descriptorRange;//Tableの中身の配列を指定
-	rootParameters[2].DescriptorTable.NumDescriptorRanges = _countof(descriptorRange);//Tableで利用する数
-	//ライティングのrootParameters
-	rootParameters[3].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;//CSVで使う
-	rootParameters[3].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;//PixelShaderで使う
-	rootParameters[3].Descriptor.ShaderRegister = 1;//レジスタ番号を1にバインド
+
 
 	//Samplerの設定
 	D3D12_STATIC_SAMPLER_DESC staticSamplers[1] = {};
@@ -75,7 +73,7 @@ void MotionBlur::CreateRootSignature()
 	assert(SUCCEEDED(hr));
 }
 
-void MotionBlur::CreateInputLayOut()
+void ParticlePipeLine::CreateInputLayOut()
 {
 	//頂点レイアウト
 	inputElementDescs[0].SemanticName = "POSITION";
@@ -97,26 +95,26 @@ void MotionBlur::CreateInputLayOut()
 	inputLayoutDesc.NumElements = _countof(inputElementDescs);
 }
 
-void MotionBlur::CreateBlendState()
+void ParticlePipeLine::CreateBlendState()
 {
-	//NormalBlendに設定
+	//AddBlendに設定
 	blendDesc.RenderTarget[0].RenderTargetWriteMask = D3D12_COLOR_WRITE_ENABLE_ALL;
 	blendDesc.RenderTarget[0].BlendEnable = TRUE;
 	blendDesc.RenderTarget[0].SrcBlend = D3D12_BLEND_SRC_ALPHA;
 	blendDesc.RenderTarget[0].BlendOp = D3D12_BLEND_OP_ADD;
-	blendDesc.RenderTarget[0].DestBlend = D3D12_BLEND_INV_SRC_ALPHA;
+	blendDesc.RenderTarget[0].DestBlend = D3D12_BLEND_ONE;
 	blendDesc.RenderTarget[0].SrcBlendAlpha = D3D12_BLEND_ONE;
 	blendDesc.RenderTarget[0].BlendOpAlpha = D3D12_BLEND_OP_ADD;
 	blendDesc.RenderTarget[0].DestBlendAlpha = D3D12_BLEND_ZERO;
 }
 
-void MotionBlur::CreateRasterizarState()
+void ParticlePipeLine::CreateRasterizarState()
 {
 	rasterizerDesc.CullMode = D3D12_CULL_MODE_BACK;
 	rasterizerDesc.FillMode = D3D12_FILL_MODE_SOLID;
 }
 
-void MotionBlur::CreatePipelineStateObject()
+void ParticlePipeLine::CreatePipelineStateObject()
 {
 	D3D12_GRAPHICS_PIPELINE_STATE_DESC graphicsPipelineStateDesc{};
 	graphicsPipelineStateDesc.pRootSignature = PipelineStateObject_.rootSignature.Get();
@@ -137,7 +135,7 @@ void MotionBlur::CreatePipelineStateObject()
 	//Depthの機能を有効化する
 	depthStencilDesc.DepthEnable = true;
 	//書き込み
-	depthStencilDesc.DepthWriteMask = D3D12_DEPTH_WRITE_MASK_ALL;
+	depthStencilDesc.DepthWriteMask = D3D12_DEPTH_WRITE_MASK_ZERO;
 	//比較関数はLessEqual 近ければ描画される
 	depthStencilDesc.DepthFunc = D3D12_COMPARISON_FUNC_LESS_EQUAL;
 	//DepthStencilの設定
@@ -147,44 +145,3 @@ void MotionBlur::CreatePipelineStateObject()
 	hr = DirectXCommon::GetInstance()->GetDevice()->CreateGraphicsPipelineState(&graphicsPipelineStateDesc, IID_PPV_ARGS(&PipelineStateObject_.graphicsPipelineState));
 	assert(SUCCEEDED(hr));
 }
-
-void MotionBlur::CreateHeap()
-{
-	//作成済みのヒープ情報でもう一つ作る
-	D3D12_DESCRIPTOR_HEAP_DESC heapDesc = directX_->GetrtvDescFormHeap();
-	//使っているバックバッファの情報を利用
-	Microsoft::WRL::ComPtr<ID3D12Resource> bbuff = directX_->GetswapChainResources();
-	D3D12_RESOURCE_DESC resDesc = directX_->GetswapChainResources()->GetDesc();
-	D3D12_HEAP_PROPERTIES heapProp = CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_DEFAULT);
-
-	float clsClr[4] = {0.5f,0.5f,0.5f,1.0f};
-
-	D3D12_CLEAR_VALUE clearValue = CD3DX12_CLEAR_VALUE(DXGI_FORMAT_R8G8B8A8_UNORM, clsClr);
-
-	hr = directX_->GetDevice()->CreateCommittedResource(&heapProp,D3D12_HEAP_FLAG_NONE,&resDesc,D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE,&clearValue,IID_PPV_ARGS(PipelineStateObject_._peraResource.ReleaseAndGetAddressOf()));
-	//RTVヒープを作る
-	heapDesc.NumDescriptors = 1;
-	hr = directX_->GetDevice()->CreateDescriptorHeap(&heapDesc, IID_PPV_ARGS(PipelineStateObject_._peraRTVHeap.ReleaseAndGetAddressOf()));
-
-	D3D12_RENDER_TARGET_VIEW_DESC rtvDesc = {};
-	rtvDesc.ViewDimension = D3D12_RTV_DIMENSION_TEXTURE2D;
-	rtvDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
-
-	//レンダーターゲットビューを作る
-	directX_->GetDevice()->CreateRenderTargetView(PipelineStateObject_._peraResource.Get(),&rtvDesc, PipelineStateObject_._peraRTVHeap->GetCPUDescriptorHandleForHeapStart());
-
-	//SRVヒープを作る
-	heapDesc.NumDescriptors = 1;
-	heapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV;
-	heapDesc.Flags = D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE;
-
-	hr = directX_->GetDevice()->CreateDescriptorHeap(&heapDesc,IID_PPV_ARGS(PipelineStateObject_._peraSRVHeap.ReleaseAndGetAddressOf()));
-	D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc = {};
-	srvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;
-	srvDesc.Format = rtvDesc.Format;
-	srvDesc.Texture2D.MipLevels = 1;
-	srvDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
-	//シェーダーリソースビューを作る
-	directX_->GetDevice()->CreateShaderResourceView(PipelineStateObject_._peraResource.Get(),&srvDesc, PipelineStateObject_._peraSRVHeap->GetCPUDescriptorHandleForHeapStart());
-}
-

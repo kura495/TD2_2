@@ -94,7 +94,6 @@ void DirectXCommon::PreView()
 	commandList->SetDescriptorHeaps(1, descriptorHeaps);
 	commandList->RSSetViewports(1, &viewport);
 	commandList->RSSetScissorRects(1, &scissorRect);
-	//TODO : 外に出したい
 	
 }
 

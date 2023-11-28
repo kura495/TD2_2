@@ -2,7 +2,7 @@
 #include"WinApp.h"
 #include"DirectXCommon.h"
 #include"MyEngine.h"
-#include"Mesh.h"
+#include"Base/Primitive/Mesh/Mesh.h"
 #include"TextureManager.h"
 #include"Light.h"
 #include"ImGuiManager.h"
@@ -39,7 +39,7 @@ private:
 	DirectXCommon* directX = nullptr;
 	TextureManager* textureManager = nullptr;
 
-	std::unique_ptr<Renderer> renderer_ = nullptr;
+	Renderer* renderer_ = nullptr;
 
 	ImGuiManager* imGuiManager = nullptr;
 	Input* input = nullptr;

@@ -15,7 +15,7 @@ void Model::Initialize(const std::string& directoryPath, const std::string& file
 	materialResource.Get()->Map(0, nullptr, reinterpret_cast<void**>(&materialData));
 
 	
-	materialData->uvTransform = MakeIdentity4x4();
+	materialData->uvTransform = CreateIdentity4x4();
 }
 
 void Model::Draw(const WorldTransform& transform, const ViewProjection& viewProjection)
@@ -138,7 +138,8 @@ ModelData Model::LoadObjFile(const std::string& directoryPath, const std::string
 			modelData.material = LoadMaterialTemplateFile(directoryPath, materialFilename);
 		}
 	}
-	modelData.TextureIndex = textureManager_->LoadTexture(modelData.material.textureFilePath);
+	//TODO
+	//modelData.TextureIndex = textureManager_->LoadTexture(modelData.material.textureFilePath);
 	//頂点リソースを作る
 	vertexResource = directX_->CreateBufferResource(sizeof(VertexData) * modelData.vertices.size());
 	vertexBufferView.BufferLocation = vertexResource.Get()->GetGPUVirtualAddress();

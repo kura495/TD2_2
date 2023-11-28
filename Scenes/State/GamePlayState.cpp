@@ -6,12 +6,11 @@ void GamePlayState::Initialize()
 	audio = Audio::GetInstance();
 	textureManager_ = TextureManager::GetInstance();
 	light_ = Light::GetInstance();
-
+	light_->Initialize();
 	DirectX_ = DirectXCommon::GetInstance();
 
-	collisionManager_ = std::make_unique<CollisionManager>();
-
 	viewProjection_.Initialize();
+
 	worldTransform_.Initialize();
 
 	skydomeModel_.reset(Model::CreateModelFromObj("resources/skydome", "skydome.obj"));
@@ -204,8 +203,11 @@ void GamePlayState::Initialize()
 	std::vector<Model*> buffItemModels = {
 		buffItemModel_.get() };
 
-	buffItemWorldTransform_[0].Initialize();
+	renderer_ = Renderer::GetInstance();
 
+	particle = std::make_unique<Particle>();
+	particle->Initalize(10);
+  
 	//ステージ1枚目
 	buffItemWorldTransform_[0].translation_ = { -55.0f,3.0f,55.0f };
 	buffItemWorldTransform_[1].translation_ = { 43.0f,3.0f,84.0f };
@@ -289,6 +291,10 @@ void GamePlayState::Initialize()
 
 void GamePlayState::Update()
 {
+
+	viewProjection_.UpdateMatrix();
+	particle->Update();
+
 	for (int i = 0; i < 2; i++)
 	{
 		ground_[i]->Update();
@@ -371,7 +377,7 @@ void GamePlayState::Update()
 void GamePlayState::Draw()
 {
 	//3Dモデル描画ここから
-	
+
 	for (int i = 0; i < 2; i++)
 	{
 		ground_[i]->Draw(viewProjection_);
@@ -393,6 +399,9 @@ void GamePlayState::Draw()
 
 	//3Dモデル描画ここまで	
 
+  	particle->PreDraw();
+	particle->Draw(viewProjection_);
+  
 	//Sprite描画ここから
 
 
