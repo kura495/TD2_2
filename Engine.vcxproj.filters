@@ -137,6 +137,12 @@
     <Filter Include="Objectソース\Character\Boss">
       <UniqueIdentifier>{d67b46bf-145e-4dc7-8460-19585a190ca8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\Base\ParticleSystem">
+      <UniqueIdentifier>{34f478f3-57a3-4025-a422-580d5aa8a02a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Base\ParticleSystem\PipeLine">
+      <UniqueIdentifier>{8d17b90d-e4c7-4b3d-af7b-49fdf10bbef5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="externals\imgui\imgui.cpp">
@@ -223,9 +229,6 @@
     <ClCompile Include="Base\MyEngine.cpp">
       <Filter>Engine\Base</Filter>
     </ClCompile>
-    <ClCompile Include="Base\Particle.cpp">
-      <Filter>Engine\Base</Filter>
-    </ClCompile>
     <ClCompile Include="Base\Sprite.cpp">
       <Filter>Engine\Base</Filter>
     </ClCompile>
@@ -292,6 +295,12 @@
     </ClCompile>
     <ClCompile Include="Scenes\State\GameOverState.cpp">
       <Filter>Scenesソース\State</Filter>
+    </ClCompile>
+    <ClCompile Include="Base\ParticleSystem\Particle.cpp">
+      <Filter>Engine\Base\ParticleSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="Base\ParticleSystem\PipeLine\ParticlePipeLine.cpp">
+      <Filter>Engine\Base\ParticleSystem\PipeLine</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -421,9 +430,6 @@
     <ClInclude Include="Base\MyEngine.h">
       <Filter>Engine\Base</Filter>
     </ClInclude>
-    <ClInclude Include="Base\Particle.h">
-      <Filter>Engine\Base</Filter>
-    </ClInclude>
     <ClInclude Include="Base\Sprite.h">
       <Filter>Engine\Base</Filter>
     </ClInclude>
@@ -482,6 +488,12 @@
     <ClInclude Include="resource.h" />
     <ClInclude Include="Scenes\State\GameOverState.h">
       <Filter>Scenesヘッダー\State</Filter>
+    </ClInclude>
+    <ClInclude Include="Base\ParticleSystem\Particle.h">
+      <Filter>Engine\Base\ParticleSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="Base\ParticleSystem\PipeLine\ParticlePipeLine.h">
+      <Filter>Engine\Base\ParticleSystem\PipeLine</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
