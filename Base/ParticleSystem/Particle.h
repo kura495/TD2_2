@@ -14,7 +14,7 @@
 #include "PipeLine/ParticlePipeLine.h"
 
 struct ParticleWVPData {
-	WorldTransform matWorld; // ローカル → ワールド
+	Matrix4x4 matWorld; // ローカル → ワールド
 	Vector3 velocity;
 };
 
