@@ -385,7 +385,7 @@ void Player::BehaviorDashUpdate()
 		Matrix4x4 rotateMatrix = MakeRotateMatrix(viewProjection_->rotation_);
 		//移動ベクトルをカメラの角度だけ回転
 		move = TransformNormal(workDash_.move_, rotateMatrix);
-		workJump_.velocity_ = move;
+		workJump_.velocity_ = Normalize(move);
 		//正規化をして斜めの移動量を正しくする
 		move.x = Normalize(move).x * workDash_.dashSpeed_;
 		move.y = Normalize(move).y * workDash_.dashSpeed_;
@@ -416,9 +416,9 @@ void Player::BehaviorJumpInitialize() {
 	isHit_ = false;
 
 	//workJump_.velocity_ = { (float)joyState.Gamepad.sThumbLX / (SHRT_MAX * 2), workJump_.kJumpFirstSpeed_, (float)joyState.Gamepad.sThumbLY / (SHRT_MAX * 2) };
-	Matrix4x4 rotateMatrix = MakeRotateMatrix(viewProjection_->rotation_);
+	//Matrix4x4 rotateMatrix = MakeRotateMatrix(viewProjection_->rotation_);
 
-	workJump_.velocity_ = TransformNormal(workJump_.velocity_, rotateMatrix);
+	//workJump_.velocity_ = TransformNormal(workJump_.velocity_, rotateMatrix);
 	workJump_.velocity_ = Normalize(workJump_.velocity_);
 	workJump_.velocity_.y = workJump_.kJumpFirstSpeed_;
 	workJump_.velocity_.x *= workJump_.kSpped_;
