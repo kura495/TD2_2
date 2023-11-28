@@ -16,6 +16,7 @@ enum class Behavior {
 	kRoot,//通常
 	kDash,//ダッシュ中
 	kDrift, // ドリフト中
+	kJump, // ジャンプ
 };
 //ダッシュ用ワーク
 struct WorkDash {
@@ -51,6 +52,13 @@ struct WorkDrift {
 
 const uint32_t behaviorDriftTime_ = 60;
 const uint32_t behaviorDriftChargeTime_ = 3000;
+
+struct WorkJump {
+	Vector3 velocity_;
+	float kJumpFirstSpeed_ = 2.0f;
+	float kGravityAcceleration_ = 0.05f;
+	float kSpped_ = 1.0f;
+};
 
 class Player : public ICharacter, public BoxCollider
 {
@@ -107,10 +115,13 @@ private:
 	// ドリフト
 	void BehaviorDriftInitialize();
 	void BehaviorDriftUpdate();
-
+	// ジャンプ
+	void BehaviorJumpInitialize();
+	void BehaviorJumpUpdate();
 
 	WorkDash workDash_;
 	WorkDrift workDrift_;
+	WorkJump workJump_;
 	//ダッシュの時間
 	const uint32_t behaviorDashTime = 60;
 

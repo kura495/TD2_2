@@ -22,6 +22,8 @@ public:
 
 	void SetScale(Vector3 scale);
 
+	void SetPosition(Vector3 position);
+
 private:
 
 };

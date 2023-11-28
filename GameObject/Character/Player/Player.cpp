@@ -49,6 +49,22 @@ void Player::Update()
 		isStickLeft_ = false;
 	}
 
+	if (joyState.Gamepad.wButtons & XINPUT_GAMEPAD_B && isHit_)
+	{
+		behaviorRequest_ = Behavior::kJump;
+	}
+
+	if (!isHit_ && behavior_ != Behavior::kJump) {
+		worldTransform_.translation_ = Add(worldTransform_.translation_, workJump_.velocity_);
+
+		const float kGravityAcceleration_ = 0.05f;
+
+		Vector3 accelerationVector_ = { 0.0f,-kGravityAcceleration_,0.0f };
+
+		workJump_.velocity_ = Add(workJump_.velocity_, accelerationVector_);
+	}
+
+
 	if (behaviorRequest_) {
 		//ふるまいの変更
 		behavior_ = behaviorRequest_.value();
@@ -64,6 +80,10 @@ void Player::Update()
 			break;
 		case Behavior::kDrift:
 			BehaviorDriftInitialize();
+			break;
+		case Behavior::kJump:
+			BehaviorJumpInitialize();
+			break;
 		}
 		behaviorRequest_ = std::nullopt;
 	}
@@ -78,7 +98,10 @@ void Player::Update()
 		break;
 	case Behavior::kDrift:
 		BehaviorDriftUpdate();
-
+		break;
+	case Behavior::kJump:
+		BehaviorJumpUpdate();
+		break;
 	}
 
 	ImGui::Begin("a");
@@ -106,6 +129,8 @@ void Player::Update()
 	BoxCollider::Update(&worldTransform_);
 
 	joyStatePre = joyState;
+
+	isHit_ = false;
 }
 
 void Player::Draw(const ViewProjection& viewProjection)
@@ -129,13 +154,16 @@ void Player::OnCollision(Collider* collider)
 	}
 	else if (collider->GetcollitionAttribute() == kCollitionAttributeGround) {
 		IsOnGraund = true;
+		isHit_ = true;
+		workJump_.velocity_.y = 0.0f;
 		ImGui::Begin("Ground");
 		ImGui::Text("Hit");
 		ImGui::End();
 	}
 	else if (collider->GetcollitionAttribute() == kCollitionAttributeWall) {
 		worldTransform_.translation_ = previousPosition_;
-
+		isHit_ = true;
+		workJump_.velocity_.y = 0.0f;
 		ImGui::Begin("Wall");
 		ImGui::Text("Hit");
 		ImGui::End();
@@ -223,6 +251,7 @@ void Player::BehaviorRootInit()
 	InitializeFloatingGimmick();
 	worldTransformL_arm_.rotation_.x = 0.0f;
 	worldTransformR_arm_.rotation_.x = 0.0f;
+	workJump_.kSpped_ = 1.0f;
 }
 
 void Player::BehaviorRootUpdate()
@@ -269,21 +298,17 @@ void Player::BehaviorDashUpdate()
 		//回転行列を作る
 		Matrix4x4 rotateMatrix = MakeRotateMatrix(viewProjection_->rotation_);
 		//移動ベクトルをカメラの角度だけ回転
-		workDash_.move_ = TransformNormal(workDash_.move_, rotateMatrix);
-		Vector3 rotate = Normalize(workDash_.move_);
+		Vector3 moveQ = TransformNormal(workDash_.move_, rotateMatrix);
+		Vector3 rotate = Normalize(moveQ);
 		Vector3 cross = Normalize(Cross({ 0.0f,0.0f,1.0f }, rotate));
 		float dot = Dot({ 0.0f,0.0f,1.0f }, rotate);
 		moveQuaternion_ = MakeRotateAxisAngleQuaternion(cross, std::acos(dot));
-		/*worldTransform_.quaternion.x = workDash_.quaternionPre_.x + moveQuaternion_.x;
-		worldTransform_.quaternion.y = workDash_.quaternionPre_.y + moveQuaternion_.y;
-		worldTransform_.quaternion.z = workDash_.quaternionPre_.z + moveQuaternion_.z;*/
 
 		if (workDash_.isDash) {
 			Vector3 move = workDash_.movePre_;
-			rotateMatrix = MakeRotateMatrix(viewProjection_->rotation_);
+			//rotateMatrix = MakeRotateMatrix(viewProjection_->rotation_);
 			//移動ベクトルをカメラの角度だけ回転
-			move = TransformNormal(move, rotateMatrix);
-			//プレイヤーの正面方向に移動するようにする
+			//move = TransformNormal(move, rotateMatrix);
 			//回転行列を作る
 			rotateMatrix = MakeRotateMatrix(worldTransform_.quaternion);
 			//移動ベクトルをカメラの角度だけ回転
@@ -318,8 +343,13 @@ void Player::BehaviorDashUpdate()
 
 	}
 	else {
+		workJump_.kSpped_ = workDash_.dashSpeed_;
 		Vector3 move = workDash_.move_;
 		workDash_.movePre_ = workDash_.move_;
+		//回転行列を作る
+		Matrix4x4 rotateMatrix = MakeRotateMatrix(viewProjection_->rotation_);
+		//移動ベクトルをカメラの角度だけ回転
+		move = TransformNormal(workDash_.move_, rotateMatrix);
 		//正規化をして斜めの移動量を正しくする
 		move.x = Normalize(move).x * workDash_.dashSpeed_;
 		move.y = Normalize(move).y * workDash_.dashSpeed_;
@@ -463,6 +493,33 @@ void Player::BehaviorDriftUpdate() {
 
 }
 
+void Player::BehaviorJumpInitialize() {
+	isHit_ = false;
+
+	workJump_.velocity_ = { (float)joyState.Gamepad.sThumbLX / (SHRT_MAX * 2), workJump_.kJumpFirstSpeed_, (float)joyState.Gamepad.sThumbLY / (SHRT_MAX * 2) };
+	Matrix4x4 rotateMatrix = MakeRotateMatrix(viewProjection_->rotation_);
+
+	workJump_.velocity_ = TransformNormal(workJump_.velocity_, rotateMatrix);
+	workJump_.velocity_ = Normalize(workJump_.velocity_);
+	workJump_.velocity_.x *= workJump_.kSpped_;
+	workJump_.velocity_.z *= workJump_.kSpped_;
+}
+
+void Player::BehaviorJumpUpdate() {
+	worldTransform_.translation_ = Add(worldTransform_.translation_, workJump_.velocity_);
+
+	const float kGravityAcceleration_ = 0.05f;
+
+	Vector3 accelerationVector_ = { 0.0f,-kGravityAcceleration_,0.0f };
+
+	workJump_.velocity_ = Add(workJump_.velocity_, accelerationVector_);
+
+	if (isHit_)
+	{
+		workJump_.velocity_.y = 0.0f;
+		behaviorRequest_ = Behavior::kRoot;
+	}
+}
 
 void Player::InitializeFloatingGimmick() {
 	floatingParameter_ = 0.0f;
