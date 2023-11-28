@@ -4,7 +4,7 @@
 #include <wrl.h>
 #include <array>
 	// デスクリプターの数
-	static const size_t kMaxTexture = 256;
+	static const size_t kMaxTexture = 128;
 class TextureManager
 {
 public:

@@ -14,9 +14,7 @@ void Particle::Initalize(int particleVolume)
 	modelData.vertices.push_back({ .position = {1.0f,-1.0f,0.0f,1.0f},.texcoord = {1.0f,1.0f},.normal = {0.0f,0.0f,1.0f} });//右下
 	modelData.material.textureFilePath = "resources/fence.png";
 	int Texture = textureManager_->LoadTexture(modelData.material.textureFilePath);
-	int Texture2 = textureManager_->LoadTexture(modelData.material.textureFilePath);
 	modelData.TextureIndex = Texture;
-	Texture = Texture2;
 	particleVolume_ = particleVolume;
 
 	CreateResources();
