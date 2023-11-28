@@ -14,7 +14,7 @@
 #include "PipeLine/ParticlePipeLine.h"
 
 struct ParticleWVPData {
-	Matrix4x4 matWorld; // ローカル → ワールド
+	WorldTransform matWorld; // ローカル → ワールド
 	Vector3 velocity;
 };
 
@@ -69,6 +69,7 @@ private:
 
 	const float kDeltaTime = 1.0f / 60.0f;
 
-
+	//ランダム
+	ParticleWVPData MakeNewParticle(std::mt19937& randomEngine);
 };
 
