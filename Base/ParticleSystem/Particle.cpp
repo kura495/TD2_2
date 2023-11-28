@@ -12,7 +12,7 @@ void Particle::Initalize(int particleVolume)
 	modelData.vertices.push_back({ .position = {-1.0f,-1.0f,0.0f,1.0f},  .texcoord = {0.0f,1.0f},.normal = {0.0f,0.0f,1.0f} });//左下
 	modelData.vertices.push_back({ .position = {1.0f,1.0f,0.0f,1.0f}, .texcoord = {1.0f,0.0f},.normal = {0.0f,0.0f,1.0f} });//右上
 	modelData.vertices.push_back({ .position = {1.0f,-1.0f,0.0f,1.0f},.texcoord = {1.0f,1.0f},.normal = {0.0f,0.0f,1.0f} });//右下
-	modelData.material.textureFilePath = "resources/uvChecker.png";
+	modelData.material.textureFilePath = "resources/circle.png";
 	int Texture = textureManager_->LoadTexture(modelData.material.textureFilePath);
 	modelData.TextureIndex = Texture;
 	particleVolume_ = particleVolume;
@@ -27,7 +27,6 @@ void Particle::Initalize(int particleVolume)
 	for (uint32_t Volume_i = 0; Volume_i < kNumMaxInstance; Volume_i++) {
 		particles[Volume_i] = MakeNewParticle(ranndomEngine);
 	}
-	numInstance = particleVolume_;
 
 	materialData->enableLighting = false;
 	materialData->color = { 1.0f,1.0f,1.0f,1.0f };
@@ -48,7 +47,9 @@ void Particle::Update()
 		}
 		Vector3 velcity = particles[Volume_i].velocity * kDeltaTime;
 		particles[Volume_i].translate += velcity;
-		particles[Volume_i].currentTime += kDeltaTime;
+		float alpha = 1.0f - (particles[Volume_i].currentTime / particles[Volume_i].lifeTime);
+		particles[Volume_i].color.w = alpha;
+		//particles[Volume_i].currentTime += kDeltaTime;
 		particles[Volume_i].matWorld = MakeAffineMatrix({1.0f,1.0f,1.0f}, Vector3{0.0f,0.0f,0.0f}, particles[Volume_i].translate);
 		++numInstance;
 	}
@@ -62,6 +63,21 @@ void Particle::PreDraw()
 
 void Particle::Draw(const ViewProjection& viewProjection)
 {
+	ImGui::Begin("Par");
+	ImGui::DragFloat3("Pos",&viewProjection.translation_.x,0.0f,10.0f);
+	ImGui::DragFloat3("Rot",&viewProjection.rotation_.x,0.0f,10.0f);
+	ImGui::End();
+	Matrix4x4 billboardMatrix = MakeAffineMatrix({1.0f,1.0f,1.0f}, viewProjection.rotation_, viewProjection.translation_);
+	billboardMatrix.m[3][0] = 0.0f;
+	billboardMatrix.m[3][1] = 0.0f;
+	billboardMatrix.m[3][2] = 0.0f;
+	for (uint32_t Volume_i = 0; Volume_i < kNumMaxInstance; Volume_i++) {
+		if (particles[Volume_i].lifeTime <= particles[Volume_i].currentTime) {
+			continue;
+		}
+		particles[Volume_i].matWorld = Multiply(particles[Volume_i].matWorld, billboardMatrix);
+	}
+
 	directX_->GetcommandList()->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
 	//頂点

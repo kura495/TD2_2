@@ -1,5 +1,6 @@
 #pragma once
 #include <random>
+#include <numbers>
 
 #include "DirectXCommon.h"
 #include "TextureManager.h"
