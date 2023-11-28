@@ -290,6 +290,9 @@
     <ClCompile Include="GameObject\Character\Boss\Boss.cpp">
       <Filter>Objectソース\Character\Boss</Filter>
     </ClCompile>
+    <ClCompile Include="Scenes\State\GameOverState.cpp">
+      <Filter>Scenesソース\State</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="externals\imgui\imconfig.h">
@@ -476,6 +479,10 @@
     <ClInclude Include="GameObject\Character\Boss\Boss.h">
       <Filter>Objectヘッダー\Character\Boss</Filter>
     </ClInclude>
+    <ClInclude Include="resource.h" />
+    <ClInclude Include="Scenes\State\GameOverState.h">
+      <Filter>Scenesヘッダー\State</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="externals\imgui\LICENSE.txt">
@@ -503,5 +510,10 @@
     <FxCompile Include="resources\hlsl\Sprite.VS.hlsl">
       <Filter>リソース ファイル\hlsl</Filter>
     </FxCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Engine.rc">
+      <Filter>リソース ファイル</Filter>
+    </ResourceCompile>
   </ItemGroup>
 </Project>

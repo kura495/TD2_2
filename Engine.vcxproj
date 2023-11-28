@@ -152,6 +152,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatFormVersion)\x64\dxil.dll"</Command>
     <ClCompile Include="Scenes\Manager\GameManager.cpp" />
     <ClCompile Include="Scenes\State\GameBossState.cpp" />
     <ClCompile Include="Scenes\State\GameClearState.cpp" />
+    <ClCompile Include="Scenes\State\GameOverState.cpp" />
     <ClCompile Include="Scenes\State\GamePlayState.cpp" />
     <ClCompile Include="Scenes\State\GameTitleState.cpp" />
   </ItemGroup>
@@ -216,9 +217,11 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatFormVersion)\x64\dxil.dll"</Command>
     <ClInclude Include="GameObject\Ground\Ground.h" />
     <ClInclude Include="GameObject\Skydome\Skydome.h" />
     <ClInclude Include="GameObject\Wall\Wall.h" />
+    <ClInclude Include="resource.h" />
     <ClInclude Include="Scenes\Manager\GameManager.h" />
     <ClInclude Include="Scenes\State\GameBossState.h" />
     <ClInclude Include="Scenes\State\GameClearState.h" />
+    <ClInclude Include="Scenes\State\GameOverState.h" />
     <ClInclude Include="Scenes\State\GamePlayState.h" />
     <ClInclude Include="Scenes\State\GameTitleState.h" />
     <ClInclude Include="Scenes\State\IgameState.h" />
@@ -258,6 +261,9 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatFormVersion)\x64\dxil.dll"</Command>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </FxCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Engine.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

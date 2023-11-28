@@ -40,6 +40,7 @@ void GameManager::Initialize()
 	state[PLAY] = std::make_unique<GamePlayState>();
 	state[BOSS] = std::make_unique<GameBossState>();
 	state[CLEAR] = std::make_unique<GameClearState>();
+	state[OVER] = std::make_unique<GameOverState>();
 	state[TITLE]->Initialize();
 	currentSceneNum_ = TITLE;
 	/*state[Boss]->Initialize();*/

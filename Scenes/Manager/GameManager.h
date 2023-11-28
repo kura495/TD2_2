@@ -10,6 +10,7 @@
 #include"Scenes/State/GamePlayState.h"
 #include"Scenes/State/GameBossState.h"
 #include"Scenes/State/GameClearState.h"
+#include"Scenes/State/GameOverState.h"
 #include"Scenes/State/IgameState.h"
 #include"Audio.h"
 #include"Input.h"
@@ -24,6 +25,7 @@ public:
 		PLAY,
 		BOSS,
 		CLEAR,
+		OVER,
 		GameStateMax
 	};
 
