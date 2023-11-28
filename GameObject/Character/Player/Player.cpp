@@ -105,9 +105,6 @@ void Player::Update()
 		break;
 	}
 
-	ImGui::Begin("a");
-	ImGui::Text("movePre %f %f %f", workDrift_.movePre_.x, workDrift_.movePre_.y, workDrift_.movePre_.z);
-	ImGui::End();
 
 	PullDown();
 
@@ -196,6 +193,7 @@ void Player::OnCollision(Collider* collider)
 	else {
 		return;
 	}
+#endif
 }
 
 void Player::SetParent(const WorldTransform* parent)
@@ -435,10 +433,6 @@ void Player::BehaviorDriftUpdate() {
 		move.y *= workDrift_.kSpeed_;
 		move.z *= workDrift_.kSpeed_;
 
-		ImGui::Begin("DriftCharge");
-		ImGui::Text("move %f %f %f", move.x, move.y, move.z);
-		ImGui::End();
-
 		workDrift_.kSpeed_ -= 0.01f;
 		if (workDrift_.kSpeed_ < 0.0f) {
 			workDrift_.kSpeed_ = 0.0f;
@@ -467,9 +461,7 @@ void Player::BehaviorDriftUpdate() {
 	{
 		workDrift_.isStickLeftPre_ = false;
 		workDrift_.isStickRightPre_ = false;
-		ImGui::Begin("Drift");
-		ImGui::Text("pa %o", workDrift_.driftParameter_);
-		ImGui::End();
+		
 		workDrift_.kSpeed_ = 1.5f;
 		workDrift_.driftParameter_++;
 		//移動量
@@ -518,6 +510,7 @@ void Player::BehaviorJumpInitialize() {
 
 	workJump_.velocity_ = TransformNormal(workJump_.velocity_, rotateMatrix);
 	workJump_.velocity_ = Normalize(workJump_.velocity_);
+	workJump_.velocity_.y = workJump_.kJumpFirstSpeed_;
 	workJump_.velocity_.x *= workJump_.kSpped_;
 	workJump_.velocity_.z *= workJump_.kSpped_;
 }
