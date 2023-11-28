@@ -2,6 +2,7 @@
 #include "Base/Model.h"
 #include "Base/WorldTransform.h"
 #include "Base/ViewProjection.h"
+#include "Base/Audio/Audio.h"
 
 #include "GameObject/Character/ICharacter/ICharacter.h"
 #include "GameObject/Character/Player/Player.h"
@@ -27,6 +28,10 @@ public:
     void SetIsHit(bool isHit) { isHit_ = isHit; }
 
 private:
+	Audio* audio_ = nullptr;
+
+	uint32_t soundHandle_;
+
 	bool isHit_ = false;
 };
 
