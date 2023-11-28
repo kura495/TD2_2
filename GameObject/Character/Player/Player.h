@@ -28,7 +28,7 @@ struct WorkDash {
 	uint32_t chargeParameter_ = 0;
 	uint32_t coolTime_ = 0;
 	//ダッシュ用スピード
-	float dashSpeed_ = 5.0f;
+	float dashSpeed_ = 2.0f;
 	float dashPower_ = 0.0f;
 	float kSpeed_ = 1.0f;
 	Vector3 move_;
