@@ -48,6 +48,7 @@ void Particle::Update()
 		}
 		Vector3 velcity = particles[Volume_i].velocity * kDeltaTime;
 		particles[Volume_i].translate += velcity;
+		particles[Volume_i].currentTime += kDeltaTime;
 		particles[Volume_i].matWorld = MakeAffineMatrix({1.0f,1.0f,1.0f}, Vector3{0.0f,0.0f,0.0f}, particles[Volume_i].translate);
 		++numInstance;
 	}
