@@ -28,7 +28,7 @@ struct WorkDash {
 	uint32_t chargeParameter_ = 0;
 	uint32_t coolTime_ = 0;
 	//ダッシュ用スピード
-	float dashSpeed_ = 10.0f;
+	float dashSpeed_ = 5.0f;
 	float dashPower_ = 0.0f;
 	float kSpeed_ = 1.0f;
 	Vector3 move_;
@@ -57,7 +57,7 @@ const uint32_t behaviorDriftTime_ = 60;
 const uint32_t behaviorDriftChargeTime_ = 3000;
 
 struct WorkJump {
-	Vector3 velocity_;
+	Vector3 velocity_ = {0.0f, 0.0f, 0.0f};
 	float kJumpFirstSpeed_ = 2.0f;
 	float kGravityAcceleration_ = 0.05f;
 	float kSpped_ = 1.0f;
@@ -121,9 +121,7 @@ private:
 	//ダッシュ
 	void BehaviorDashInit();
 	void BehaviorDashUpdate();
-	// ドリフト
-	void BehaviorDriftInitialize();
-	void BehaviorDriftUpdate();
+	
 	// ジャンプ
 	void BehaviorJumpInitialize();
 	void BehaviorJumpUpdate();
