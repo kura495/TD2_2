@@ -61,7 +61,7 @@ private:
 	Vector3 currentPosition_;  // 現在のフレームでの位置
 	Vector3 previousPosition_; // 前のフレームでの位置
 
-	float speed = 0.5f;
+	float speed_ = 0.5f;
 
 	bool isHit_ = false;
 
@@ -72,5 +72,15 @@ private:
 	Player* player_ = nullptr;
 
 	int underAttackTimer = 60;
+
+	Quaternion moveQuaternion_ = { 0.0f,0.0f,0.0f,1.0f };
+
+	int changeBehaviorTimer_ = 120;
+
+	int chargeTimer_ = 120;
+
+	int attackTimer_ = 120;
+
+	Vector3 velocity_;
 };
 

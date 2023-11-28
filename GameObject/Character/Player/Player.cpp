@@ -201,9 +201,6 @@ void Player::OnCollision(Collider* collider)
 			worldTransform_.translation_.y = 0.0f;
 		}
 		
-
-		
-		
 		isHit_ = true;
 
 		behaviorRequest_ = Behavior::kRoot;

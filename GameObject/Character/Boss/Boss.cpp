@@ -80,6 +80,10 @@ void Boss::Update()
 		isDead_ = true;
 	}
 
+	worldTransform_.quaternion = Slerp(worldTransform_.quaternion, moveQuaternion_, 0.3f);
+
+	worldTransform_.quaternion = Normalize(worldTransform_.quaternion);
+
 	ICharacter::Update();
 	BoxCollider::Update(&worldTransform_);
 }
@@ -110,20 +114,73 @@ void Boss::SetPosition(Vector3 position)
 
 void Boss::BehaviorRootInitialize()
 {
+	changeBehaviorTimer_ = 120;
 }
 
 void Boss::BehaviorRootUpdate()
 {
-	
+	changeBehaviorTimer_--;
+
+	Vector3 currentPlayerPosition = player_->GetCurrentPosition();
+
+	Vector3 velocity = Subtract(currentPlayerPosition, currentPosition_);
+
+	velocity = Normalize(velocity);
+	Vector3 cross = Normalize(Cross({ 0.0f,0.0f,1.0f }, velocity));
+	float dot = Dot({ 0.0f,0.0f,1.0f },velocity);
+
+	velocity.x *= 0.3f;
+	velocity.y *= 0.3f;
+	velocity.z *= 0.3f;
+
+	worldTransform_.translation_ = Add(worldTransform_.translation_, velocity);
+
+	moveQuaternion_ = MakeRotateAxisAngleQuaternion(cross, std::acos(dot));
+
+	if (changeBehaviorTimer_ < 0)
+	{
+		behaviorRequest_ = BossBehavior::kAttack;
+	}
 }
 
 void Boss::BehaviorAttackInitialize()
 {
-
+	chargeTimer_ = 120;
+	attackTimer_ = 120;
+	isAttack_ = false;
 }
 
 void Boss::BehaviorAttackUpdate()
 {
-	isAttack_ = true;
-	worldTransform_.translation_.z -= speed;
+	if (isAttack_ == false)
+	{
+		chargeTimer_--;
+
+		Vector3 currentPlayerPosition = player_->GetCurrentPosition();
+
+		velocity_ = Subtract(currentPlayerPosition, currentPosition_);
+
+		velocity_ = Normalize(velocity_);
+		Vector3 cross = Normalize(Cross({ 0.0f,0.0f,1.0f }, velocity_));
+		float dot = Dot({ 0.0f,0.0f,1.0f }, velocity_);
+
+		moveQuaternion_ = MakeRotateAxisAngleQuaternion(cross, std::acos(dot));
+
+	}
+	
+	if (chargeTimer_ < 0)
+	{
+		isAttack_ = true;
+	}
+
+	if (isAttack_)
+	{
+		attackTimer_--;
+		worldTransform_.translation_ = Add(worldTransform_.translation_, velocity_);
+
+		if (attackTimer_ < 0)
+		{
+			behaviorRequest_ = BossBehavior::kRoot;
+		}
+	}
 }
