@@ -2,9 +2,9 @@
 
 void Particle::Initalize(int particleVolume)
 {
-	light_ = Light::GetInstance();
 	textureManager_ = TextureManager::GetInstance();
 	directX_ = DirectXCommon::GetInstance();
+
 
 	modelData.vertices.push_back({ .position = { -1.0f,1.0f,0.0f,1.0f },.texcoord = {0.0f,0.0f},.normal = {0.0f,0.0f,1.0f} });//左上
 	modelData.vertices.push_back({ .position = {1.0f,1.0f,0.0f,1.0f}, .texcoord = {1.0f,0.0f},.normal = {0.0f,0.0f,1.0f} });//右上
@@ -19,11 +19,15 @@ void Particle::Initalize(int particleVolume)
 
 	CreateResources();
 	CreateSRV();	
+
+	//ランダム生成用
+	std::random_device seedGenerator;
+	std::mt19937 ranndomEngine(seedGenerator());
+	std::uniform_real_distribution<float> distribution(-1.0f, 1.0f);
+
 	for (int Volume_i = 0; Volume_i < particleVolume_; Volume_i++) {
-		InstancingDeta[Volume_i].translation_ = {Volume_i * 0.1f,Volume_i * 0.1f, Volume_i * 0.1f};
-		InstancingDeta[Volume_i].matWorld_ = MakeAffineMatrix( InstancingDeta[Volume_i].scale_, InstancingDeta[Volume_i].quaternion,InstancingDeta[Volume_i].translation_);
-		particleWVPData[Volume_i].matWorld = InstancingDeta[Volume_i].matWorld_;
-		particleWVPData[Volume_i].velocity = {0.0f,1.0f,0.0f};
+		InstancingDeta[Volume_i].translation_ = { distribution(ranndomEngine),distribution(ranndomEngine), distribution(ranndomEngine) };
+		particleWVPData[Volume_i].velocity = { distribution(ranndomEngine),distribution(ranndomEngine),distribution(ranndomEngine) };
 	}
 
 
@@ -40,8 +44,8 @@ void Particle::Update()
 {
 
 	for (int Volume_i = 0; Volume_i < particleVolume_; Volume_i++) {
-		particleWVPData[Volume_i].velocity = {0.0f,1.0f,0.0f};
-		InstancingDeta[Volume_i].translation_ += particleWVPData[Volume_i].velocity * kDeltaTime;
+		Vector3 velcity = particleWVPData[Volume_i].velocity * kDeltaTime;
+		InstancingDeta[Volume_i].translation_ += velcity;
 		InstancingDeta[Volume_i].matWorld_ = MakeAffineMatrix(InstancingDeta[Volume_i].scale_, InstancingDeta[Volume_i].quaternion, InstancingDeta[Volume_i].translation_);
 		particleWVPData[Volume_i].matWorld = InstancingDeta[Volume_i].matWorld_;
 	}

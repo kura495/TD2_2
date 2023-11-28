@@ -1,4 +1,5 @@
 #pragma once
+#include <random>
 
 #include "DirectXCommon.h"
 #include "TextureManager.h"
@@ -58,8 +59,6 @@ private:
 	void CreateResources();
 	void CreateSRV();
 
-	Light* light_;
-
 	std::unique_ptr<ParticlePipeLine> Pipeline_;
 
 	D3D12_CPU_DESCRIPTOR_HANDLE instancingSRVHandleCPU;
@@ -68,6 +67,8 @@ private:
 	D3D12_CPU_DESCRIPTOR_HANDLE GetCPUDescriptorHandle(Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> descriptorHeap, uint32_t descriptorSize, uint32_t index);
 	D3D12_GPU_DESCRIPTOR_HANDLE GetGPUDescriptorHandle(Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> descriptorHeap, uint32_t descriptorSize, uint32_t index);
 
-	const float kDeltaTime = 1.0f / 6.0f;
+	const float kDeltaTime = 1.0f / 60.0f;
+
+
 };
 
