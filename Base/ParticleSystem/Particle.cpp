@@ -1,6 +1,6 @@
 ﻿#include "Particle.h"
 
-void Particle::Initalize(int particleVolume)
+void Particle::Initalize(int particleVolume,const std::string filePath)
 {
 	textureManager_ = TextureManager::GetInstance();
 	directX_ = DirectXCommon::GetInstance();
@@ -12,7 +12,7 @@ void Particle::Initalize(int particleVolume)
 	modelData.vertices.push_back({ .position = {-1.0f,-1.0f,0.0f,1.0f},  .texcoord = {0.0f,1.0f},.normal = {0.0f,0.0f,1.0f} });//左下
 	modelData.vertices.push_back({ .position = {1.0f,1.0f,0.0f,1.0f}, .texcoord = {1.0f,0.0f},.normal = {0.0f,0.0f,1.0f} });//右上
 	modelData.vertices.push_back({ .position = {1.0f,-1.0f,0.0f,1.0f},.texcoord = {1.0f,1.0f},.normal = {0.0f,0.0f,1.0f} });//右下
-	modelData.material.textureFilePath = "resources/circle.png";
+	modelData.material.textureFilePath = filePath;
 	int Texture = textureManager_->LoadTexture(modelData.material.textureFilePath);
 	modelData.TextureIndex = Texture;
 	particleVolume_ = particleVolume;
@@ -55,12 +55,6 @@ void Particle::Update()
 	}
 }
 
-void Particle::PreDraw()
-{
-	directX_->GetcommandList()->SetGraphicsRootSignature(Pipeline_->GetPSO().rootSignature.Get());
-	directX_->GetcommandList()->SetPipelineState(Pipeline_->GetPSO().graphicsPipelineState.Get());
-}
-
 void Particle::Draw(const ViewProjection& viewProjection)
 {
 	Matrix4x4 Camera = viewProjection.CameraMatrix;
@@ -92,6 +86,12 @@ void Particle::Draw(const ViewProjection& viewProjection)
 	directX_->GetcommandList()->SetGraphicsRootDescriptorTable(1, instancingSRVHandleGPU);
 
 	directX_->GetcommandList()->DrawInstanced(6, numInstance, 0, 0);
+}
+
+void Particle::PreDraw()
+{
+	directX_->GetcommandList()->SetGraphicsRootSignature(Pipeline_->GetPSO().rootSignature.Get());
+	directX_->GetcommandList()->SetPipelineState(Pipeline_->GetPSO().graphicsPipelineState.Get());
 }
 
 void Particle::CreateResources()

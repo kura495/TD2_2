@@ -56,7 +56,7 @@ void GameBossState::Initialize()
 	player->SetViewProjection(&followCamera->GetViewProjection());
 
 	particle = std::make_unique<Particle>();
-	particle->Initalize(10);
+	particle->Initalize(10, "resources/circle.png");
 }
 
 void GameBossState::Update()

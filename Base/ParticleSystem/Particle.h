@@ -27,13 +27,15 @@ class Particle
 {
 public:
 
-	void Initalize(int particleVolume);
+	void Initalize(int particleVolume,const std::string filePath);
 
 	void Update();
 
+	void Draw(const ViewProjection& viewProjection);
+
 	void PreDraw();
 
-	void Draw(const ViewProjection& viewProjection);
+	void SetPos(Vector3 Pos) { particles->translate = Pos; };
 
 private:
 	//インスタンスの数
