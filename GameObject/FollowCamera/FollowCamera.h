@@ -23,6 +23,13 @@ public:
 	void SetTarget(const WorldTransform* target);
 	const ViewProjection& GetViewProjection() { return viewProjection_; }
 
+	void SetIsStickPre(bool right, bool left) {
+		isStickRightPre_ = right;
+		isStickLeftPre_ = left;
+	}
+
+	void SetFOV(float fovAngleY);
+
 private:
 	//jsonファイルの値を適応
 	void ApplyGlobalVariables();
@@ -38,5 +45,9 @@ private:
 	WorkInterpolation workInter;
 	//追従対象からのオフセットを計算する
 	Vector3 OffsetCalc();
+
+	float anglePre_;
+	bool isStickRightPre_;
+	bool isStickLeftPre_;
 
 };

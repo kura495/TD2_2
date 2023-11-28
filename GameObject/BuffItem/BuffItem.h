@@ -24,7 +24,9 @@ public:
 
 	void SetPosition(Vector3 position);
 
-private:
+    void SetIsHit(bool isHit) { isHit_ = isHit; }
 
+private:
+	bool isHit_ = false;
 };
 

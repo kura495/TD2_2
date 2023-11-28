@@ -9,7 +9,7 @@ void GameTitleState::Update()
 {
 	time++;
 	if (time >= 60) {
-		StateNo = 1;
+		StateNo = 2;
 	}
 }
 

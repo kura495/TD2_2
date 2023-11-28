@@ -10,17 +10,58 @@
 #include "Base/Utility/BoxCollider.h"
 #include "Base/Utility/CollisionConfig.h"
 
+#include "GameObject/BuffItem/BuffItem.h"
+#include "GameObject/Character/Boss/Boss.h"
+
+class Boss;
+
 enum class Behavior {
 	kRoot,//通常
-	kAttack,//攻撃中
 	kDash,//ダッシュ中
+	kDrift, // ドリフト中
+	kJump, // ジャンプ
 };
 //ダッシュ用ワーク
 struct WorkDash {
 	//ダッシュ用の媒介変数
 	uint32_t dashParameter_ = 0;
+	uint32_t chargeParameter_ = 0;
+	uint32_t coolTime_ = 0;
 	//ダッシュ用スピード
-	float dashSpeed_ = 5.0f;
+	float dashSpeed_ = 2.0f;
+	float dashPower_ = 0.0f;
+	float kSpeed_ = 1.0f;
+	Vector3 move_;
+	Vector3 movePre_;
+	Vector3 scale_;
+	Quaternion quaternionPre_;
+	bool isPowerCharge;
+	bool isDash;
+};
+const uint32_t dashCoolTime_ = 60;
+const uint32_t chargeTime = 300;
+const float dashPowerMax_ = 5.0f;
+
+struct WorkDrift {
+	uint32_t driftParameter_;
+	uint32_t driftChargeParameter_;
+	float kSpeed_;
+	Vector3 movePre_;
+	Vector3 rotationAmount_;
+	bool isStickRightPre_;
+	bool isStickLeftPre_;
+	bool isDrifting_;
+};
+
+const uint32_t behaviorDriftTime_ = 60;
+const uint32_t behaviorDriftChargeTime_ = 3000;
+
+struct WorkJump {
+	Vector3 velocity_ = {0.0f, 0.0f, 0.0f};
+	float kJumpFirstSpeed_ = 1.0f;
+	float kGravityAcceleration_ = 0.05f;
+	float kSpped_ = 1.0f;
+	bool Flag_ = false;
 };
 
 class Player : public ICharacter, public BoxCollider
@@ -52,9 +93,23 @@ public:
 
 	void SetScale(Vector3 scale);
 
+	bool GetIsDead() { return isDead_; }
+
+	bool GetIsGoal() { return isGoal_; }
+
+	void SetIsDead(bool isDead) { isDead_ = isDead; }
+
+	bool GetIsStickRight() { return workDrift_.isStickRightPre_; }
+	bool GetIsStickLeft() { return workDrift_.isStickLeftPre_; }
+
+	bool GetIsDash() { return  workDash_.isDash; };
+
+	Vector3 GetCurrentPosition() { return currentPosition_; };
+	Vector3 GetPreviousPosition() { return previousPosition_; };
+
+	void SetBoss(Boss* boss) { boss_ = boss; }
+
 private:
-
-
 	void WorldTransformInitalize();
 
 	void Move();
@@ -64,16 +119,19 @@ private:
 	//通常
 	void BehaviorRootInit();
 	void BehaviorRootUpdate();
-	//攻撃
-	void BehaviorAttackInit();
-	void BehaviorAttackUpdate();
-	int attackAnimationFrame;
 	//ダッシュ
 	void BehaviorDashInit();
 	void BehaviorDashUpdate();
+	
+	// ジャンプ
+	void BehaviorJumpInitialize();
+	void BehaviorJumpUpdate();
+
 	WorkDash workDash_;
+	WorkDrift workDrift_;
+	WorkJump workJump_;
 	//ダッシュの時間
-	const uint32_t behaviorDashTime = 20;
+	const uint32_t behaviorDashTime = 60;
 
 	//ふるまい
 	Behavior behavior_ = Behavior::kRoot;
@@ -82,6 +140,7 @@ private:
 	//キー入力とパッド
 	Input* input = nullptr;
 	XINPUT_STATE joyState;
+	XINPUT_STATE joyStatePre;
 	
 	//各パーツのローカル座標
 	WorldTransform worldTransformBody_;
@@ -112,4 +171,25 @@ private:
 
 	Quaternion moveQuaternion_;
 
+	bool isDead_ = false;
+
+	bool isHit_ = false;
+
+	bool isGoal_ = false;
+
+	bool isEnemyHit_ = false;
+
+	bool isSpeedUp_ = false;
+
+	Vector3 currentPosition_;  // 現在のフレームでの位置
+	Vector3 previousPosition_; // 前のフレームでの位置
+
+	// スティックが倒れている方
+	bool isStickRight_ = false;
+	bool isStickLeft_ = false;
+	float threshold_ = 0.5f;
+
+	const float M_PI = 3.14159265359f;
+
+	Boss* boss_ = nullptr;
 };

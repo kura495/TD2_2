@@ -46,11 +46,41 @@ private:
 	Light* light_ = nullptr;
 	DirectXCommon* DirectX_ = nullptr;
 	GlobalVariables* globalVariables = nullptr;
+
+	std::unique_ptr<CollisionManager> collisionManager_;
+
+	std::unique_ptr<FollowCamera> followCamera;
+
+	//地面
+	std::unique_ptr<Model> groundModel_ = nullptr;
+	std::unique_ptr<Ground> ground_[2];
 	
+
 
 	ViewProjection viewProjection_;
 
 	Renderer* renderer_;
 
 	std::unique_ptr<Particle> particle;
+
+	//壁
+	std::unique_ptr<Model> wallModel_ = nullptr;
+	std::unique_ptr<Wall> wall_[31];
+	WorldTransform wallWorldTransform_[31];
+
+	//バフアイテム
+	std::unique_ptr<Model> buffItemModel_ = nullptr;
+	std::unique_ptr<BuffItem> buffItem_[31];
+	WorldTransform buffItemWorldTransform_[31];
+
+	//
+	WorldTransform worldTransform_;
+	WorldTransform worldTransform_Sprite;
+	ViewProjection viewProjection_;
+
+	//3Dオブジェクトたち
+	//プレイヤーモデル
+
+	float FOV=45.0f;
+
 };
