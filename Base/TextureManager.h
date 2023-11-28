@@ -3,12 +3,12 @@
 #include "externals/DirectXTex/DirectXTex.h"
 #include <wrl.h>
 #include <array>
-
+	// デスクリプターの数
+	static const size_t kMaxTexture = 256;
 class TextureManager
 {
 public:
-	// デスクリプターの数
-	static const size_t kMaxTexture = 256;
+
 
 	/// <summary>
 	/// テクスチャ
@@ -22,11 +22,13 @@ public:
 		CD3DX12_GPU_DESCRIPTOR_HANDLE textureSrvHandleGPU;
 		// 名前
 		std::string name;
+		// 使っているかどうか
+		bool IsUsed = false;
 	};
 
 	static TextureManager* GetInstance();
 	void Initialize(DirectXCommon* directX);
-	uint32_t LoadTexture(uint32_t index,const std::string& filePath);
+	uint32_t LoadTexture(const std::string& filePath);
 	/// <summary>
 	/// GPUHandle情報取得
 	/// </summary>

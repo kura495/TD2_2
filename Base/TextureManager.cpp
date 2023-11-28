@@ -14,11 +14,29 @@ void TextureManager::Initialize(DirectXCommon* directX)
 	descriptorSizeDSV = directX_->GetDevice()->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_DSV);
 }
 
-uint32_t TextureManager::LoadTexture(uint32_t index, const std::string& filePath)
+uint32_t TextureManager::LoadTexture(const std::string& filePath)
 {
-	if (textures_.at(index).textureResource) {
-		return index;
+	uint32_t index = 0;
+	for (uint32_t index_i = 0; index_i < kMaxTexture; index_i++) {
+		if (textures_.at(index_i).IsUsed) {
+			if (filePath == textures_.at(index_i).name) {
+				return index_i;
+			}
+		}
 	}
+
+	for (uint32_t index_i = 0; index_i < kMaxTexture; index_i++) {
+		if (textures_.at(index_i).IsUsed == false) {
+			index = index_i;
+			break;
+		}
+	}
+
+	//名前としてファイルのパスを登録
+	textures_.at(index).name = filePath;
+
+	textures_.at(index).IsUsed = true;
+
 	//Textureを読んで転送する
 	DirectX::ScratchImage mipImages = ImageFileOpen(filePath);
 	const DirectX::TexMetadata& metadata = mipImages.GetMetadata();
