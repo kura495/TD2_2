@@ -74,8 +74,8 @@ void Boss::Update()
 		}
 	}
 
-	if (worldTransform_.translation_.z <= -150.0f || worldTransform_.translation_.z >= 150.0f ||
-		worldTransform_.translation_.x <= -150.0f || worldTransform_.translation_.x >= 150.0f)
+	if (worldTransform_.translation_.z <= -180.0f || worldTransform_.translation_.z >= 180.0f ||
+		worldTransform_.translation_.x <= -180.0f || worldTransform_.translation_.x >= 180.0f)
 	{
 		isDead_ = true;
 	}
@@ -178,9 +178,11 @@ void Boss::BehaviorAttackUpdate()
 		attackTimer_--;
 		worldTransform_.translation_ = Add(worldTransform_.translation_, velocity_);
 
-		if (attackTimer_ < 0)
+		if (attackTimer_ < 0 || worldTransform_.translation_.x <= -175.0f || worldTransform_.translation_.x >= 175.0f||
+			worldTransform_.translation_.z <= -175.0f || worldTransform_.translation_.z >= 175.0f)
 		{
 			behaviorRequest_ = BossBehavior::kRoot;
+			isAttack_ = false;
 		}
 	}
 }

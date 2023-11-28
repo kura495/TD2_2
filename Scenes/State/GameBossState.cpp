@@ -25,7 +25,7 @@ void GameBossState::Initialize()
 		groundModel_.get() };
 	ground_ = std::make_unique<Ground>();
 	ground_->Initalize(groundModels, { 0.0f,0.0f,0.0f });
-	ground_->SetScale({ 15.0f, 1.0f, 15.0f });
+	ground_->SetScale({ 18.0f, 1.0f, 18.0f });
 
 	player = std::make_unique<Player>();
 	modelFighterBody_.reset(Model::CreateModelFromObj("resources/float_Body", "float_Body.obj"));
