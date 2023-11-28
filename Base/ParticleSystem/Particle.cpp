@@ -20,9 +20,9 @@ void Particle::Initalize(int particleVolume)
 	CreateResources();
 	CreateSRV();	
 	for (int Volume_i = 0; Volume_i < particleVolume_; Volume_i++) {
-		InstancingDeta.translation_ = { Volume_i * 0.1f,Volume_i * 0.1f, Volume_i * 0.1f };
-		InstancingDeta.matWorld_ = MakeAffineMatrix( InstancingDeta.scale_, InstancingDeta.quaternion,InstancingDeta.translation_);
-		particleWVPData[Volume_i].matWorld = InstancingDeta.matWorld_;
+		InstancingDeta[Volume_i].translation_ = {Volume_i * 0.1f,Volume_i * 0.1f, Volume_i * 0.1f};
+		InstancingDeta[Volume_i].matWorld_ = MakeAffineMatrix( InstancingDeta[Volume_i].scale_, InstancingDeta[Volume_i].quaternion,InstancingDeta[Volume_i].translation_);
+		particleWVPData[Volume_i].matWorld = InstancingDeta[Volume_i].matWorld_;
 		particleWVPData[Volume_i].velocity = {0.0f,1.0f,0.0f};
 	}
 
@@ -38,10 +38,12 @@ void Particle::Initalize(int particleVolume)
 
 void Particle::Update()
 {
+
 	for (int Volume_i = 0; Volume_i < particleVolume_; Volume_i++) {
-		InstancingDeta.translation_	+= particleWVPData[Volume_i].velocity * kDeltaTime;
-		InstancingDeta.matWorld_ = MakeAffineMatrix(InstancingDeta.scale_, InstancingDeta.quaternion, InstancingDeta.translation_);
-		particleWVPData[Volume_i].matWorld =Multiply(particleWVPData[Volume_i].matWorld, InstancingDeta.matWorld_);
+		particleWVPData[Volume_i].velocity = {0.0f,1.0f,0.0f};
+		InstancingDeta[Volume_i].translation_ += particleWVPData[Volume_i].velocity * kDeltaTime;
+		InstancingDeta[Volume_i].matWorld_ = MakeAffineMatrix(InstancingDeta[Volume_i].scale_, InstancingDeta[Volume_i].quaternion, InstancingDeta[Volume_i].translation_);
+		particleWVPData[Volume_i].matWorld = InstancingDeta[Volume_i].matWorld_;
 	}
 }
 
