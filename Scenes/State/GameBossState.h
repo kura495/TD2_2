@@ -25,6 +25,8 @@
 #include "GameObject/Character/Boss/Boss.h"
 #include "GameObject/FollowCamera/FollowCamera.h"
 
+#include "Base/ParticleSystem/Particle.h"
+
 class GameBossState : public GameState
 {
 public:
@@ -70,5 +72,7 @@ private:
 	ViewProjection viewProjection_;
 
 	//3Dオブジェクトたち
+
+	std::unique_ptr<Particle> particle;
 };
 

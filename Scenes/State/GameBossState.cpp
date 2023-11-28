@@ -54,6 +54,9 @@ void GameBossState::Initialize()
 	followCamera->Initalize();
 	followCamera->SetTarget(&player->GetWorldTransform());
 	player->SetViewProjection(&followCamera->GetViewProjection());
+
+	particle = std::make_unique<Particle>();
+	particle->Initalize(10);
 }
 
 void GameBossState::Update()
@@ -88,6 +91,7 @@ void GameBossState::Update()
 		//ImGui::DragFloat3("itemWorldTransform", &itemWorldTransform_[6].translation_.x, 1.0f);
 		ImGui::End();
 	}
+	particle->Update();
 }
 
 void GameBossState::Draw()
@@ -99,4 +103,7 @@ void GameBossState::Draw()
 	boss_->Draw(viewProjection_);
 
 	//skydome_->Draw(viewProjection_);
+
+	particle->PreDraw();
+	particle->Draw(viewProjection_);
 }
