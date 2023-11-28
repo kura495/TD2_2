@@ -2,7 +2,7 @@
 
 void Player::Initialize(const std::vector<Model*>& models)
 {
-	std::vector<Model*> PlayerModel = { models[kModelIndexBody],models[kModelIndexHead],models[kModelIndexL_arm],models[kModelIndexR_arm]
+	std::vector<Model*> PlayerModel = { models[kModelIndexBody],models[kModelIndexHead],models[kModelIndexL_arm],models[kModelIndexR_arm], models[4]
 	};
 	ICharacter::Initialize(PlayerModel);
 	
@@ -118,6 +118,7 @@ void Player::Update()
 	worldTransformHead_.UpdateMatrix();
 	worldTransformL_arm_.UpdateMatrix();
 	worldTransformR_arm_.UpdateMatrix();
+	worldTransformLine_.UpdateMatrix();
 	BoxCollider::Update(&worldTransform_);
 
 	joyStatePre = joyState;
@@ -131,6 +132,10 @@ void Player::Draw(const ViewProjection& viewProjection)
 	models_[kModelIndexHead]->Draw(worldTransformHead_, viewProjection);
 	models_[kModelIndexL_arm]->Draw(worldTransformL_arm_, viewProjection);
 	models_[kModelIndexR_arm]->Draw(worldTransformR_arm_, viewProjection);
+	if (behavior_ == Behavior::kDash && workDash_.isPowerCharge) {
+		models_[4]->Draw(worldTransformLine_, viewProjection);
+	}
+	
 }
 
 void Player::OnCollision(Collider* collider)
@@ -207,15 +212,18 @@ void Player::WorldTransformInitalize()
 	worldTransformHead_.Initialize();
 	worldTransformL_arm_.Initialize();
 	worldTransformR_arm_.Initialize();
+	worldTransformLine_.Initialize();
 	//腕の位置調整
 	worldTransformL_arm_.translation_.y = 1.4f;
 	worldTransformR_arm_.translation_.y = 1.4f;
 	//武器の位置調整
+	worldTransformLine_.translation_.z = 2.0f;
 
 	worldTransformHead_.parent_ = &worldTransformBody_;
 	worldTransformL_arm_.parent_ = &worldTransformBody_;
 	worldTransformR_arm_.parent_ = &worldTransformBody_;
 	worldTransformBody_.parent_ = &worldTransform_;
+	worldTransformLine_.parent_ = &worldTransform_;
 }
 
 void Player::Move()
@@ -264,6 +272,8 @@ void Player::BehaviorRootInit()
 	worldTransformL_arm_.rotation_.x = 0.0f;
 	worldTransformR_arm_.rotation_.x = 0.0f;
 	workJump_.kSpped_ = 1.0f;
+	worldTransformLine_.scale_ = Vector3{ 1.0f, 1.0f, 1.0f };
+	worldTransformLine_.translation_.z = 2.0f;
 }
 
 void Player::BehaviorRootUpdate()
@@ -304,6 +314,8 @@ void Player::BehaviorDashUpdate()
 
 		if (workDash_.scale_.x > 0.5f) {
 			workDash_.scale_ = Subtract(workDash_.scale_, Vector3{ 0.005f, 0.005f, 0.005f });
+			worldTransformLine_.scale_.z += 0.05f;
+			worldTransformLine_.translation_.z += 0.1f;
 		}
 		worldTransformBody_.scale_ = workDash_.scale_;
 
