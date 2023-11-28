@@ -346,7 +346,7 @@ void GamePlayState::Update()
 		{
 			player->SetIsDead(false);
 			buffItem_[i]->SetIsHit(false);
-		}*/
+		}
 
 		StateNo = 2;
 
