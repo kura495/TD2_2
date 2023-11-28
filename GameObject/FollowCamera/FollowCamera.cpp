@@ -27,7 +27,7 @@ void FollowCamera::Update() {
 	}
 	//スティックでのカメラ回転
 	if (Input::GetInstance()->GetJoystickState(0, joyState)) {
-		if ((joyState.Gamepad.wButtons & XINPUT_GAMEPAD_A) && isStickLeftPre_ || (joyState.Gamepad.wButtons & XINPUT_GAMEPAD_A) && isStickRightPre_) {
+		if (joyState.Gamepad.wButtons & XINPUT_GAMEPAD_A) {
 			float angle = (float)joyState.Gamepad.sThumbLX / 720.0f * 3.14159265359f / 180.0f;
 			if (anglePre_ == 0.0f) {
 				anglePre_ = viewProjection_.rotation_.y;
