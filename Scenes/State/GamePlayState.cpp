@@ -311,7 +311,10 @@ void GamePlayState::Update()
 	player->Update();
 
 	followCamera->SetIsStickPre(player->GetIsStickRight(), player->GetIsStickLeft());
-
+	ImGui::Begin("Camera");
+	ImGui::SliderFloat("FOV",&FOV,0.0f,120.0f);
+	ImGui::End();
+	followCamera->SetFOV(FOV);
 	followCamera->Update();
 	viewProjection_ = followCamera->GetViewProjection();
 	wallWorldTransform_[0].UpdateMatrix();

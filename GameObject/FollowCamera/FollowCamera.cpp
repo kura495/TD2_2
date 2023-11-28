@@ -68,6 +68,12 @@ void FollowCamera::SetTarget(const WorldTransform* target)
 	Reset();
 }
 
+void FollowCamera::SetFOV(float fovAngleY)
+{
+	
+	viewProjection_.fovAngleY = std::clamp(fovAngleY,1.0f,110.0f);
+}
+
 void FollowCamera::ApplyGlobalVariables()
 {
 	const char* groupName = "Camera";

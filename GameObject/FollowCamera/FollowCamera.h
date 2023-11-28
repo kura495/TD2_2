@@ -28,6 +28,8 @@ public:
 		isStickLeftPre_ = left;
 	}
 
+	void SetFOV(float fovAngleY);
+
 private:
 	//jsonファイルの値を適応
 	void ApplyGlobalVariables();
