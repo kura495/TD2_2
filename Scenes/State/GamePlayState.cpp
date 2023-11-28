@@ -29,7 +29,7 @@ void GamePlayState::Initialize()
 	ground_[1]->SetScale({ 12.0f, 1.0f, 40.0f });
 
 	//壁
-	wallModel_.reset(Model::CreateModelFromObj("resources/Cube", "Cube.obj"));
+	wallModel_.reset(Model::CreateModelFromObj("resources/Fence", "fencekaminari.obj"));
 	std::vector<Model*> wallModels = {
 		wallModel_.get() };
 
@@ -200,7 +200,7 @@ void GamePlayState::Initialize()
 	wall_[30]->SetScale({ 8.0f, 2.0f, 5.0f });
 
 	//バフアイテム
-	buffItemModel_.reset(Model::CreateModelFromObj("resources/Item", "Item.obj"));
+	buffItemModel_.reset(Model::CreateModelFromObj("resources/Weight", "weight.obj"));
 	std::vector<Model*> buffItemModels = {
 		buffItemModel_.get() };
 
