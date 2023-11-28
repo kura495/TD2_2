@@ -50,11 +50,6 @@ void Player::Update()
 		isStickLeft_ = false;
 	}
 
-	if (joyState.Gamepad.wButtons & XINPUT_GAMEPAD_B && IsOnGraund)
-	{
-		behaviorRequest_ = Behavior::kJump;
-	}
-
 	if (!IsOnGraund && behavior_ != Behavior::kJump) {
 		worldTransform_.translation_ = Add(worldTransform_.translation_, workJump_.velocity_);
 
@@ -97,6 +92,11 @@ void Player::Update()
 	case Behavior::kJump:
 		BehaviorJumpUpdate();
 		break;
+	}
+
+	if (joyState.Gamepad.wButtons & XINPUT_GAMEPAD_B && IsOnGraund)
+	{
+		behaviorRequest_ = Behavior::kJump;
 	}
 
 
@@ -243,13 +243,14 @@ void Player::Move()
 	move.x = Normalize(move).x * speed;
 	move.y = Normalize(move).y * speed;
 	move.z = Normalize(move).z * speed;
-	workJump_.velocity_ = move;
+	
 
 	//カメラの正面方向に移動するようにする
 	//回転行列を作る
 	Matrix4x4 rotateMatrix = MakeRotateMatrix(viewProjection_->rotation_);
 	//移動ベクトルをカメラの角度だけ回転
 	move = TransformNormal(move, rotateMatrix);
+	workJump_.velocity_ = move;
 	//移動
 	worldTransform_.translation_ = Add(worldTransform_.translation_, move);
 	
@@ -348,7 +349,15 @@ void Player::BehaviorDashUpdate()
 			}
 			//移動
 			worldTransform_.translation_ = Add(worldTransform_.translation_, move);
+
+			rotateMatrix = MakeRotateMatrix(viewProjection_->rotation_);
+			move = TransformNormal(move, rotateMatrix);
 			workJump_.velocity_ = move;
+			if (joyState.Gamepad.wButtons & XINPUT_GAMEPAD_B && IsOnGraund)
+			{
+				worldTransformBody_.scale_ = Vector3{ 1.0f, 1.0f, 1.0f };
+				workJump_.kSpped_ = workDash_.kSpeed_;
+			}
 		}
 
 		if (!(joyStatePre.Gamepad.wButtons & XINPUT_GAMEPAD_A)) {
@@ -376,6 +385,7 @@ void Player::BehaviorDashUpdate()
 		Matrix4x4 rotateMatrix = MakeRotateMatrix(viewProjection_->rotation_);
 		//移動ベクトルをカメラの角度だけ回転
 		move = TransformNormal(workDash_.move_, rotateMatrix);
+		workJump_.velocity_ = move;
 		//正規化をして斜めの移動量を正しくする
 		move.x = Normalize(move).x * workDash_.dashSpeed_;
 		move.y = Normalize(move).y * workDash_.dashSpeed_;
@@ -383,7 +393,6 @@ void Player::BehaviorDashUpdate()
 
 		//移動
 		worldTransform_.translation_ = Add(worldTransform_.translation_, move);
-		workJump_.velocity_ = move;
 
 		workDash_.dashParameter_++;
 		if ((joyState.Gamepad.wButtons & XINPUT_GAMEPAD_A)) {
