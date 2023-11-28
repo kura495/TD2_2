@@ -192,4 +192,6 @@ private:
 	const float M_PI = 3.14159265359f;
 
 	Boss* boss_ = nullptr;
+
+	int underAttackTimer = 60;
 };

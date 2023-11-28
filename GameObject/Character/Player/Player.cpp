@@ -118,17 +118,26 @@ void Player::Update()
 
 	worldTransform_.quaternion = Normalize(worldTransform_.quaternion);
 
-	//if (isEnemyHit_)
-	//{
-	//	Vector3 currentBossPosition = boss_->GetCurrentPosition();
-	//	Vector3 previousBossPosition = boss_->GetPreviousPosition();
+	if (isEnemyHit_)
+	{
+		underAttackTimer--;
+		Vector3 currentBossPosition = boss_->GetCurrentPosition();
+		Vector3 previousBossPosition = boss_->GetPreviousPosition();
 
-	//	Vector3 velocity = Subtract(currentBossPosition, previousBossPosition);
+		Vector3 velocity = Subtract(currentBossPosition, previousBossPosition);
 
-	//	worldTransform_.translation_ = Subtract(worldTransform_.translation_, velocity);
+		velocity.x *= 3.0f;
+		velocity.y *= 3.0f;
+		velocity.z *= 3.0f;
 
-	///*	isEnemyHit_ = false;*/
-	//}
+		worldTransform_.translation_ = Add(worldTransform_.translation_, velocity);
+
+		if (underAttackTimer < 0)
+		{
+			isEnemyHit_ = false;
+			underAttackTimer = 60;
+		}
+	}
 
 	if (isSpeedUp_)
 	{
@@ -165,7 +174,7 @@ void Player::Draw(const ViewProjection& viewProjection)
 void Player::OnCollision(Collider* collider)
 {
 
-	if (collider->GetcollitionAttribute() == kCollitionAttributeEnemy && workDash_.isDash == true) {
+	if (collider->GetcollitionAttribute() == kCollitionAttributeEnemy && boss_->GetIsAttack() == true) {
 		//敵に当たったらリスタートする
 		//isDead_ = true;
 	/*	worldTransform_.translation_ = { 0.0f,0.0f,0.0f };
