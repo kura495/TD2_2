@@ -20,9 +20,10 @@ void Particle::Initalize(int particleVolume)
 	CreateResources();
 	CreateSRV();	
 	for (int Volume_i = 0; Volume_i < particleVolume_; Volume_i++) {
-		
-		InstancingDeta[Volume_i].translation_ = { Volume_i * 0.1f,Volume_i * 0.1f, Volume_i * 0.1f };
-		InstancingDeta[Volume_i].matWorld_ = MakeAffineMatrix( InstancingDeta[Volume_i].scale_, InstancingDeta[Volume_i].quaternion,InstancingDeta[Volume_i].translation_);
+		InstancingDeta.translation_ = { Volume_i * 0.1f,Volume_i * 0.1f, Volume_i * 0.1f };
+		InstancingDeta.matWorld_ = MakeAffineMatrix( InstancingDeta.scale_, InstancingDeta.quaternion,InstancingDeta.translation_);
+		particleWVPData[Volume_i].matWorld = InstancingDeta.matWorld_;
+		particleWVPData[Volume_i].velocity = {0.0f,1.0f,0.0f};
 	}
 
 
@@ -37,7 +38,11 @@ void Particle::Initalize(int particleVolume)
 
 void Particle::Update()
 {
-
+	for (int Volume_i = 0; Volume_i < particleVolume_; Volume_i++) {
+		InstancingDeta.translation_	+= particleWVPData[Volume_i].velocity * kDeltaTime;
+		InstancingDeta.matWorld_ = MakeAffineMatrix(InstancingDeta.scale_, InstancingDeta.quaternion, InstancingDeta.translation_);
+		particleWVPData[Volume_i].matWorld =Multiply(particleWVPData[Volume_i].matWorld, InstancingDeta.matWorld_);
+	}
 }
 
 void Particle::PreDraw()
@@ -59,11 +64,7 @@ void Particle::Draw(const ViewProjection& viewProjection)
 	directX_->GetcommandList()->SetGraphicsRootConstantBufferView(0, materialResource->GetGPUVirtualAddress());
 	//テクスチャ
 	directX_->GetcommandList()->SetGraphicsRootDescriptorTable(3, textureManager_->GetGPUHandle(modelData.TextureIndex));
-	Matrix4x4 ViewProj = Multiply(viewProjection.matView, viewProjection.matProjection);
-	for (int Volume_i = 0; Volume_i < particleVolume_; ++Volume_i) {
-		particleWVPData[Volume_i].matWorld = Multiply(InstancingDeta[Volume_i].matWorld_, ViewProj);
-	}
-
+	
 	//インスタンシング用WVP
 	directX_->GetcommandList()->SetGraphicsRootDescriptorTable(1, instancingSRVHandleGPU);
 

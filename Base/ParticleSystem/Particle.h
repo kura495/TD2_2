@@ -47,7 +47,7 @@ private:
 	Material* materialData = nullptr;
 	//Instancing用にTransformMatrixを複数格納できるResourcesを作る
 	Microsoft::WRL::ComPtr<ID3D12Resource> InstancingResource = nullptr;
-	WorldTransform InstancingDeta[10];
+	WorldTransform InstancingDeta;
 	ParticleWVPData* particleWVPData;
 
 	//パーティクルの数
@@ -67,5 +67,7 @@ private:
 
 	D3D12_CPU_DESCRIPTOR_HANDLE GetCPUDescriptorHandle(Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> descriptorHeap, uint32_t descriptorSize, uint32_t index);
 	D3D12_GPU_DESCRIPTOR_HANDLE GetGPUDescriptorHandle(Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> descriptorHeap, uint32_t descriptorSize, uint32_t index);
+
+	const float kDeltaTime = 1.0f / 6.0f;
 };
 

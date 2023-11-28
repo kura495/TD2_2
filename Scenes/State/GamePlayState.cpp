@@ -21,7 +21,7 @@ void GamePlayState::Initialize()
 void GamePlayState::Update()
 {
 	viewProjection_.UpdateMatrix();
-
+	particle->Update();
 }
 
 void GamePlayState::Draw()
