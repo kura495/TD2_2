@@ -1,4 +1,5 @@
 #include "Player.h"
+#include "GameObject/Character/Boss/Boss.h"
 
 void Player::Initialize(const std::vector<Model*>& models)
 {
@@ -121,6 +122,18 @@ void Player::Update()
 
 	worldTransform_.quaternion = Normalize(worldTransform_.quaternion);
 
+	//if (isEnemyHit_)
+	//{
+	//	Vector3 currentBossPosition = boss_->GetCurrentPosition();
+	//	Vector3 previousBossPosition = boss_->GetPreviousPosition();
+
+	//	Vector3 velocity = Subtract(currentBossPosition, previousBossPosition);
+
+	//	worldTransform_.translation_ = Subtract(worldTransform_.translation_, velocity);
+
+	///*	isEnemyHit_ = false;*/
+	//}
+
 	ICharacter::Update();
 	worldTransformBody_.UpdateMatrix();
 	worldTransformHead_.UpdateMatrix();
@@ -144,13 +157,15 @@ void Player::Draw(const ViewProjection& viewProjection)
 void Player::OnCollision(Collider* collider)
 {
 
-	if (collider->GetcollitionAttribute() == kCollitionAttributeEnemy) {
+	if (collider->GetcollitionAttribute() == kCollitionAttributeEnemy && workDash_.isDash == true) {
 		//敵に当たったらリスタートする
 		//isDead_ = true;
 	/*	worldTransform_.translation_ = { 0.0f,0.0f,0.0f };
 		speed = 0.5f;
 		worldTransform_.UpdateMatrix();
 		behaviorRequest_ = Behavior::kRoot;*/
+		isEnemyHit_ = true;
+
 	}
 	else if (collider->GetcollitionAttribute() == kCollitionAttributeGround) {
 		IsOnGraund = true;
@@ -338,6 +353,7 @@ void Player::BehaviorDashUpdate()
 
 		if (workDash_.chargeParameter_++ > chargeTime) {
 			worldTransformBody_.scale_ = Vector3{ 1.0f, 1.0f, 1.0f };
+			workDash_.isDash = false;
 			behaviorRequest_ = Behavior::kRoot;
 		}
 
@@ -367,6 +383,7 @@ void Player::BehaviorDashUpdate()
 	}
 
 	if (workDash_.dashParameter_ >= behaviorDashTime) {
+		workDash_.isDash = false;
 		behaviorRequest_ = Behavior::kRoot;
 	}
 

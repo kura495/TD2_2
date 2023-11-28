@@ -1,4 +1,5 @@
 #include "Boss.h"
+#include "GameObject/Character/Player/Player.h"
 
 Boss::Boss() {}
 Boss::~Boss() {}
@@ -22,6 +23,10 @@ void Boss::Initialize(const std::vector<Model*>& models)
 
 void Boss::Update()
 {
+	previousPosition_ = currentPosition_;
+	
+	currentPosition_ = worldTransform_.translation_;
+
 	if (behaviorRequest_) {
 		//ふるまいの変更
 		behavior_ = behaviorRequest_.value();
@@ -47,6 +52,34 @@ void Boss::Update()
 		BehaviorAttackUpdate();
 	}
 
+	if (isHit_)
+	{
+		underAttackTimer--;
+		Vector3 currentPlayerPosition = player_->GetCurrentPosition();
+		Vector3 previousPlayerPosition = player_->GetPreviousPosition();
+
+		Vector3 velocity = Subtract(currentPlayerPosition, previousPlayerPosition);
+
+		velocity.x *= 3.0f;
+		velocity.y *= 3.0f;
+		velocity.z *= 3.0f;
+
+		worldTransform_.translation_ = Add(worldTransform_.translation_, velocity);
+
+
+		if (underAttackTimer < 0)
+		{
+			isHit_ = false;
+			underAttackTimer = 60;
+		}
+	}
+
+	if (worldTransform_.translation_.z <= -150.0f || worldTransform_.translation_.z >= 150.0f ||
+		worldTransform_.translation_.x <= -150.0f || worldTransform_.translation_.x >= 150.0f)
+	{
+		isDead_ = true;
+	}
+
 	ICharacter::Update();
 	BoxCollider::Update(&worldTransform_);
 }
@@ -58,7 +91,7 @@ void Boss::Draw(const ViewProjection& viewProjection)
 
 void Boss::OnCollision(Collider* collider)
 {
-	if (isAttack_ == true && collider->GetcollitionAttribute() == kCollitionAttributePlayer)
+	if (/*isAttack_ == true && */collider->GetcollitionAttribute() == kCollitionAttributePlayer && player_->GetIsDash() == true)
 	{
 		isHit_ = true;
 	}
@@ -86,7 +119,7 @@ void Boss::BehaviorRootUpdate()
 	if (worldTransform_.translation_.x <= -40.0f)
 	{
 		speed *= -1;
-		behaviorRequest_ = BossBehavior::kAttack;
+		/*behaviorRequest_ = BossBehavior::kAttack;*/
 	}
 
 	if (worldTransform_.translation_.x >= 40.0f)

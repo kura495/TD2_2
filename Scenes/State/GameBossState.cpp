@@ -43,8 +43,11 @@ void GameBossState::Initialize()
 		bossModel_.get() };
 
 	boss_ = std::make_unique<Boss>();
+	boss_->SetPlayer(player.get());
 	boss_->Initialize(bossModels);
 	boss_->SetScale({ 8.0f, 8.0f, 8.0f });
+
+	player->SetBoss(boss_.get());
 
 
 	followCamera = std::make_unique<FollowCamera>();
@@ -77,7 +80,7 @@ void GameBossState::Update()
 	collisionManager_->CheckAllCollisions();
 	collisionManager_->ClearCollider();
 
-	if (boss_->GetIsHit() == true)
+	if (boss_->GetIsDead() == true)
 	{
 		StateNo = 3;
 		ImGui::Begin("Hit");
@@ -95,5 +98,5 @@ void GameBossState::Draw()
 
 	boss_->Draw(viewProjection_);
 
-	skydome_->Draw(viewProjection_);
+	//skydome_->Draw(viewProjection_);
 }
