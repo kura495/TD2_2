@@ -58,9 +58,10 @@ const uint32_t behaviorDriftChargeTime_ = 3000;
 
 struct WorkJump {
 	Vector3 velocity_ = {0.0f, 0.0f, 0.0f};
-	float kJumpFirstSpeed_ = 2.0f;
+	float kJumpFirstSpeed_ = 1.0f;
 	float kGravityAcceleration_ = 0.05f;
 	float kSpped_ = 1.0f;
+	bool Flag_ = false;
 };
 
 class Player : public ICharacter, public BoxCollider
