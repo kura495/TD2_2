@@ -114,18 +114,7 @@ void Boss::BehaviorRootInitialize()
 
 void Boss::BehaviorRootUpdate()
 {
-	worldTransform_.translation_.x += speed;
-
-	if (worldTransform_.translation_.x <= -40.0f)
-	{
-		speed *= -1;
-		/*behaviorRequest_ = BossBehavior::kAttack;*/
-	}
-
-	if (worldTransform_.translation_.x >= 40.0f)
-	{
-		speed *= -1;
-	}
+	
 }
 
 void Boss::BehaviorAttackInitialize()

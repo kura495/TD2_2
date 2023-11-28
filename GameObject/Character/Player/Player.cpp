@@ -125,6 +125,18 @@ void Player::Update()
 	///*	isEnemyHit_ = false;*/
 	//}
 
+	if (isSpeedUp_)
+	{
+		workDash_.dashSpeed_ += 0.03f;
+
+		isSpeedUp_ = false;
+	}
+
+	if (workDash_.dashSpeed_ >= 7.0f)
+	{
+		workDash_.dashSpeed_ = 7.0f;
+	}
+
 	ICharacter::Update();
 	worldTransformBody_.UpdateMatrix();
 	worldTransformHead_.UpdateMatrix();
@@ -179,13 +191,14 @@ void Player::OnCollision(Collider* collider)
 		
 		
 		isHit_ = true;
-		//workJump_.velocity_.y = 0.0f;
+
+		behaviorRequest_ = Behavior::kRoot;
 		ImGui::Begin("Wall");
 		ImGui::Text("Hit");
 		ImGui::End();
 	}
 	else if (collider->GetcollitionAttribute() == kCollitionAttributeBuffItem) {
-     /*   speed += 0.1f;*/
+		isSpeedUp_ = true;
 		ImGui::Begin("BuffItem");
 		ImGui::Text("Hit");
 		ImGui::Text("%f", speed);
