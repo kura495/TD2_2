@@ -63,11 +63,9 @@ void Particle::PreDraw()
 
 void Particle::Draw(const ViewProjection& viewProjection)
 {
-	ImGui::Begin("Par");
-	ImGui::DragFloat3("Pos",&viewProjection.translation_.x,0.0f,10.0f);
-	ImGui::DragFloat3("Rot",&viewProjection.rotation_.x,0.0f,10.0f);
-	ImGui::End();
+	Matrix4x4 Camera = viewProjection.CameraMatrix;
 	Matrix4x4 billboardMatrix = MakeAffineMatrix({1.0f,1.0f,1.0f}, viewProjection.rotation_, viewProjection.translation_);
+	billboardMatrix = Multiply(billboardMatrix, Camera);
 	billboardMatrix.m[3][0] = 0.0f;
 	billboardMatrix.m[3][1] = 0.0f;
 	billboardMatrix.m[3][2] = 0.0f;
