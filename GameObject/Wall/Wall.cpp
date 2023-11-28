@@ -36,3 +36,8 @@ void Wall::SetScale(Vector3 scale)
 	BoxCollider::SetSize({ 1.8f * scale.x,2.0f * scale.y,2.0f * scale.z });
 }
 
+void Wall::SetPosition(Vector3 position)
+{
+	worldTransform_.translation_ = position;
+}
+
