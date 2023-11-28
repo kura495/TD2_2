@@ -13,9 +13,13 @@
 
 #include "PipeLine/ParticlePipeLine.h"
 
-struct ParticleWVPData {
-	Matrix4x4 matWorld; // ローカル → ワールド
+struct ParticleForGPU {
+	Matrix4x4 matWorld;
 	Vector3 velocity;
+	Vector4 color;
+	float lifeTime;
+	float currentTime;
+	Vector3 translate;
 };
 
 class Particle
@@ -32,7 +36,9 @@ public:
 
 private:
 	//インスタンスの数
-	const uint32_t kNumInstance = 10;
+	const uint32_t kNumMaxInstance = 10;
+	//生きているインスタンスの数
+	uint32_t numInstance = 0;
 
 	ModelData modelData;
 
@@ -49,7 +55,7 @@ private:
 	//Instancing用にTransformMatrixを複数格納できるResourcesを作る
 	Microsoft::WRL::ComPtr<ID3D12Resource> InstancingResource = nullptr;
 	WorldTransform InstancingDeta[10];
-	ParticleWVPData* particleWVPData;
+	ParticleForGPU* particles;
 
 	//パーティクルの数
 	int particleVolume_;
@@ -70,6 +76,8 @@ private:
 	const float kDeltaTime = 1.0f / 60.0f;
 
 	//ランダム
-	ParticleWVPData MakeNewParticle(std::mt19937& randomEngine);
+	ParticleForGPU MakeNewParticle(std::mt19937& randomEngine);
+	Vector4 MakeParticleColor(std::mt19937& randomEngine);
+	float MakeParticleLifeTime(std::mt19937& randomEngine);
 };
 

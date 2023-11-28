@@ -23,13 +23,11 @@ void Particle::Initalize(int particleVolume)
 	//ランダム生成用
 	std::random_device seedGenerator;
 	std::mt19937 ranndomEngine(seedGenerator());
-	std::uniform_real_distribution<float> distribution(-1.0f, 1.0f);
 
-	for (int Volume_i = 0; Volume_i < particleVolume_; Volume_i++) {
-		InstancingDeta[Volume_i].translation_ = { distribution(ranndomEngine),distribution(ranndomEngine), distribution(ranndomEngine) };
-		particleWVPData[Volume_i].velocity = { distribution(ranndomEngine),distribution(ranndomEngine),distribution(ranndomEngine) };
+	for (uint32_t Volume_i = 0; Volume_i < kNumMaxInstance; Volume_i++) {
+		particles[Volume_i] = MakeNewParticle(ranndomEngine);
 	}
-
+	numInstance = particleVolume_;
 
 	materialData->enableLighting = false;
 	materialData->color = { 1.0f,1.0f,1.0f,1.0f };
@@ -42,12 +40,16 @@ void Particle::Initalize(int particleVolume)
 
 void Particle::Update()
 {
+	numInstance = 0;
 
-	for (int Volume_i = 0; Volume_i < particleVolume_; Volume_i++) {
-		Vector3 velcity = particleWVPData[Volume_i].velocity * kDeltaTime;
-		InstancingDeta[Volume_i].translation_ += velcity;
-		InstancingDeta[Volume_i].matWorld_ = MakeAffineMatrix(InstancingDeta[Volume_i].scale_, InstancingDeta[Volume_i].quaternion, InstancingDeta[Volume_i].translation_);
-		particleWVPData[Volume_i].matWorld = InstancingDeta[Volume_i].matWorld_;
+	for (uint32_t Volume_i = 0; Volume_i < kNumMaxInstance; Volume_i++) {
+		if (particles[Volume_i].lifeTime <= particles[Volume_i].currentTime) {
+			continue;
+		}
+		Vector3 velcity = particles[Volume_i].velocity * kDeltaTime;
+		particles[Volume_i].translate += velcity;
+		particles[Volume_i].matWorld = MakeAffineMatrix({1.0f,1.0f,1.0f}, Vector3{0.0f,0.0f,0.0f}, particles[Volume_i].translate);
+		++numInstance;
 	}
 }
 
@@ -74,7 +76,7 @@ void Particle::Draw(const ViewProjection& viewProjection)
 	//インスタンシング用WVP
 	directX_->GetcommandList()->SetGraphicsRootDescriptorTable(1, instancingSRVHandleGPU);
 
-	directX_->GetcommandList()->DrawInstanced(6, particleVolume_, 0, 0);
+	directX_->GetcommandList()->DrawInstanced(6, numInstance, 0, 0);
 }
 
 void Particle::CreateResources()
@@ -93,9 +95,9 @@ void Particle::CreateResources()
 	//maping materialResource
 	materialResource.Get()->Map(0, nullptr, reinterpret_cast<void**>(&materialData));
 	//Create InstancingResources
-	InstancingResource = directX_->CreateBufferResource(sizeof(ParticleWVPData)* kNumInstance);
+	InstancingResource = directX_->CreateBufferResource(sizeof(ParticleForGPU)* kNumMaxInstance);
 	//maping InstancingResources
-	InstancingResource->Map(0,nullptr,reinterpret_cast<void**>(&particleWVPData));
+	InstancingResource->Map(0,nullptr,reinterpret_cast<void**>(&particles));
 	
 }
 
@@ -109,8 +111,8 @@ void Particle::CreateSRV()
 	instancingSrvDesc.ViewDimension = D3D12_SRV_DIMENSION_BUFFER;
 	instancingSrvDesc.Buffer.FirstElement = 0;
 	instancingSrvDesc.Buffer.Flags = D3D12_BUFFER_SRV_FLAG_NONE;
-	instancingSrvDesc.Buffer.NumElements = kNumInstance;
-	instancingSrvDesc.Buffer.StructureByteStride = sizeof(ParticleWVPData);
+	instancingSrvDesc.Buffer.NumElements = kNumMaxInstance;
+	instancingSrvDesc.Buffer.StructureByteStride = sizeof(ParticleForGPU);
 
 	instancingSRVHandleCPU = GetCPUDescriptorHandle(directX_->GetsrvDescriptorHeap(), descriptorSizeSRV, 3);
 	instancingSRVHandleGPU = GetGPUDescriptorHandle(directX_->GetsrvDescriptorHeap(), descriptorSizeSRV, 3);
@@ -131,13 +133,27 @@ D3D12_GPU_DESCRIPTOR_HANDLE Particle::GetGPUDescriptorHandle(Microsoft::WRL::Com
 	return handleGPU;
 }
 
-ParticleWVPData Particle::MakeNewParticle(std::mt19937& randomEngine)
+ParticleForGPU Particle::MakeNewParticle(std::mt19937& randomEngine)
 {
-	std::uniform_real_distribution<float> distribution(-1.0f,1.0f);
-	ParticleWVPData particleWVPData;
-	particleWVPData.
+	std::uniform_real_distribution<float> distribution(-1.0f, 1.0f);
+	ParticleForGPU particle;
+	particle.translate = { distribution(randomEngine),distribution(randomEngine) ,distribution(randomEngine) };
+	particle.velocity = { distribution(randomEngine),distribution(randomEngine) ,distribution(randomEngine) };
+	particle.color = MakeParticleColor(randomEngine);
+	particle.lifeTime = MakeParticleLifeTime(randomEngine);
+	particle.currentTime = 0;
+	return particle;
+}
 
+Vector4 Particle::MakeParticleColor(std::mt19937& randomEngine)
+{
+	std::uniform_real_distribution<float> distribution(0.0f, 1.0f);
+	return { distribution(randomEngine),distribution(randomEngine) ,distribution(randomEngine) 
+	,distribution(randomEngine) };
+}
 
-
-	return particleWVPData;
+float Particle::MakeParticleLifeTime(std::mt19937& randomEngine)
+{
+	std::uniform_real_distribution<float> distribution(1.0f, 3.0f);
+	return distribution(randomEngine);
 }
