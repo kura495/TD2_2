@@ -17,7 +17,6 @@ private:
 	int time;
 	Input* input = nullptr;
 	Audio* audio_ = nullptr;
-	uint32_t soundHandle;
 
 	TextureManager* textureManager_ = nullptr;
 	uint32_t texture_;
