@@ -302,10 +302,13 @@ void GamePlayState::Initialize()
 	timers_.clear();
 	for (uint32_t i = 0; i < 3; i++) {
 		Timer* timer = new Timer();
-		timer->Initialize(static_cast<Timer::DigitPlace>(i), 300, Vector3{ 1200.0f - float(i) * 64, 10.0f, 0.0f });
+		timer->Initialize(static_cast<Timer::DigitPlace>(i), 60, Vector3{ 1200.0f - float(i) * 64, 10.0f, 0.0f });
 		timers_.emplace_back(timer);
 
 	}
+
+	pause_ = std::make_unique<Pause>();
+	pause_->Initialize();
 }
 
 void GamePlayState::Update()
@@ -319,6 +322,8 @@ void GamePlayState::Update()
 			isPause_ = !isPause_; 
 			pauseRelease_ = true; 
 		}
+
+		pause_->SetIsTutorial(false);
 
 	} else {
 		pauseRelease_ = false; 
@@ -422,10 +427,14 @@ void GamePlayState::Update()
 		ImGui::Text("GamePlay : Start Buttun");
 		ImGui::End();
 
-		if (joyState.Gamepad.wButtons & XINPUT_GAMEPAD_B)
-		{
-			StateNo = 0;
+		if (pause_->GetLeft()) {
+			if (joyState.Gamepad.wButtons & XINPUT_GAMEPAD_A)
+			{
+				StateNo = 0;
+			}
 		}
+		
+		pause_->Update();
 	}
 
 	joyStatePre = joyState;
@@ -460,6 +469,10 @@ void GamePlayState::Draw()
 	//Sprite描画ここから
 	for (auto& timer : timers_) {
 		timer->Draw();
+	}
+
+	if (isPause_) {
+		pause_->Draw();
 	}
 
 	//Sprite描画ここまで

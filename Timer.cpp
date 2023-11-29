@@ -72,7 +72,7 @@ void Timer::Update() {
 			timer_--;
 		}
 
-		if (timer_ < 100) {
+		if (timer_ < 15) {
 			sprite_->SetColor(Vector4{ 1.0f, 0.0f, 0.0f, 1.0f });
 		}
 	}
@@ -88,7 +88,7 @@ void Timer::Draw() {
 		sprite_->Draw(worldTransform_, textureHandle_[(timer_ / 10) % 10]);
 		break;
 	case Timer::DigitPlace::kHundreds:
-		sprite_->Draw(worldTransform_, textureHandle_[timer_ / 100]);
+		//sprite_->Draw(worldTransform_, textureHandle_[timer_ / 100]);
 		break;
 	}
 }

@@ -23,6 +23,12 @@ private:
 	std::unique_ptr<Sprite> titlesprite_;
 	WorldTransform sprite_World_;
 
+	std::unique_ptr<Sprite> markSprite_;
+	std::unique_ptr<Sprite> tutorialSprite_;
+	uint32_t textureHandle_[2];
+	WorldTransform sprite_mark_;
+	WorldTransform sprite_tutorial_;
+
 	Vector4 LeftTop[2] = {
         { 0.0f,0.0f,0.0f,1.0f },
         { 360.0f,0.0f,0.0f,1.0f }
@@ -42,4 +48,10 @@ private:
 
 	XINPUT_STATE joyState;
 	XINPUT_STATE joyStatePre;
+
+	bool isTutorial_;
+	bool left_;
+	bool right_;
+
+	uint32_t coolTime_;
 };

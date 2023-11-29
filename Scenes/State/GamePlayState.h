@@ -26,6 +26,7 @@
 #include "GameObject/Character/Player/Player.h"
 #include "GameObject/FollowCamera/FollowCamera.h"
 #include "Timer.h"
+#include "GameObject/Pause/Pause.h"
 
 class GamePlayState :public GameState
 {
@@ -81,6 +82,8 @@ private:
 	ViewProjection viewProjection_;
 
 	std::vector<Timer*> timers_;
+
+	std::unique_ptr<Pause> pause_;
 
 	//3Dオブジェクトたち
 	//プレイヤーモデル
