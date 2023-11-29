@@ -318,6 +318,7 @@
     <ClCompile Include="Base\ParticleSystem\ParticleDrawer\ParticleDrawer.cpp">
       <Filter>Engine\Base\ParticleSystem\ParticleDrawer</Filter>
     </ClCompile>
+    <ClCompile Include="GameObject\MoveGround\MoveGround.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="externals\imgui\imconfig.h">
@@ -532,6 +533,7 @@
     <ClInclude Include="Base\ParticleSystem\ParticleDrawer\ParticleDrawer.h">
       <Filter>Engine\Base\ParticleSystem\ParticleDrawer</Filter>
     </ClInclude>
+    <ClInclude Include="GameObject\MoveGround\MoveGround.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="externals\imgui\LICENSE.txt">

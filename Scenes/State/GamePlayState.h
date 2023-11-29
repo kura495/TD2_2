@@ -20,6 +20,7 @@
 #include "Base/Math/Quaternion/Quaternion.h"
 #include "Base/Utility/CollisionManager.h"
 #include "GameObject/Ground/Ground.h"
+#include "GameObject/MoveGround/MoveGround.h"
 #include "GameObject/Wall/Wall.h"
 #include "GameObject/BuffItem/BuffItem.h"
 #include "GameObject/Skydome/Skydome.h"
@@ -51,7 +52,10 @@ private:
 
 	//地面
 	std::unique_ptr<Model> groundModel_ = nullptr;
-	std::unique_ptr<Ground> ground_[6];
+	std::unique_ptr<Ground> ground_[4];
+
+	//移動する地面
+	std::unique_ptr<MoveGround> moveGround_;
 	
 	//天球
 	std::unique_ptr<Skydome> skydome_;
@@ -73,8 +77,8 @@ private:
 
 	//バフアイテム
 	std::unique_ptr<Model> buffItemModel_ = nullptr;
-	std::unique_ptr<BuffItem> buffItem_[5];
-	WorldTransform buffItemWorldTransform_[5];
+	std::unique_ptr<BuffItem> buffItem_[16];
+	WorldTransform buffItemWorldTransform_[16];
 
 	//
 	WorldTransform worldTransform_;

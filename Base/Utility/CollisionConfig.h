@@ -16,6 +16,8 @@ const uint32_t kCollitionAttributeWeapon = 0b1 << 5;
 const uint32_t kCollitionAttributeWall = 0b1 << 6;
 //バフアイテム
 const uint32_t kCollitionAttributeBuffItem = 0b1 << 7;
+//動く地面
+const uint32_t kCollitionAttributeMoveGround = 0b1 << 8;
 
 
 
