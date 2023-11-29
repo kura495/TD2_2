@@ -11,7 +11,7 @@ void GameTitleState::Initialize()
 	input = Input::GetInstance();
 
 	audio_ = Audio::GetInstance();
-	soundHandle = audio_->LoadAudio("resources/sound/get_2.wav",true);
+	soundHandle = audio_->LoadAudio("resources/sound/get.wav",true);
 }
 
 void GameTitleState::Update()
