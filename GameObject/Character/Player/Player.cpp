@@ -20,10 +20,18 @@ void Player::Initialize(const std::vector<Model*>& models)
 	BoxCollider::SetParent(worldTransform_);
 	BoxCollider::SetSize({ 3.0f,3.0f,1.0f });
 	GlobalVariables::GetInstance()->CreateGroup(groupName);
+
+	//GlobalVariables::GetInstance()->AddItem(groupName, "DashSpeed", workDash_.dashSpeed_);
+
+	particleDrawer_ = std::make_unique<ParticleDrawer>();
+	particleDrawer_->Initalize();
+	particleDrawer_->addParticle(1,10,"resources/circle.png",{0.0f,0.0f,0.0f});
+
 	GlobalVariables::GetInstance()->AddItem(groupName, "hitSpeed", hitSpeed_);
 
 	itemCount_ = 0;
 	
+
 }
 
 void Player::Update()
@@ -167,6 +175,8 @@ void Player::Update()
 
 	joyStatePre = joyState;
 
+	particleDrawer_->Update();
+
 	isHit_ = false;
 }
 
@@ -181,6 +191,11 @@ void Player::Draw(const ViewProjection& viewProjection)
 		models_[4]->Draw(worldTransformLine_, viewProjection);
 	}
 
+}
+
+void Player::ParticleDraw(const ViewProjection& viewProjection)
+{
+	particleDrawer_->Draw(viewProjection);
 }
 
 void Player::OnCollision(Collider* collider)
@@ -367,6 +382,8 @@ void Player::BehaviorRootUpdate()
 
 void Player::BehaviorDashInit()
 {
+	particleDrawer_->Reset(1,worldTransform_.GetTranslateFromMatWorld());
+
 	workDash_.dashParameter_ = 0;
 	workDash_.chargeParameter_ = 0;
 	//プレイヤーの旋回の補間を切って一瞬で目標角度をに付くようにしている	

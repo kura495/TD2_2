@@ -32,9 +32,6 @@ void Particle::Initalize(int particleVolume,const std::string filePath)
 	materialData->color = { 1.0f,1.0f,1.0f,1.0f };
 	materialData->uvTransform = CreateIdentity4x4();
 
-	Pipeline_ = std::make_unique<ParticlePipeLine>();
-	Pipeline_->Initalize();
-
 }
 void Particle::Initalize(int particleVolume,const std::string filePath, Vector3 Pos)
 {
@@ -67,9 +64,6 @@ void Particle::Initalize(int particleVolume,const std::string filePath, Vector3 
 	materialData->color = { 1.0f,1.0f,1.0f,1.0f };
 	materialData->uvTransform = CreateIdentity4x4();
 
-	Pipeline_ = std::make_unique<ParticlePipeLine>();
-	Pipeline_->Initalize();
-
 	SetPos(Pos);
 
 }
@@ -86,15 +80,19 @@ void Particle::Update()
 		particles[Volume_i].translate += velcity;
 		float alpha = 1.0f - (particles[Volume_i].currentTime / particles[Volume_i].lifeTime);
 		particles[Volume_i].color.w = alpha;
-		//particles[Volume_i].currentTime += kDeltaTime;
+		particles[Volume_i].currentTime += kDeltaTime;
 		particles[Volume_i].matWorld = MakeAffineMatrix({1.0f,1.0f,1.0f}, Vector3{0.0f,0.0f,0.0f}, particles[Volume_i].translate);
 		++numInstance;
+	}
+
+	if (numInstance == 0) {
+		IsAlive = false;
 	}
 }
 
 void Particle::Draw(const ViewProjection& viewProjection)
 {
-	Matrix4x4 Camera = viewProjection.CameraMatrix;
+	/*Matrix4x4 Camera = viewProjection.CameraMatrix;
 	Matrix4x4 billboardMatrix = MakeAffineMatrix({1.0f,1.0f,1.0f}, viewProjection.rotation_, viewProjection.translation_);
 	billboardMatrix = Multiply(billboardMatrix, Camera);
 	billboardMatrix.m[3][0] = 0.0f;
@@ -105,7 +103,7 @@ void Particle::Draw(const ViewProjection& viewProjection)
 			continue;
 		}
 		particles[Volume_i].matWorld = Multiply(particles[Volume_i].matWorld, billboardMatrix);
-	}
+	}*/
 
 	directX_->GetcommandList()->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
@@ -125,18 +123,26 @@ void Particle::Draw(const ViewProjection& viewProjection)
 	directX_->GetcommandList()->DrawInstanced(6, numInstance, 0, 0);
 }
 
-void Particle::PreDraw()
-{
-	directX_->GetcommandList()->SetGraphicsRootSignature(Pipeline_->GetPSO().rootSignature.Get());
-	directX_->GetcommandList()->SetPipelineState(Pipeline_->GetPSO().graphicsPipelineState.Get());
-}
-
 void Particle::SetPos(Vector3 Pos)
 {
 	for (uint32_t Volume_i = 0; Volume_i < kNumMaxInstance; Volume_i++) {
 	 particles[Volume_i].translate = Pos;
 	}
 
+}
+
+void Particle::Reset(Vector3 Pos)
+{
+	//ランダム生成用
+	std::random_device seedGenerator;
+	std::mt19937 ranndomEngine(seedGenerator());
+
+	for (uint32_t Volume_i = 0; Volume_i < kNumMaxInstance; Volume_i++) {
+		particles[Volume_i] = MakeNewParticle(ranndomEngine);
+	}
+	for (uint32_t Volume_i = 0; Volume_i < kNumMaxInstance; Volume_i++) {
+		particles[Volume_i].translate = Pos;
+	}
 }
 
 void Particle::CreateResources()

@@ -9,6 +9,7 @@
 #include "Base/ViewProjection.h"
 #include "Base/Utility/BoxCollider.h"
 #include "Base/Utility/CollisionConfig.h"
+#include "Base/ParticleSystem/ParticleDrawer/ParticleDrawer.h"
 
 #include "GameObject/BuffItem/BuffItem.h"
 #include "GameObject/Character/Boss/Boss.h"
@@ -75,6 +76,8 @@ public:
 	void Initialize(const std::vector<Model*>& models) override;
 	void Update() override;
 	void Draw(const ViewProjection& viewProjection) override;
+
+	void ParticleDraw(const ViewProjection& viewProjection);
 
 	void SetViewProjection(const ViewProjection* viewProjection) {
 		viewProjection_ = viewProjection;
@@ -207,8 +210,12 @@ private:
 
 	int underAttackTimer = 60;
 
+
+	std::unique_ptr<ParticleDrawer> particleDrawer_;
+
 	//レベル1
 	float hitSpeed_ = 1.8f;
 
 	uint32_t itemCount_ = 0;
+
 };

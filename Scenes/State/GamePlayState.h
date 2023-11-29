@@ -19,6 +19,7 @@
 #include "Math_Structs.h"
 #include "Base/Math/Quaternion/Quaternion.h"
 #include "Base/Utility/CollisionManager.h"
+#include "Base/ParticleSystem/ParticleDrawer/ParticleDrawer.h"
 #include "GameObject/Ground/Ground.h"
 #include "GameObject/Wall/Wall.h"
 #include "GameObject/BuffItem/BuffItem.h"

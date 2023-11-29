@@ -34,9 +34,12 @@ public:
 
 	void Draw(const ViewProjection& viewProjection);
 
-	void PreDraw();
-
 	void SetPos(Vector3 Pos);
+
+	bool GetIsAlive() const { return IsAlive; }
+	void SetIsAlive(bool Flag)  { IsAlive = Flag; }
+
+	void Reset(Vector3 Pos);
 
 private:
 	//インスタンスの数
@@ -69,7 +72,7 @@ private:
 	void CreateResources();
 	void CreateSRV();
 
-	std::unique_ptr<ParticlePipeLine> Pipeline_;
+	bool IsAlive = false;
 
 	D3D12_CPU_DESCRIPTOR_HANDLE instancingSRVHandleCPU;
 	D3D12_GPU_DESCRIPTOR_HANDLE instancingSRVHandleGPU;

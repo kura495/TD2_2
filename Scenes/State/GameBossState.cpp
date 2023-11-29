@@ -56,6 +56,8 @@ void GameBossState::Initialize()
 	followCamera->SetTarget(&player->GetWorldTransform());
 	player->SetViewProjection(&followCamera->GetViewProjection());
 
+
+
 	particle = std::make_unique<Particle>();
 	particle->Initalize(10, "resources/circle.png");
 
@@ -101,6 +103,7 @@ void GameBossState::Initialize()
 	pause_ = std::make_unique<Pause>();
 	pause_->Initialize();
 	isPause_ = false;
+
 }
 
 void GameBossState::Update()
@@ -170,6 +173,7 @@ void GameBossState::Update()
 
 
 	}
+
 	else {
 		if (pause_->GetLeft()) {
 			if (joyState.Gamepad.wButtons & XINPUT_GAMEPAD_A)
@@ -183,6 +187,7 @@ void GameBossState::Update()
 		pause_->Update();
 	}
 	
+
 }
 
 void GameBossState::Draw()
@@ -209,6 +214,5 @@ void GameBossState::Draw()
 		pause_->Draw();
 	}
 
-	particle->PreDraw();
-	particle->Draw(viewProjection_);
+
 }

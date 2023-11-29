@@ -93,9 +93,11 @@ private:
 
 	//3Dオブジェクトたち
 
+
 	std::unique_ptr<Particle> particle;
 
 	XINPUT_STATE joyState;
 	XINPUT_STATE joyStatePre;
+
 };
 

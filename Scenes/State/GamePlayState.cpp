@@ -307,6 +307,7 @@ void GamePlayState::Initialize()
 
 	}
 
+
 	pause_ = std::make_unique<Pause>();
 	pause_->Initialize();
 
@@ -348,6 +349,7 @@ void GamePlayState::Initialize()
 	textureHandle_item_[0] = TextureManager::GetInstance()->LoadTexture("resources/ItemCount/gauge.png");
 	textureHandle_item_[1] = TextureManager::GetInstance()->LoadTexture("resources/Item/ItemColor.png");
 	textureHandle_item_[2] = TextureManager::GetInstance()->LoadTexture("resources/Item/speed.png");
+
 }
 
 void GamePlayState::Update()
@@ -538,6 +540,7 @@ void GamePlayState::Draw()
 	}
 
 	//Sprite描画ここまで
-	
+	player->ParticleDraw(viewProjection_);
+
 	//描画ここまで
 }
