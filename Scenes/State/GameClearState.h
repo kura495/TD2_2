@@ -18,6 +18,10 @@ private:
 	int time;
 	Input* input = nullptr;
 
+	std::unique_ptr<Sprite> sprite_;
+	WorldTransform worldTransform_Sprite_;
+	uint32_t textureHandle_;
+
 	XINPUT_STATE joyState;
 	XINPUT_STATE joyStatePre;
 };
