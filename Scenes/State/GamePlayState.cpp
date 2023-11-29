@@ -467,8 +467,8 @@ void GamePlayState::Update()
 		}
 
 		
-
-		worldTransform_item_.scale_.x = player->GetItemCount() * 0.374f;
+		itemCount = player->GetItemCount();
+		worldTransform_item_.scale_.x = itemCount * 0.374f;
 		worldTransform_item_.UpdateMatrix();
 
 	}

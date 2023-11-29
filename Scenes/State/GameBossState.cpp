@@ -146,7 +146,7 @@ void GameBossState::Update()
 		collisionManager_->CheckAllCollisions();
 		collisionManager_->ClearCollider();
 
-		worldTransform_item_.scale_.x = player->GetItemCount() * 0.374f;
+		worldTransform_item_.scale_.x = itemCount * 0.374f;
 		worldTransform_item_.UpdateMatrix();
 
 		if (player->GetIsDead() == true)
