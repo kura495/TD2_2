@@ -11,7 +11,7 @@ void GameTitleState::Initialize()
 	input = Input::GetInstance();
 
 	audio_ = Audio::GetInstance();
-	soundHandle = audio_->LoadAudio("resources/sound/get.wav",true);
+
 }
 
 void GameTitleState::Update()
@@ -22,7 +22,6 @@ void GameTitleState::Update()
 	{
 		StateNo = 1;
 	}
-	audio_->Play(soundHandle,1.0f);
 
 	ImGui::Begin("Title");
 	ImGui::Text("GamePlay :  A Buttun");
