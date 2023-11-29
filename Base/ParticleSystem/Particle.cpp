@@ -32,9 +32,6 @@ void Particle::Initalize(int particleVolume,const std::string filePath)
 	materialData->color = { 1.0f,1.0f,1.0f,1.0f };
 	materialData->uvTransform = CreateIdentity4x4();
 
-	Pipeline_ = std::make_unique<ParticlePipeLine>();
-	Pipeline_->Initalize();
-
 }
 void Particle::Initalize(int particleVolume,const std::string filePath, Vector3 Pos)
 {

@@ -306,6 +306,9 @@ void GamePlayState::Initialize()
 		timers_.emplace_back(timer);
 
 	}
+	particleDrawer_ = std::make_unique<ParticleDrawer>();
+	particleDrawer_->Initalize();
+	particleDrawer_->addParticle(10,"resources/uvChecker.png",{0.0f,0.0f,0.0f});
 }
 
 void GamePlayState::Update()
@@ -428,6 +431,8 @@ void GamePlayState::Update()
 		}
 	}
 
+	particleDrawer_->Update();
+
 	joyStatePre = joyState;
 }
 	
@@ -464,5 +469,7 @@ void GamePlayState::Draw()
 
 	//Sprite描画ここまで
 	
+	particleDrawer_->Draw(viewProjection_);
+
 	//描画ここまで
 }

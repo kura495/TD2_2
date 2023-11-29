@@ -1,6 +1,6 @@
 #include "ParticleDrawer.h"
 
-void ParticleDrawer::Initalize(int particleVolume, const std::string filePath, Vector3 Pos)
+void ParticleDrawer::Initalize()
 {
 	textureManager_ = TextureManager::GetInstance();
 	directX_ = DirectXCommon::GetInstance();
@@ -40,4 +40,11 @@ void ParticleDrawer::PreDraw()
 	directX_->GetcommandList()->SetGraphicsRootSignature(Pipeline_->GetPSO().rootSignature.Get());
 	directX_->GetcommandList()->SetPipelineState(Pipeline_->GetPSO().graphicsPipelineState.Get());
 
+}
+
+void ParticleDrawer::addParticle(int particleVolume, const std::string filePath, Vector3 Pos)
+{
+	Particle* particle = new Particle();
+	particle->Initalize(particleVolume, filePath, Pos);
+	particles_.push_back(particle);
 }

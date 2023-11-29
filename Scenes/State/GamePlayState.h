@@ -19,6 +19,7 @@
 #include "Math_Structs.h"
 #include "Base/Math/Quaternion/Quaternion.h"
 #include "Base/Utility/CollisionManager.h"
+#include "Base/ParticleSystem/ParticleDrawer/ParticleDrawer.h"
 #include "GameObject/Ground/Ground.h"
 #include "GameObject/Wall/Wall.h"
 #include "GameObject/BuffItem/BuffItem.h"
@@ -45,6 +46,8 @@ private:
 	DirectXCommon* DirectX_ = nullptr;
 	GlobalVariables* globalVariables = nullptr;
 	std::unique_ptr<CollisionManager> collisionManager_;
+
+	std::unique_ptr<ParticleDrawer> particleDrawer_;
 
 	std::unique_ptr<FollowCamera> followCamera;
 

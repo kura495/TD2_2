@@ -72,7 +72,5 @@ private:
 	ViewProjection viewProjection_;
 
 	//3Dオブジェクトたち
-
-	std::unique_ptr<Particle> particle;
 };
 

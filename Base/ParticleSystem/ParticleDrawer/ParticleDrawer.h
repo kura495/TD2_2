@@ -7,13 +7,15 @@
 class ParticleDrawer
 {
 public:
-	void Initalize(int particleVolume, const std::string filePath, Vector3 Pos);
+	void Initalize();
 
 	void Update();
 
 	void Draw(const ViewProjection& viewProjection);
 
 	void PreDraw();
+
+	void addParticle(int particleVolume, const std::string filePath, Vector3 Pos);
 
 	static const uint32_t kParticle = 20;
 
