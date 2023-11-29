@@ -302,7 +302,7 @@ void GamePlayState::Initialize()
 	timers_.clear();
 	for (uint32_t i = 0; i < 3; i++) {
 		Timer* timer = new Timer();
-		timer->Initialize(static_cast<Timer::DigitPlace>(i), 300, Vector3{ 1200.0f - float(i) * 64, 10.0f, 0.0f });
+		timer->Initialize(static_cast<Timer::DigitPlace>(i), 60, Vector3{ 1200.0f - float(i) * 64, 10.0f, 0.0f });
 		timers_.emplace_back(timer);
 
 	}
