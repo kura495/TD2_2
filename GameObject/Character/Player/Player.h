@@ -218,4 +218,10 @@ private:
 
 	uint32_t itemCount_ = 0;
 
+	Audio* audio_ = nullptr;
+	uint32_t ItemGetSound;
+	uint32_t DashSound;
+	uint32_t ChargeSound;
+	uint32_t DriftSound;
+	bool ChargeFlag = false;
 };

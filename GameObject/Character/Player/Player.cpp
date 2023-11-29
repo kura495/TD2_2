@@ -30,7 +30,12 @@ void Player::Initialize(const std::vector<Model*>& models)
 	GlobalVariables::GetInstance()->AddItem(groupName, "hitSpeed", hitSpeed_);
 
 	itemCount_ = 0;
-	
+
+	audio_ = Audio::GetInstance();
+	ItemGetSound = audio_->LoadAudio("resources/sound/get.wav",false);
+	DashSound = audio_->LoadAudio("resources/sound/dash1.wav",false);
+	ChargeSound = audio_->LoadAudio("resources/sound/Charge.wav",false);
+	DriftSound = audio_->LoadAudio("resources/sound/Drift.wav",false);
 
 }
 
@@ -251,6 +256,8 @@ void Player::OnCollision(Collider* collider)
 		ImGui::End();
 	}
 	else if (collider->GetcollitionAttribute() == kCollitionAttributeBuffItem) {
+		audio_->Stop(ItemGetSound,true);
+		audio_->Play(ItemGetSound,0.5f);
 		isSpeedUp_ = true;
 		if (itemCount_ < 15) {
 			itemCount_++;
@@ -382,6 +389,8 @@ void Player::BehaviorRootUpdate()
 
 void Player::BehaviorDashInit()
 {
+
+
 	particleDrawer_->Reset(1,worldTransform_.GetTranslateFromMatWorld());
 
 	workDash_.dashParameter_ = 0;
@@ -404,6 +413,13 @@ void Player::BehaviorDashUpdate()
 	Input::GetInstance()->GetJoystickState(0, joyState);
 	if (IsOnGraund) {
 		if (workDash_.isPowerCharge) {
+			if (ChargeFlag == false) {
+				audio_->Stop(ChargeSound, true);
+				audio_->Play(ChargeSound, 0.5f);
+				ChargeFlag = true;
+			}
+
+
 			workDash_.move_ = { (float)joyState.Gamepad.sThumbLX / SHRT_MAX, 0.0f,(float)joyState.Gamepad.sThumbLY / SHRT_MAX };
 
 			if (workDash_.scale_.x > 0.5f) {
@@ -459,6 +475,10 @@ void Player::BehaviorDashUpdate()
 			}
 
 			if (!(joyStatePre.Gamepad.wButtons & XINPUT_GAMEPAD_A)) {
+				audio_->Stop(ChargeSound, true);
+				audio_->Stop(DashSound, true);
+				audio_->Play(DashSound, 0.5f);
+				ChargeFlag = false;
 				workDash_.isPowerCharge = false;
 				workDash_.isDash = true;
 				workDash_.chargeParameter_ = 0;
@@ -501,6 +521,8 @@ void Player::BehaviorDashUpdate()
 
 			workDash_.dashParameter_++;
 			if ((joyState.Gamepad.wButtons & XINPUT_GAMEPAD_A)) {
+				audio_->Stop(DriftSound, true);
+				audio_->Play(DriftSound, 0.5f);
 				workDash_.isPowerCharge = true;
 				workDash_.dashParameter_ = 0;
 				workDash_.isDash = false;
