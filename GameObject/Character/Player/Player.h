@@ -37,6 +37,7 @@ struct WorkDash {
 	Quaternion quaternionPre_;
 	bool isPowerCharge;
 	bool isDash;
+	bool isDrift;
 };
 const uint32_t dashCoolTime_ = 60;
 const uint32_t chargeTime = 300;
@@ -147,7 +148,7 @@ private:
 	WorldTransform worldTransformHead_;
 	WorldTransform worldTransformL_arm_;
 	WorldTransform worldTransformR_arm_;
-
+	WorldTransform worldTransformLine_;
 	//カメラのビュープロジェクション
 	const ViewProjection* viewProjection_ = nullptr;
 
