@@ -97,53 +97,92 @@ void GameBossState::Initialize()
 	textureHandle_item_[0] = TextureManager::GetInstance()->LoadTexture("resources/ItemCount/gauge.png");
 	textureHandle_item_[1] = TextureManager::GetInstance()->LoadTexture("resources/Item/ItemColor.png");
 	textureHandle_item_[2] = TextureManager::GetInstance()->LoadTexture("resources/Item/speed.png");
+
+	pause_ = std::make_unique<Pause>();
+	pause_->Initialize();
+	isPause_ = false;
 }
 
 void GameBossState::Update()
 {
-	ground_->Update();
+	joyStatePre = joyState;
+	input->GetJoystickState(0, joyState);
 
-	skydome_->Updata();
-
-	player->Update();
-
-	boss_->Update();
-
-	followCamera->SetIsStickPre(player->GetIsStickRight(), player->GetIsStickLeft());
-
-	followCamera->Update();
-	viewProjection_ = followCamera->GetViewProjection();
-
-	viewProjection_.UpdateMatrix();
-
-	collisionManager_->AddBoxCollider(player.get());
-	collisionManager_->AddBoxCollider(ground_.get());
-	collisionManager_->AddBoxCollider(boss_.get());
-
-	collisionManager_->CheckAllCollisions();
-	collisionManager_->ClearCollider();
-
-	worldTransform_item_.scale_.x = player->GetItemCount() * 0.374f;
-	worldTransform_item_.UpdateMatrix();
-
-	if (player->GetIsDead() == true)
+	if (joyState.Gamepad.wButtons & XINPUT_GAMEPAD_START && !(joyStatePre.Gamepad.wButtons & XINPUT_GAMEPAD_START))
 	{
-		StateNo = 4;
-		ImGui::Begin("Dead");
-		//ImGui::Text("%d", StateNo);
-		//ImGui::DragFloat3("itemWorldTransform", &itemWorldTransform_[6].translation_.x, 1.0f);
-		ImGui::End();
+		if (!pauseRelease_)
+		{
+			isPause_ = !isPause_;
+			pauseRelease_ = true;
+		}
+		pause_->SetIsTutorial(false);
+
+	}
+	else {
+		pauseRelease_ = false;
 	}
 
-	if (boss_->GetIsDead() == true)
-	{
-		StateNo = 3;
-		ImGui::Begin("Hit");
-		//ImGui::Text("%d", StateNo);
-		//ImGui::DragFloat3("itemWorldTransform", &itemWorldTransform_[6].translation_.x, 1.0f);
-		ImGui::End();
+	if (!isPause_) {
+
+		ground_->Update();
+
+		skydome_->Updata();
+
+		player->Update();
+
+		boss_->Update();
+
+		followCamera->SetIsStickPre(player->GetIsStickRight(), player->GetIsStickLeft());
+
+		followCamera->Update();
+		viewProjection_ = followCamera->GetViewProjection();
+
+		viewProjection_.UpdateMatrix();
+
+		collisionManager_->AddBoxCollider(player.get());
+		collisionManager_->AddBoxCollider(ground_.get());
+		collisionManager_->AddBoxCollider(boss_.get());
+
+		collisionManager_->CheckAllCollisions();
+		collisionManager_->ClearCollider();
+
+		worldTransform_item_.scale_.x = player->GetItemCount() * 0.374f;
+		worldTransform_item_.UpdateMatrix();
+
+		if (player->GetIsDead() == true)
+		{
+			StateNo = 4;
+			ImGui::Begin("Dead");
+			//ImGui::Text("%d", StateNo);
+			//ImGui::DragFloat3("itemWorldTransform", &itemWorldTransform_[6].translation_.x, 1.0f);
+			ImGui::End();
+		}
+
+		if (boss_->GetIsDead() == true)
+		{
+			StateNo = 3;
+			ImGui::Begin("Hit");
+			//ImGui::Text("%d", StateNo);
+			//ImGui::DragFloat3("itemWorldTransform", &itemWorldTransform_[6].translation_.x, 1.0f);
+			ImGui::End();
+		}
+		particle->Update();
+
+
 	}
-	particle->Update();
+	else {
+		if (pause_->GetLeft()) {
+			if (joyState.Gamepad.wButtons & XINPUT_GAMEPAD_A)
+			{
+				if (!(joyStatePre.Gamepad.wButtons & XINPUT_GAMEPAD_A)) {
+					StateNo = 0;
+				}
+			}
+		}
+
+		pause_->Update();
+	}
+	
 }
 
 void GameBossState::Draw()
@@ -165,6 +204,10 @@ void GameBossState::Draw()
 	}
 
 	targetSprite_->Draw(sprite_Target_, textureHandle_target_);
+
+	if (isPause_) {
+		pause_->Draw();
+	}
 
 	particle->PreDraw();
 	particle->Draw(viewProjection_);

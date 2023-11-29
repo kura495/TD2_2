@@ -486,11 +486,6 @@ void GamePlayState::Update()
 		}
 
 		pause_->Update();
-
-		if (joyState.Gamepad.wButtons & XINPUT_GAMEPAD_B)
-		{
-			StateNo = 0;
-		}
 	}
 
 	joyStatePre = joyState;

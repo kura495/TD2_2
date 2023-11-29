@@ -26,6 +26,7 @@
 #include "GameObject/FollowCamera/FollowCamera.h"
 
 #include "Base/ParticleSystem/Particle.h"
+#include "GameObject/Pause/Pause.h"
 
 class GameBossState : public GameState
 {
@@ -85,8 +86,16 @@ private:
 	WorldTransform worldTransform_item_;
 	WorldTransform worldTransform_speed_;
 
+	std::unique_ptr<Pause> pause_;
+	//Pause
+	bool isPause_ = false;
+	bool pauseRelease_ = false;
+
 	//3Dオブジェクトたち
 
 	std::unique_ptr<Particle> particle;
+
+	XINPUT_STATE joyState;
+	XINPUT_STATE joyStatePre;
 };
 
