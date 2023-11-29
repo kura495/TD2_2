@@ -286,6 +286,14 @@ void GamePlayState::Initialize()
 	followCamera->Initalize();
 	followCamera->SetTarget(&player->GetWorldTransform());
 	player->SetViewProjection(&followCamera->GetViewProjection());
+
+	timers_.clear();
+	for (uint32_t i = 0; i < 3; i++) {
+		Timer* timer = new Timer();
+		timer->Initialize(static_cast<Timer::DigitPlace>(i), 300, Vector3{ 1200.0f - float(i) * 64, 10.0f, 0.0f });
+		timers_.emplace_back(timer);
+
+	}
 }
 
 void GamePlayState::Update()
@@ -367,6 +375,10 @@ void GamePlayState::Update()
 	//ImGui::DragFloat3("itemWorldTransform", &wallWorldTransform_[14].translation_.x, 1.0f);
 
 	ImGui::End();
+
+	for (auto& timer : timers_) {
+		timer->Update();
+	}
 }
 
 void GamePlayState::Draw()
@@ -395,7 +407,9 @@ void GamePlayState::Draw()
 	//3Dモデル描画ここまで	
 
 	//Sprite描画ここから
-
+	for (auto& timer : timers_) {
+		timer->Draw();
+	}
 
 	//Sprite描画ここまで
 	
