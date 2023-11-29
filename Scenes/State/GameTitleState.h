@@ -15,8 +15,8 @@ private:
 	TextureManager* textureManager_ = nullptr;
 
 	Vector4 LeftTop[2] = {
-{ 0.0f,0.0f,0.0f,1.0f },
-{ 360.0f,0.0f,0.0f,1.0f }
+	{ 0.0f,0.0f,0.0f,1.0f },
+	{ 360.0f,0.0f,0.0f,1.0f }
 	};
 	Vector4 LeftBottom[2] = {
 		{ 0.0f,720.0f,0.0f,1.0f },
