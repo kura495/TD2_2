@@ -12,12 +12,33 @@ void ParticleDrawer::Initalize(int particleVolume, const std::string filePath, V
 
 void ParticleDrawer::Update()
 {
-	if()
+	particles_.remove_if([&](Particle* particle) {
+		if (particle->GetIsAlive()) {
+			return false;
+		}
+		else {
+			delete particle;
+			return true;
+		}
+	});
+	for (Particle* particle : particles_) {
+		particle->Update();
+	}
+	
 	
 }
 
 void ParticleDrawer::Draw(const ViewProjection& viewProjection)
 {
+	PreDraw();
+	for (Particle* particle : particles_) {
+		particle->Update();
+	}
+}
+
+void ParticleDrawer::PreDraw()
+{
 	directX_->GetcommandList()->SetGraphicsRootSignature(Pipeline_->GetPSO().rootSignature.Get());
 	directX_->GetcommandList()->SetPipelineState(Pipeline_->GetPSO().graphicsPipelineState.Get());
+
 }

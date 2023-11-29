@@ -1,6 +1,6 @@
 #pragma once
 #include "ParticleSystem/Particle.h"
-#include <array>
+#include <list>
 
 
 
@@ -21,7 +21,7 @@ private:
 	DirectXCommon* directX_ = nullptr;
 	TextureManager* textureManager_ = nullptr;
 
-	std::array<std::unique_ptr<Particle>,20> particle;
+	std::list<Particle*> particles_;
 
 	std::unique_ptr<ParticlePipeLine> Pipeline_;
 };
