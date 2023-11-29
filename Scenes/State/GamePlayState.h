@@ -51,7 +51,7 @@ private:
 
 	//地面
 	std::unique_ptr<Model> groundModel_ = nullptr;
-	std::unique_ptr<Ground> ground_[2];
+	std::unique_ptr<Ground> ground_[6];
 	
 	//天球
 	std::unique_ptr<Skydome> skydome_;
@@ -68,8 +68,8 @@ private:
 	//壁
 	std::unique_ptr<Model> wallModel_ = nullptr;
 	std::unique_ptr<Model> edgeWallModel_;
-	std::unique_ptr<Wall> wall_[31];
-	WorldTransform wallWorldTransform_[31];
+	std::unique_ptr<Wall> wall_[8];
+	WorldTransform wallWorldTransform_[8];
 
 	//バフアイテム
 	std::unique_ptr<Model> buffItemModel_ = nullptr;
