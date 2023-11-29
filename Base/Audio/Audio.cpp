@@ -52,45 +52,44 @@ void Audio::Initialize() {
 	// Assuming pVoice sends to pMasteringVoice
 }
 
-uint32_t Audio::LoadAudio(const char* filename,bool LoopFlag) {
+uint32_t Audio::LoadAudio(const char* filePath,bool LoopFlag) {
 
 #pragma region Index
-	uint32_t AudioIndex = kMaxAudio + 1;
-	    for (int i = 0; i < kMaxAudio; ++i) {
-			if (IsusedAudioIndex[i] == false) {
-				AudioIndex = i;
-				IsusedAudioIndex[i] = true;
-				break;
+	uint32_t index = 0;
+	for (uint32_t index_i = 0; index_i < kMaxAudio; index_i++) {
+		if (soundData_.at(index_i).IsUsed) {
+			if (filePath == soundData_.at(index_i).name) {
+				return index_i;
 			}
-	    }
-	    if (AudioIndex < 0) {
-		// 0より少ない
-		assert(false);
-	    }
-	    if (kMaxAudio < AudioIndex) {
-		// MaxSpriteより多い
-		assert(false);
-	    }
+		}
+	}
+
+	for (uint32_t index_i = 0; index_i < kMaxAudio; index_i++) {
+		if (soundData_.at(index_i).IsUsed == false) {
+			index = index_i;
+			break;
+		}
+	}
 
 #pragma endregion 位置決め
 
-		soundData_[AudioIndex] = SoundLoadWave(filename);
-		if (FAILED(XAudioInterface->CreateSourceVoice(&pSourceVoice[AudioIndex], &soundData_[AudioIndex].wfex))) {
-			SoundUnload(AudioIndex);
+		soundData_[index] = SoundLoadWave(filePath);
+		if (FAILED(XAudioInterface->CreateSourceVoice(&pSourceVoice[index], &soundData_[index].wfex))) {
+			SoundUnload(index);
 			assert(false);
 		}
 	    XAUDIO2_BUFFER buffer{};
-	    buffer.pAudioData = soundData_[AudioIndex].pBuffer;
+	    buffer.pAudioData = soundData_[index].pBuffer;
 	    buffer.Flags = XAUDIO2_END_OF_STREAM;
-	    buffer.AudioBytes = soundData_[AudioIndex].bufferSize;
+	    buffer.AudioBytes = soundData_[index].bufferSize;
 	    buffer.LoopBegin = 0;
 	    buffer.LoopLength = 0;
 
 	    buffer.LoopCount = LoopFlag ? XAUDIO2_LOOP_INFINITE : 0 ;
 
-	    pSourceVoice[AudioIndex]->SubmitSourceBuffer(&buffer);
+	    pSourceVoice[index]->SubmitSourceBuffer(&buffer);
 
-		return AudioIndex;
+		return index;
 }
 
 void Audio::Release() {
@@ -108,7 +107,7 @@ void Audio::Release() {
 		XAudioInterface->Release();
 		XAudioInterface = nullptr;
 	}
-	soundData_.clear();
+	//soundData_.clear();
 	CoUninitialize();
 }
 
@@ -251,13 +250,10 @@ SoundData Audio::SoundLoadWave(const char* filename)
 
 void Audio::SoundUnload(uint32_t Index)
 {
-	auto it = soundData_.find(Index);
-	if (it != soundData_.end()) {
 		delete[] soundData_[Index].pBuffer;
 		soundData_[Index].pBuffer = 0;
 		soundData_[Index].bufferSize = 0;
 		soundData_[Index].wfex = {};
-	}
 }
 
 void Audio::Log(const std::string& message) { OutputDebugStringA(message.c_str()); }

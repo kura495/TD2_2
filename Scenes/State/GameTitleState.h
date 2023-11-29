@@ -18,6 +18,7 @@ private:
 	Input* input = nullptr;
 	Audio* audio_ = nullptr;
 	uint32_t soundHandle;
+	uint32_t soundHandle2;
 
 	TextureManager* textureManager_ = nullptr;
 	uint32_t texture_;

@@ -6,7 +6,7 @@
 #include <x3daudio.h>
 #include <cassert>
 #include <fstream>
-#include <map>
+#include <array>
 
 struct ChunkHeader {
 	char id[4];//チャンクID
@@ -27,6 +27,10 @@ struct SoundData {
 	BYTE* pBuffer;
 	//バッファのサイズ
 	unsigned int bufferSize;
+	// 名前
+	std::string name;
+	// 使っているかどうか
+	bool IsUsed = false;
 };
 class Audio {
 public:
@@ -49,7 +53,7 @@ private:
 
 	float left = 0;
 	float right = 0;
-	static const int kMaxAudio = 8;
+	static const int kMaxAudio = 64;
 	HRESULT hr;
 	Microsoft::WRL::ComPtr<IXAudio2> XAudioInterface = nullptr;
 	IXAudio2MasteringVoice* pMasteringVoice = nullptr;
@@ -58,7 +62,7 @@ private:
 	bool IsusedAudioIndex[kMaxAudio];
 	//生音声データ
 	//再生中にぶっ飛ばすとバグるぜ！！！
-	std::map<uint32_t, SoundData> soundData_;
+	std::array<SoundData, kMaxAudio> soundData_;
 
 	float outputMatrix[8];
 
