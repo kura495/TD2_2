@@ -71,6 +71,11 @@ private:
 	WorldTransform worldTransform_Sprite;
 	ViewProjection viewProjection_;
 
+	std::unique_ptr<Sprite> targetSprite_;
+	WorldTransform sprite_Target_;
+	uint32_t textureHandle_target_;
+
+
 	//3Dオブジェクトたち
 
 	std::unique_ptr<Particle> particle;
