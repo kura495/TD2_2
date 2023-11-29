@@ -25,14 +25,13 @@ void ParticleDrawer::Update()
 		particle->Update();
 	}
 	
-	
 }
 
 void ParticleDrawer::Draw(const ViewProjection& viewProjection)
 {
 	PreDraw();
 	for (Particle* particle : particles_) {
-		particle->Update();
+		particle->Draw(viewProjection);
 	}
 }
 
