@@ -20,7 +20,7 @@ void GameTitleState::Update()
 
 	if (joyState.Gamepad.wButtons & XINPUT_GAMEPAD_A)
 	{
-		StateNo = 1;
+		StateNo = 2;
 	}
 
 	ImGui::Begin("Title");

@@ -176,6 +176,10 @@ void Boss::BehaviorAttackUpdate()
 	{
 		chargeTimer_--;
 
+		worldTransform_.scale_.x -=0.03f; 
+		worldTransform_.scale_.y -=0.03f; 
+		worldTransform_.scale_.z -= 0.03f;
+
 		Vector3 currentPlayerPosition = player_->GetCurrentPosition();
 		currentPlayerPosition.y = 0.0f;
 
@@ -197,6 +201,11 @@ void Boss::BehaviorAttackUpdate()
 	if (isAttack_)
 	{
 		attackTimer_--;
+		worldTransform_.scale_.x = Lerp(worldTransform_.scale_.x,1.0f,0.03f);
+		worldTransform_.scale_.y = Lerp(worldTransform_.scale_.y, 1.0f, 0.03f);
+		worldTransform_.scale_.z = Lerp(worldTransform_.scale_.z, 1.0f, 0.03f);
+
+
 		worldTransform_.translation_ = Add(worldTransform_.translation_, velocity_);
 
 		if (attackTimer_ < 0 || worldTransform_.translation_.x <= -175.0f || worldTransform_.translation_.x >= 175.0f||
