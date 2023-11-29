@@ -17,7 +17,7 @@ void BuffItem::Initalize(const std::vector<Model*>& models, Vector3 position)
 
 	isHit_ = false;
 
-	//soundHandle_ = audio_->LoadAudio("resources/sound/get.wav");
+	//soundHandle_ = audio_->LoadAudio("resources/sound/get_2.wav");
 }
 
 void BuffItem::Update()
