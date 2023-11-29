@@ -8,8 +8,8 @@ void MoveGround::Initalize(const std::vector<Model*>& models, Vector3 position)
 	ICharacter::Initialize(models);
 	worldTransform_.translation_ = position;
 	worldTransform_.UpdateMatrix();
-	BoxCollider::SetcollisionMask(~kCollitionAttributeWall);
-	BoxCollider::SetcollitionAttribute(kCollitionAttributeWall);
+	BoxCollider::SetcollisionMask(~kCollitionAttributeMoveGround);
+	BoxCollider::SetcollitionAttribute(kCollitionAttributeMoveGround);
 	BoxCollider::SetParent(worldTransform_);
 	BoxCollider::SetSize({ 19.5f,0.0f,20.0f });
 }
