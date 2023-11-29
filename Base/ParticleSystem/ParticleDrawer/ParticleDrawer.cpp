@@ -48,3 +48,7 @@ void ParticleDrawer::addParticle(int particleVolume, const std::string filePath,
 	particle->Initalize(particleVolume, filePath, Pos);
 	particles_.push_back(particle);
 }
+
+void ParticleDrawer::Reset()
+{
+}

@@ -38,6 +38,8 @@ public:
 
 	bool GetIsAlive() const { return IsAlive; }
 
+	void Reset(Vector3 Pos);
+
 private:
 	//インスタンスの数
 	const uint32_t kNumMaxInstance = 10;

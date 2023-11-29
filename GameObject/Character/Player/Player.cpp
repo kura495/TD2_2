@@ -20,6 +20,8 @@ void Player::Initialize(const std::vector<Model*>& models)
 	BoxCollider::SetSize({ 3.0f,3.0f,1.0f });
 	GlobalVariables::GetInstance()->CreateGroup(groupName);
 	//GlobalVariables::GetInstance()->AddItem(groupName, "DashSpeed", workDash_.dashSpeed_);
+
+	particleDrawer_
 }
 
 void Player::Update()

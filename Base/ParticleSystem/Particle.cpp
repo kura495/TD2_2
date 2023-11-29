@@ -131,6 +131,20 @@ void Particle::SetPos(Vector3 Pos)
 
 }
 
+void Particle::Reset(Vector3 Pos)
+{
+	//ランダム生成用
+	std::random_device seedGenerator;
+	std::mt19937 ranndomEngine(seedGenerator());
+
+	for (uint32_t Volume_i = 0; Volume_i < kNumMaxInstance; Volume_i++) {
+		particles[Volume_i] = MakeNewParticle(ranndomEngine);
+	}
+	for (uint32_t Volume_i = 0; Volume_i < kNumMaxInstance; Volume_i++) {
+		particles[Volume_i].translate = Pos;
+	}
+}
+
 void Particle::CreateResources()
 {
 	//CreateVertexResource

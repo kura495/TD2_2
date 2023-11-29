@@ -9,6 +9,7 @@
 #include "Base/ViewProjection.h"
 #include "Base/Utility/BoxCollider.h"
 #include "Base/Utility/CollisionConfig.h"
+#include "Base/ParticleSystem/ParticleDrawer/ParticleDrawer.h"
 
 #include "GameObject/BuffItem/BuffItem.h"
 #include "GameObject/Character/Boss/Boss.h"
@@ -202,4 +203,6 @@ private:
 	Boss* boss_ = nullptr;
 
 	int underAttackTimer = 60;
+
+	std::unique_ptr<ParticleDrawer> particleDrawer_;
 };

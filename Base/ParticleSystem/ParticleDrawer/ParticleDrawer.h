@@ -17,6 +17,8 @@ public:
 
 	void addParticle(int particleVolume, const std::string filePath, Vector3 Pos);
 
+	void Reset();
+
 	static const uint32_t kParticle = 20;
 
 private:
