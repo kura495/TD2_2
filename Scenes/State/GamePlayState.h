@@ -85,6 +85,10 @@ private:
 
 	std::unique_ptr<Pause> pause_;
 
+	std::unique_ptr<Sprite> targetSprite_;
+	WorldTransform sprite_Target_;
+	uint32_t textureHandle_target_;
+
 	//3Dオブジェクトたち
 	//プレイヤーモデル
 

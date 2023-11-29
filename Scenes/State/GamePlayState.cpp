@@ -309,6 +309,14 @@ void GamePlayState::Initialize()
 
 	pause_ = std::make_unique<Pause>();
 	pause_->Initialize();
+
+	targetSprite_ = std::make_unique<Sprite>();
+	targetSprite_->Initialize(Vector4{0.0f, 0.0f, 0.0f, 1.0f}, Vector4{0.0f, 128.0f, 0.0f, 1.0f}, Vector4{512.0f, 0.0f, 0.0f, 1.0f}, Vector4{512.0f, 128.0f, 0.0f, 1.0f});
+	sprite_Target_.Initialize();
+	sprite_Target_.translation_ = Vector3{384.0f, 598.0f, 0.0f};
+	sprite_Target_.UpdateMatrix();
+	textureHandle_target_ = textureManager_->LoadTexture("resources/itemTarget.png");
+
 }
 
 void GamePlayState::Update()
@@ -470,6 +478,8 @@ void GamePlayState::Draw()
 	for (auto& timer : timers_) {
 		timer->Draw();
 	}
+
+	targetSprite_->Draw(sprite_Target_, textureHandle_target_);
 
 	if (isPause_) {
 		pause_->Draw();
