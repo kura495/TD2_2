@@ -47,3 +47,8 @@ void ParticleDrawer::Reset(int ParticleNumber, Vector3 Pos)
 	particles_.at(ParticleNumber).SetIsAlive(true);
 	particles_.at(ParticleNumber).Reset(Pos);
 }
+
+void ParticleDrawer::SetPos(int ParticleNumber, Vector3 Pos)
+{
+	particles_.at(ParticleNumber).SetPos(Pos);
+}

@@ -19,6 +19,8 @@ public:
 
 	void Reset(int ParticleNumber, Vector3 Pos);
 
+	void SetPos(int ParticleNumber, Vector3 Pos);
+
 	static const uint32_t kParticle = 20;
 
 private:

@@ -391,7 +391,7 @@ void Player::BehaviorDashInit()
 {
 
 
-	particleDrawer_->Reset(1,worldTransform_.GetTranslateFromMatWorld());
+	
 
 	workDash_.dashParameter_ = 0;
 	workDash_.chargeParameter_ = 0;
@@ -414,6 +414,7 @@ void Player::BehaviorDashUpdate()
 	if (IsOnGraund) {
 		if (workDash_.isPowerCharge) {
 			if (ChargeFlag == false) {
+				particleDrawer_->Reset(1, worldTransform_.GetTranslateFromMatWorld());
 				audio_->Stop(ChargeSound, true);
 				audio_->Play(ChargeSound, 0.5f);
 				ChargeFlag = true;
@@ -521,6 +522,7 @@ void Player::BehaviorDashUpdate()
 
 			workDash_.dashParameter_++;
 			if ((joyState.Gamepad.wButtons & XINPUT_GAMEPAD_A)) {
+				particleDrawer_->Reset(1, worldTransform_.GetTranslateFromMatWorld());
 				audio_->Stop(DriftSound, true);
 				audio_->Play(DriftSound, 0.5f);
 				workDash_.isPowerCharge = true;
