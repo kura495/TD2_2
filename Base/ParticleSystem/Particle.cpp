@@ -67,9 +67,6 @@ void Particle::Initalize(int particleVolume,const std::string filePath, Vector3 
 	materialData->color = { 1.0f,1.0f,1.0f,1.0f };
 	materialData->uvTransform = CreateIdentity4x4();
 
-	Pipeline_ = std::make_unique<ParticlePipeLine>();
-	Pipeline_->Initalize();
-
 	SetPos(Pos);
 
 }
@@ -86,9 +83,13 @@ void Particle::Update()
 		particles[Volume_i].translate += velcity;
 		float alpha = 1.0f - (particles[Volume_i].currentTime / particles[Volume_i].lifeTime);
 		particles[Volume_i].color.w = alpha;
-		//particles[Volume_i].currentTime += kDeltaTime;
+		particles[Volume_i].currentTime += kDeltaTime;
 		particles[Volume_i].matWorld = MakeAffineMatrix({1.0f,1.0f,1.0f}, Vector3{0.0f,0.0f,0.0f}, particles[Volume_i].translate);
 		++numInstance;
+	}
+
+	if (numInstance == 0) {
+		IsAlive = false;
 	}
 }
 
@@ -123,12 +124,6 @@ void Particle::Draw(const ViewProjection& viewProjection)
 	directX_->GetcommandList()->SetGraphicsRootDescriptorTable(1, instancingSRVHandleGPU);
 
 	directX_->GetcommandList()->DrawInstanced(6, numInstance, 0, 0);
-}
-
-void Particle::PreDraw()
-{
-	directX_->GetcommandList()->SetGraphicsRootSignature(Pipeline_->GetPSO().rootSignature.Get());
-	directX_->GetcommandList()->SetPipelineState(Pipeline_->GetPSO().graphicsPipelineState.Get());
 }
 
 void Particle::SetPos(Vector3 Pos)
