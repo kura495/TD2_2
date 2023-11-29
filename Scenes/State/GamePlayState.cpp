@@ -208,7 +208,7 @@ void GamePlayState::Initialize()
 	wall_[30]->SetScale({ 8.0f, 2.0f, 5.0f });
 
 	//バフアイテム
-	buffItemModel_.reset(Model::CreateModelFromObj("resources/Item", "Item.obj"));
+	buffItemModel_.reset(Model::CreateModelFromObj("resources/speedUP", "speedUP.obj"));
 	std::vector<Model*> buffItemModels = {
 		buffItemModel_.get() };
 

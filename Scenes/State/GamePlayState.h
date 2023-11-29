@@ -66,7 +66,7 @@ private:
 
 	//壁
 	std::unique_ptr<Model> wallModel_ = nullptr;
-	std::unique_ptr<Model> edgeWallModel_ = nullptr;
+	std::unique_ptr<Model> edgeWallModel_;
 	std::unique_ptr<Wall> wall_[31];
 	WorldTransform wallWorldTransform_[31];
 

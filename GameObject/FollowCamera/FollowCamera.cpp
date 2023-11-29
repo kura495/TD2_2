@@ -51,8 +51,23 @@ void FollowCamera::Update() {
 		}
 		else {
 			const float kRadian = 0.02f;
+			viewProjection_.rotation_.x += (float)joyState.Gamepad.sThumbRY / SHRT_MAX * kRadian;
 			viewProjection_.rotation_.y += (float)joyState.Gamepad.sThumbRX / SHRT_MAX * kRadian;
 			anglePre_ = 0.0f;
+
+			if (viewProjection_.rotation_.x < 0.0f)
+			{
+				viewProjection_.rotation_.x = 0.0f;
+			}
+
+			if (viewProjection_.rotation_.x > 1.0f)
+			{
+				viewProjection_.rotation_.x = 1.0f;
+			}
+
+			ImGui::Begin("Camera");
+			ImGui::Text("%f", viewProjection_.rotation_.x);
+			ImGui::End();
 		}
 	}
 

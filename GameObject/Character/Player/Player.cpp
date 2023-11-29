@@ -303,7 +303,7 @@ void Player::Move()
 
 	//カメラの正面方向に移動するようにする
 	//回転行列を作る
-	Matrix4x4 rotateMatrix = MakeRotateMatrix(viewProjection_->rotation_);
+	Matrix4x4 rotateMatrix = MakeRotateMatrix(Vector3{ 0.0f,viewProjection_->rotation_.y,0.0f });
 	//移動ベクトルをカメラの角度だけ回転
 	move = TransformNormal(move, rotateMatrix);
 	if (IsOnGraund) {
@@ -385,7 +385,7 @@ void Player::BehaviorDashUpdate()
 			worldTransformBody_.scale_ = workDash_.scale_;
 
 			//回転行列を作る
-			Matrix4x4 rotateMatrix = MakeRotateMatrix(viewProjection_->rotation_);
+			Matrix4x4 rotateMatrix = MakeRotateMatrix(Vector3{ 0.0f,viewProjection_->rotation_.y,0.0f });
 			//移動ベクトルをカメラの角度だけ回転
 			Vector3 moveQ = TransformNormal(workDash_.move_, rotateMatrix);
 			Vector3 rotate = Normalize(moveQ);
