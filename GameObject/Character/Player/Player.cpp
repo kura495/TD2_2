@@ -147,14 +147,14 @@ void Player::Update()
 
 	if (isSpeedUp_)
 	{
-		workDash_.dashSpeed_ += 0.03f;
+		workDash_.dashSpeed_ += 0.3f;
 
 		isSpeedUp_ = false;
 	}
 
-	if (workDash_.dashSpeed_ >= 7.0f)
+	if (workDash_.dashSpeed_ >= 6.2f)
 	{
-		workDash_.dashSpeed_ = 7.0f;
+		workDash_.dashSpeed_ = 6.2f;
 	}
 
 	ICharacter::Update();
@@ -243,7 +243,7 @@ void Player::OnCollision(Collider* collider)
 		
 		ImGui::Begin("BuffItem");
 		ImGui::Text("Hit");
-		ImGui::Text("%f", speed);
+		ImGui::Text("%f", workDash_.dashSpeed_);
 		ImGui::End();
 	}
 	else if (collider->GetcollitionAttribute() == kCollitionAttributeGoal) {
@@ -253,6 +253,10 @@ void Player::OnCollision(Collider* collider)
 		return;
 	}
 	
+	ImGui::Begin("BuffItem");
+	ImGui::Text("Hit");
+	ImGui::Text("%f", speed);
+	ImGui::End();
 
 }
 

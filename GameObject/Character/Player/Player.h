@@ -207,7 +207,8 @@ private:
 
 	int underAttackTimer = 60;
 
-	float hitSpeed_ = 3.0f;
+	//レベル1
+	float hitSpeed_ = 1.8f;
 
 	uint32_t itemCount_ = 0;
 };
