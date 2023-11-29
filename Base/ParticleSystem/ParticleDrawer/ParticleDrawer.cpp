@@ -12,17 +12,10 @@ void ParticleDrawer::Initalize()
 
 void ParticleDrawer::Update()
 {
-	particles_.remove_if([&](Particle* particle) {
-		if (particle->GetIsAlive()) {
-			return false;
+	for (uint32_t Volume_i = 0; Volume_i < kMaxParticle; Volume_i++) {
+		if (particles_[Volume_i].GetIsAlive()) {
+			particles_[Volume_i].Update();
 		}
-		else {
-			delete particle;
-			return true;
-		}
-	});
-	for (Particle* particle : particles_) {
-		particle->Update();
 	}
 	
 }
@@ -30,8 +23,10 @@ void ParticleDrawer::Update()
 void ParticleDrawer::Draw(const ViewProjection& viewProjection)
 {
 	PreDraw();
-	for (Particle* particle : particles_) {
-		particle->Draw(viewProjection);
+	for (uint32_t Volume_i = 0; Volume_i < kMaxParticle; Volume_i++) {
+		if (particles_[Volume_i].GetIsAlive()) {
+			particles_[Volume_i].Draw(viewProjection);
+		}
 	}
 }
 
@@ -42,13 +37,13 @@ void ParticleDrawer::PreDraw()
 
 }
 
-void ParticleDrawer::addParticle(int particleVolume, const std::string filePath, Vector3 Pos)
+void ParticleDrawer::addParticle(int ParticleNumber ,int particleVolume, const std::string filePath, Vector3 Pos)
 {
-	Particle* particle = new Particle();
-	particle->Initalize(particleVolume, filePath, Pos);
-	particles_.push_back(particle);
+	particles_.at(ParticleNumber).Initalize(particleVolume, filePath, Pos);
 }
 
-void ParticleDrawer::Reset()
+void ParticleDrawer::Reset(int ParticleNumber, Vector3 Pos)
 {
+	particles_.at(ParticleNumber).SetIsAlive(true);
+	particles_.at(ParticleNumber).Reset(Pos);
 }

@@ -92,7 +92,7 @@ void Particle::Update()
 
 void Particle::Draw(const ViewProjection& viewProjection)
 {
-	Matrix4x4 Camera = viewProjection.CameraMatrix;
+	/*Matrix4x4 Camera = viewProjection.CameraMatrix;
 	Matrix4x4 billboardMatrix = MakeAffineMatrix({1.0f,1.0f,1.0f}, viewProjection.rotation_, viewProjection.translation_);
 	billboardMatrix = Multiply(billboardMatrix, Camera);
 	billboardMatrix.m[3][0] = 0.0f;
@@ -103,7 +103,7 @@ void Particle::Draw(const ViewProjection& viewProjection)
 			continue;
 		}
 		particles[Volume_i].matWorld = Multiply(particles[Volume_i].matWorld, billboardMatrix);
-	}
+	}*/
 
 	directX_->GetcommandList()->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 

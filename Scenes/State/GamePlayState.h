@@ -47,8 +47,6 @@ private:
 	GlobalVariables* globalVariables = nullptr;
 	std::unique_ptr<CollisionManager> collisionManager_;
 
-	std::unique_ptr<ParticleDrawer> particleDrawer_;
-
 	std::unique_ptr<FollowCamera> followCamera;
 
 	//地面

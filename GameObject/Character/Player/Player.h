@@ -75,6 +75,8 @@ public:
 	void Update() override;
 	void Draw(const ViewProjection& viewProjection) override;
 
+	void ParticleDraw(const ViewProjection& viewProjection);
+
 	void SetViewProjection(const ViewProjection* viewProjection) {
 		viewProjection_ = viewProjection;
 	}

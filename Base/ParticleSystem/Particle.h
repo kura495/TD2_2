@@ -37,6 +37,7 @@ public:
 	void SetPos(Vector3 Pos);
 
 	bool GetIsAlive() const { return IsAlive; }
+	void SetIsAlive(bool Flag)  { IsAlive = Flag; }
 
 	void Reset(Vector3 Pos);
 
@@ -71,7 +72,7 @@ private:
 	void CreateResources();
 	void CreateSRV();
 
-	bool IsAlive = true;
+	bool IsAlive = false;
 
 	D3D12_CPU_DESCRIPTOR_HANDLE instancingSRVHandleCPU;
 	D3D12_GPU_DESCRIPTOR_HANDLE instancingSRVHandleGPU;
