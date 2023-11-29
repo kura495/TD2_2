@@ -1,7 +1,13 @@
 #pragma once
 #include"IgameState.h"
+#include "MyEngine.h"
+#include "ModelData.h"
+#include "Audio.h"
+#include "Input.h"
+#include "Sprite.h"
+#include "TextureManager.h"
 
-class GameOverState :public GameState
+class GameOverState : public GameState
 {
 public:
 	void Initialize();
@@ -10,6 +16,10 @@ public:
 
 private:
 	int time;
+	Input* input = nullptr;
+
+	XINPUT_STATE joyState;
+	XINPUT_STATE joyStatePre;
 };
 
 

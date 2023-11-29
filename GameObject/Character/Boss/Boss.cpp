@@ -52,7 +52,7 @@ void Boss::Update()
 		BehaviorAttackUpdate();
 	}
 
-	if (isHit_)
+	if (isHit_ == true && player_->GetIsDead()==false)
 	{
 		underAttackTimer--;
 		Vector3 currentPlayerPosition = player_->GetCurrentPosition();

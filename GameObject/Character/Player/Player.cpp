@@ -107,11 +107,7 @@ void Player::Update()
 	PullDown();
 
 	if (worldTransform_.translation_.y <= -10.0f) {
-		//地面から落ちたらリスタートする
-		worldTransform_.translation_ = { 0.0f,0.0f,0.0f };
-		workJump_.velocity_ = { 0.0f, 0.0f, 0.0f };
-		speed = 0.5f;
-		worldTransform_.UpdateMatrix();
+		isDead_ = true;
 	}
 
 	worldTransform_.quaternion = Slerp(worldTransform_.quaternion, moveQuaternion_, 0.3f);
@@ -132,7 +128,7 @@ void Player::Update()
 
 		worldTransform_.translation_ = Add(worldTransform_.translation_, velocity);
 
-		if (underAttackTimer < 0)
+		if (underAttackTimer <= 0)
 		{
 			isEnemyHit_ = false;
 			underAttackTimer = 60;

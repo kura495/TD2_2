@@ -105,6 +105,8 @@ public:
 
 	bool GetIsDash() { return  workDash_.isDash; };
 
+	bool GetIsJump() { return  workJump_.Flag_; };
+
 	Vector3 GetCurrentPosition() { return currentPosition_; };
 	Vector3 GetPreviousPosition() { return previousPosition_; };
 
