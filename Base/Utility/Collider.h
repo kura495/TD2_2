@@ -37,7 +37,10 @@ public:
 protected:
 
 	void SetId(int Type) { Id_ = Type; }
-	
+	/// <summary>
+	/// 原点
+	/// </summary>
+	WorldTransform world_;
 private:
 
 	uint32_t Id_ = 0xffffffff;
@@ -51,10 +54,7 @@ private:
 	/// 衝突マスク(相手)
 	/// </summary>
 	uint32_t collisionMask_ = 0xffffffff;
-	/// <summary>
-	/// 原点
-	/// </summary>
-	WorldTransform world_;
+
 
 	float Radius_;
 
