@@ -173,8 +173,12 @@ SoundData Audio::SoundLoadWave(const char* filename)
 	file.open(filename,std::ios_base::binary);
 	//ファイルオープン失敗を検出
 	assert(file.is_open());
-	//RIFFチャンク読み込み
+
 	RiffHeader riff;
+	FormatChunk format = {};
+	ChunkHeader data;
+	//RIFFチャンク読み込み
+
 	//チャンクがRIFFかチェック
 	file.read((char*)&riff, sizeof(riff));
 	if (strncmp(riff.chunk.id, "RIFF", 4) != 0) {
@@ -185,9 +189,17 @@ SoundData Audio::SoundLoadWave(const char* filename)
 		assert(0);
 	}
 	//formatチャンク読み込み
-	FormatChunk format = {};
+
 	//チャンクヘッダーの確認
 	file.read((char*)&format, sizeof(ChunkHeader));
+	//JUNKチャンクの場合
+	if (strncmp(format.chunk.id, "JUNK", 4) == 0) {
+		//JUNKチャンクの終わりまで進める
+		file.seekg(format.chunk.size, std::ios_base::cur);
+		//再読み込み
+		file.read((char*)&format, sizeof(data));
+	}
+
 	if (strncmp(format.chunk.id, "fmt ", 4) != 0) {
 		assert(0);
 	}
@@ -196,7 +208,7 @@ SoundData Audio::SoundLoadWave(const char* filename)
 	file.read((char*)&format.fmt, format.chunk.size);
 
 	//Dataチャンク読み込み
-	ChunkHeader data;
+
 	file.read((char*)&data, sizeof(data));
 	//bextチャンクの場合
 	if (strncmp(data.id, "bext", 4) == 0) {
