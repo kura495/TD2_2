@@ -355,12 +355,7 @@ void Player::BehaviorRootUpdate()
 			}
 		}
 	}
-	
-	
-	
-
 }
-
 
 void Player::BehaviorDashInit()
 {

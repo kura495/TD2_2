@@ -9,7 +9,7 @@ void GameClearState::Update()
 {
 	time++;
 	if (time >= 60) {
-		StateNo = 1;
+		StateNo = 0;
 	}
 
 	ImGui::Begin("Clear");

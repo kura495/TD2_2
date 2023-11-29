@@ -33,7 +33,15 @@ void GamePlayState::Initialize()
 	std::vector<Model*> wallModels = {
 		wallModel_.get() };
 
-	wallWorldTransform_[0].Initialize();
+	/*edgeWallModel_.reset(Model::CreateModelFromObj("resources/Wall", "Wall.obj"));
+	std::vector<Model*> edgeWallModels = {
+		edgeWallModel_.get() };*/
+
+	for (int i = 0; i < 31; i++)
+	{
+		wallWorldTransform_[i].Initialize();
+	}
+
 
 	//ステージ1枚目
 	wallWorldTransform_[0].translation_ = { -55.0f,0.0f,40.0f };
@@ -286,88 +294,131 @@ void GamePlayState::Initialize()
 	followCamera->Initalize();
 	followCamera->SetTarget(&player->GetWorldTransform());
 	player->SetViewProjection(&followCamera->GetViewProjection());
+
+	joyStatePre = joyState;
+
+	isPause_ = false;
 }
 
 void GamePlayState::Update()
 {
-	for (int i = 0; i < 2; i++)
+	input->GetJoystickState(0, joyState);
+
+	if (joyState.Gamepad.wButtons & XINPUT_GAMEPAD_START && !(joyStatePre.Gamepad.wButtons & XINPUT_GAMEPAD_START))
 	{
-		ground_[i]->Update();
+		if (!pauseRelease_)
+		{
+			isPause_ = !isPause_; 
+			pauseRelease_ = true; 
+		}
+
+	} else {
+		pauseRelease_ = false; 
 	}
 
-	for (int i = 0; i < 31; i++)
+	if (isPause_ == false)
 	{
-		wall_[i]->Update();
-	}
-
-	for (int i = 0; i < 31; i++)
-	{
-		buffItem_[i]->Update();
-	}
-
-	//wall_[14]->SetPosition(wallWorldTransform_[14].translation_);
-
-	skydome_->Updata();
-
-	player->Update();
-
-	followCamera->SetIsStickPre(player->GetIsStickRight(), player->GetIsStickLeft());
-	ImGui::Begin("Camera");
-	ImGui::SliderFloat("FOV",&FOV,0.0f,120.0f);
-	ImGui::End();
-	followCamera->SetFOV(FOV);
-	followCamera->Update();
-	viewProjection_ = followCamera->GetViewProjection();
-	wallWorldTransform_[0].UpdateMatrix();
-	buffItemWorldTransform_[0].UpdateMatrix();
-
-	viewProjection_.UpdateMatrix();
-
-	collisionManager_->AddBoxCollider(player.get());
-
-	for (int i = 0; i < 2; i++)
-	{
-		collisionManager_->AddBoxCollider(ground_[i].get());
-	}
-
-	for (int i = 0; i < 31; i++)
-	{
-		collisionManager_->AddBoxCollider(wall_[i].get());
-	}
-
-	for (int i = 0; i < 31; i++)
-	{
-		collisionManager_->AddBoxCollider(buffItem_[i].get());
-	}
-	
-	collisionManager_->CheckAllCollisions();
-	collisionManager_->ClearCollider();
-
-	if (player->GetIsGoal() == true)
-	{
+		for (int i = 0; i < 2; i++)
+		{
+			ground_[i]->Update();
+		}
 
 		for (int i = 0; i < 31; i++)
 		{
-			player->SetIsDead(false);
-			buffItem_[i]->SetIsHit(false);
+			wall_[i]->Update();
 		}
 
-		StateNo = 2;
+		for (int i = 0; i < 31; i++)
+		{
+			buffItem_[i]->Update();
+		}
 
+		/*wall_[15]->SetPosition(wallWorldTransform_[15].translation_);*/
 
-		ImGui::Begin("Hit");
-		//ImGui::Text("%d", StateNo);
-		//ImGui::DragFloat3("itemWorldTransform", &itemWorldTransform_[6].translation_.x, 1.0f);
+		/*wall_[15]->SetRotation({ 0.0f, 45.0f, 0.0f });*/
+
+		skydome_->Updata();
+
+		player->Update();
+
+		followCamera->SetIsStickPre(player->GetIsStickRight(), player->GetIsStickLeft());
+		ImGui::Begin("Camera");
+		ImGui::SliderFloat("FOV", &FOV, 0.0f, 120.0f);
 		ImGui::End();
+		followCamera->SetFOV(FOV);
+		followCamera->Update();
+		viewProjection_ = followCamera->GetViewProjection();
+		for (int i = 0; i < 31; i++)
+		{
+			wallWorldTransform_[i].UpdateMatrix();
+		}
+		
+		buffItemWorldTransform_[0].UpdateMatrix();
+
+		viewProjection_.UpdateMatrix();
+
+		collisionManager_->AddBoxCollider(player.get());
+
+		for (int i = 0; i < 2; i++)
+		{
+			collisionManager_->AddBoxCollider(ground_[i].get());
+		}
+
+		for (int i = 0; i < 31; i++)
+		{
+			collisionManager_->AddBoxCollider(wall_[i].get());
+		}
+
+		for (int i = 0; i < 31; i++)
+		{
+			collisionManager_->AddBoxCollider(buffItem_[i].get());
+		}
+
+		collisionManager_->CheckAllCollisions();
+		collisionManager_->ClearCollider();
+
+		if (player->GetIsGoal() == true)
+		{
+
+			for (int i = 0; i < 31; i++)
+			{
+				player->SetIsDead(false);
+				buffItem_[i]->SetIsHit(false);
+			}
+
+			StateNo = 2;
+
+
+			ImGui::Begin("Hit");
+			//ImGui::Text("%d", StateNo);
+			//ImGui::DragFloat3("itemWorldTransform", &itemWorldTransform_[6].translation_.x, 1.0f);
+			ImGui::End();
+		}
+
+		ImGui::Begin("Play");
+
+
+		/*ImGui::DragFloat3("itemWorldTransform", &wallWorldTransform_[15].translation_.x, 1.0f);*/
+		/*ImGui::DragFloat3("itemWorldTransform", &wallWorldTransform_[15].rotation_.x, 1.0f);*/
+
+		ImGui::End();
+
+	}
+	else {
+		ImGui::Begin("Pause");
+		ImGui::Text("Title :  B Buttun");
+		ImGui::Text("GamePlay : Start Buttun");
+		ImGui::End();
+
+		if (joyState.Gamepad.wButtons & XINPUT_GAMEPAD_B)
+		{
+			StateNo = 0;
+		}
 	}
 
-	ImGui::Begin("Play");
-
-
-	//ImGui::DragFloat3("itemWorldTransform", &wallWorldTransform_[14].translation_.x, 1.0f);
-
-	ImGui::End();
+	joyStatePre = joyState;
 }
+	
 
 void GamePlayState::Draw()
 {
