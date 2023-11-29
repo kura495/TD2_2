@@ -252,12 +252,6 @@ void Player::OnCollision(Collider* collider)
 	else {
 		return;
 	}
-	
-	ImGui::Begin("BuffItem");
-	ImGui::Text("Hit");
-	ImGui::Text("%f", speed);
-	ImGui::End();
-
 }
 
 void Player::SetParent(const WorldTransform* parent)

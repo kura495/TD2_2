@@ -73,8 +73,8 @@ private:
 
 	//バフアイテム
 	std::unique_ptr<Model> buffItemModel_ = nullptr;
-	std::unique_ptr<BuffItem> buffItem_[31];
-	WorldTransform buffItemWorldTransform_[31];
+	std::unique_ptr<BuffItem> buffItem_[5];
+	WorldTransform buffItemWorldTransform_[5];
 
 	//
 	WorldTransform worldTransform_;
