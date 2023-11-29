@@ -198,8 +198,16 @@ SoundData Audio::SoundLoadWave(const char* filename)
 	//Dataチャンク読み込み
 	ChunkHeader data;
 	file.read((char*)&data, sizeof(data));
+	//bextチャンクの場合
 	if (strncmp(data.id, "bext", 4) == 0) {
-		//JUNKチャンクの終わりまで進める
+		//bextチャンクの終わりまで進める
+		file.seekg(data.size, std::ios_base::cur);
+		//再読み込み
+		file.read((char*)&data, sizeof(data));
+	}
+	//LISTチャンクの場合
+	if (strncmp(data.id, "LIST", 4) == 0) {
+		//LISTチャンクの終わりまで進める
 		file.seekg(data.size, std::ios_base::cur);
 		//再読み込み
 		file.read((char*)&data, sizeof(data));

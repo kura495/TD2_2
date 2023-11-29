@@ -3,6 +3,7 @@
 #include "Input.h"
 #include "Base/Math/Math_Structs.h"
 #include "Base/TextureManager.h"
+#include "Base/Audio/Audio.h"
 #include "Base/Sprite.h"
 
 class GameTitleState :public GameState
@@ -15,6 +16,8 @@ public:
 private:
 	int time;
 	Input* input = nullptr;
+	Audio* audio_ = nullptr;
+	uint32_t soundHandle;
 
 	TextureManager* textureManager_ = nullptr;
 	uint32_t texture_;
