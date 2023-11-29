@@ -141,6 +141,7 @@ void Boss::BehaviorRootUpdate()
 	changeBehaviorTimer_--;
 
 	Vector3 currentPlayerPosition = player_->GetCurrentPosition();
+	currentPlayerPosition.y = 0.0f;
 
 	Vector3 velocity = Subtract(currentPlayerPosition, currentPosition_);
 
@@ -176,6 +177,7 @@ void Boss::BehaviorAttackUpdate()
 		chargeTimer_--;
 
 		Vector3 currentPlayerPosition = player_->GetCurrentPosition();
+		currentPlayerPosition.y = 0.0f;
 
 		velocity_ = Subtract(currentPlayerPosition, currentPosition_);
 

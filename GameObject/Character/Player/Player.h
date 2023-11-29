@@ -105,10 +105,12 @@ public:
 
 	bool GetIsDash() { return  workDash_.isDash; };
 
-	bool GetIsJump() { return  workJump_.Flag_; };
+	Behavior GetBehavior() { return  behavior_; };
 
 	Vector3 GetCurrentPosition() { return currentPosition_; };
 	Vector3 GetPreviousPosition() { return previousPosition_; };
+
+	Vector3 SetCurrentPosition(Vector3 position) { currentPosition_ = position; };
 
 	void SetBoss(Boss* boss) { boss_ = boss; }
 
