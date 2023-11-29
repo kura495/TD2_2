@@ -74,6 +74,12 @@ void Boss::Update()
 		}
 	}
 
+	if (isOffset_)
+	{
+		worldTransform_.translation_ = previousPosition_;
+		isOffset_ = false;
+	}
+
 	if (worldTransform_.translation_.z <= -180.0f || worldTransform_.translation_.z >= 180.0f ||
 		worldTransform_.translation_.x <= -180.0f || worldTransform_.translation_.x >= 180.0f)
 	{
@@ -95,9 +101,22 @@ void Boss::Draw(const ViewProjection& viewProjection)
 
 void Boss::OnCollision(Collider* collider)
 {
-	if (/*isAttack_ == true && */collider->GetcollitionAttribute() == kCollitionAttributePlayer && player_->GetIsDash() == true)
+	if (collider->GetcollitionAttribute() == kCollitionAttributePlayer)
 	{
-		isHit_ = true;
+		if (player_->GetIsDash() == false && isAttack_ == false)
+		{
+			worldTransform_.translation_ = previousPosition_;
+		}
+		
+		if (player_->GetIsDash() == true && isAttack_ == false)
+		{
+			isHit_ = true;
+		}
+
+		if (player_->GetIsDash() == true && isAttack_ == true)
+		{
+			isOffset_ = true;
+		}
 	}
 }
 

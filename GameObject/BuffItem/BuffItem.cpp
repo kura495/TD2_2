@@ -5,6 +5,8 @@ BuffItem::~BuffItem() {}
 
 void BuffItem::Initalize(const std::vector<Model*>& models, Vector3 position)
 {
+	audio_ = Audio::GetInstance();
+
 	ICharacter::Initialize(models);
 	worldTransform_.translation_ = position;
 	worldTransform_.UpdateMatrix();
@@ -14,6 +16,8 @@ void BuffItem::Initalize(const std::vector<Model*>& models, Vector3 position)
 	BoxCollider::SetSize({ 1.0f,1.0f,1.0f });
 
 	isHit_ = false;
+
+	//soundHandle_ = audio_->LoadAudio("resources/sound/get_2.wav");
 }
 
 void BuffItem::Update()
@@ -35,6 +39,7 @@ void BuffItem::OnCollision(Collider* collider)
 	if (collider->GetcollitionAttribute() == kCollitionAttributePlayer)
 	{
 		isHit_ = true;
+		//audio_->Play(soundHandle_, 1, 0);
 	}
 }
 

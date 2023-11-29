@@ -179,6 +179,9 @@ private:
 	bool isGoal_ = false;
 
 	bool isEnemyHit_ = false;
+	
+	//相殺している
+	bool isOffset_ = false;
 
 	bool isSpeedUp_ = false;
 
