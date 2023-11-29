@@ -146,6 +146,12 @@
     <Filter Include="Engine\Base\ParticleSystem\ParticleDrawer">
       <UniqueIdentifier>{77435d61-13e1-471f-8389-377ce5198911}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Objectヘッダー\Pause">
+      <UniqueIdentifier>{05f339f0-fe67-4324-b943-70ba15b96658}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Objectソース\Pause">
+      <UniqueIdentifier>{0f92a96a-ec99-41e8-86b6-0a8d8177d64b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="externals\imgui\imgui.cpp">
@@ -306,6 +312,9 @@
       <Filter>Engine\Base\ParticleSystem\PipeLine</Filter>
     </ClCompile>
     <ClCompile Include="Timer.cpp" />
+    <ClCompile Include="GameObject\Pause\Pause.cpp">
+      <Filter>Objectソース\Pause</Filter>
+    </ClCompile>
     <ClCompile Include="Base\ParticleSystem\ParticleDrawer\ParticleDrawer.cpp">
       <Filter>Engine\Base\ParticleSystem\ParticleDrawer</Filter>
     </ClCompile>
@@ -517,6 +526,9 @@
       <Filter>Objectヘッダー\Wall</Filter>
     </ClInclude>
     <ClInclude Include="Timer.h" />
+    <ClInclude Include="GameObject\Pause\Pause.h">
+      <Filter>Objectヘッダー\Pause</Filter>
+    </ClInclude>
     <ClInclude Include="Base\ParticleSystem\ParticleDrawer\ParticleDrawer.h">
       <Filter>Engine\Base\ParticleSystem\ParticleDrawer</Filter>
     </ClInclude>

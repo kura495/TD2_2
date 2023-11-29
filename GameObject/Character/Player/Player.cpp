@@ -1,5 +1,6 @@
 #include "Player.h"
 #include "GameObject/Character/Boss/Boss.h"
+#include <TextureManager.h>
 
 void Player::Initialize(const std::vector<Model*>& models)
 {
@@ -19,11 +20,18 @@ void Player::Initialize(const std::vector<Model*>& models)
 	BoxCollider::SetParent(worldTransform_);
 	BoxCollider::SetSize({ 3.0f,3.0f,1.0f });
 	GlobalVariables::GetInstance()->CreateGroup(groupName);
+
 	//GlobalVariables::GetInstance()->AddItem(groupName, "DashSpeed", workDash_.dashSpeed_);
 
 	particleDrawer_ = std::make_unique<ParticleDrawer>();
 	particleDrawer_->Initalize();
 	particleDrawer_->addParticle(1,10,"resources/circle.png",{0.0f,0.0f,0.0f});
+
+	GlobalVariables::GetInstance()->AddItem(groupName, "hitSpeed", hitSpeed_);
+
+	itemCount_ = 0;
+	
+
 }
 
 void Player::Update()
@@ -126,9 +134,9 @@ void Player::Update()
 
 		Vector3 velocity = Subtract(currentBossPosition, previousBossPosition);
 
-		velocity.x *= 3.0f;
-		velocity.y *= 3.0f;
-		velocity.z *= 3.0f;
+		velocity.x *= hitSpeed_;
+		velocity.y *= hitSpeed_;
+		velocity.z *= hitSpeed_;
 
 		worldTransform_.translation_ = Add(worldTransform_.translation_, velocity);
 
@@ -147,14 +155,14 @@ void Player::Update()
 
 	if (isSpeedUp_)
 	{
-		workDash_.dashSpeed_ += 0.03f;
+		workDash_.dashSpeed_ += 0.3f;
 
 		isSpeedUp_ = false;
 	}
 
-	if (workDash_.dashSpeed_ >= 7.0f)
+	if (workDash_.dashSpeed_ >= 6.2f)
 	{
-		workDash_.dashSpeed_ = 7.0f;
+		workDash_.dashSpeed_ = 6.2f;
 	}
 
 	ICharacter::Update();
@@ -244,9 +252,13 @@ void Player::OnCollision(Collider* collider)
 	}
 	else if (collider->GetcollitionAttribute() == kCollitionAttributeBuffItem) {
 		isSpeedUp_ = true;
+		if (itemCount_ < 15) {
+			itemCount_++;
+		}
+		
 		ImGui::Begin("BuffItem");
 		ImGui::Text("Hit");
-		ImGui::Text("%f", speed);
+		ImGui::Text("%f", workDash_.dashSpeed_);
 		ImGui::End();
 	}
 	else if (collider->GetcollitionAttribute() == kCollitionAttributeGoal) {
@@ -256,6 +268,10 @@ void Player::OnCollision(Collider* collider)
 		return;
 	}
 	
+	ImGui::Begin("BuffItem");
+	ImGui::Text("Hit");
+	ImGui::Text("%f", speed);
+	ImGui::End();
 
 }
 
@@ -335,8 +351,8 @@ void Player::Move()
 
 void Player::ApplyGlobalVariables()
 {
-	//const char* groupName = "Player";
-	//workDash_.dashSpeed_ = GlobalVariables::GetInstance()->GetfloatValue(groupName, "DashSpeed");
+	const char* groupName = "Player";
+	hitSpeed_ = GlobalVariables::GetInstance()->GetfloatValue(groupName, "hitSpeed");
 }
 
 void Player::BehaviorRootInit()

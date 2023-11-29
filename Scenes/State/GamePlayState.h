@@ -27,6 +27,7 @@
 #include "GameObject/Character/Player/Player.h"
 #include "GameObject/FollowCamera/FollowCamera.h"
 #include "Timer.h"
+#include "GameObject/Pause/Pause.h"
 
 class GamePlayState :public GameState
 {
@@ -83,6 +84,21 @@ private:
 
 	std::vector<Timer*> timers_;
 
+	std::unique_ptr<Pause> pause_;
+
+	std::unique_ptr<Sprite> targetSprite_;
+	WorldTransform sprite_Target_;
+	uint32_t textureHandle_target_;
+
+	std::unique_ptr<Sprite> itemSprite_;
+	std::unique_ptr<Sprite> speedSprite_;
+	std::vector<Sprite*> itemGaugeSprites_;
+	uint32_t textureHandle_item_[3];
+
+	WorldTransform worldTransform_itemGauge_[3];
+	WorldTransform worldTransform_item_;
+	WorldTransform worldTransform_speed_;
+
 	//3Dオブジェクトたち
 	//プレイヤーモデル
 
@@ -94,4 +110,6 @@ private:
 
 	XINPUT_STATE joyState;
 	XINPUT_STATE joyStatePre;
+
+	
 };

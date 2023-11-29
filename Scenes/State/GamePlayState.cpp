@@ -302,10 +302,53 @@ void GamePlayState::Initialize()
 	timers_.clear();
 	for (uint32_t i = 0; i < 3; i++) {
 		Timer* timer = new Timer();
-		timer->Initialize(static_cast<Timer::DigitPlace>(i), 300, Vector3{ 1200.0f - float(i) * 64, 10.0f, 0.0f });
+		timer->Initialize(static_cast<Timer::DigitPlace>(i), 60, Vector3{ 1200.0f - float(i) * 30.0f, 10.0f, 0.0f });
 		timers_.emplace_back(timer);
 
 	}
+
+
+	pause_ = std::make_unique<Pause>();
+	pause_->Initialize();
+
+	targetSprite_ = std::make_unique<Sprite>();
+	targetSprite_->Initialize(Vector4{ 0.0f, 0.0f, 0.0f, 1.0f }, Vector4{ 0.0f, 128.0f, 0.0f, 1.0f }, Vector4{ 512.0f, 0.0f, 0.0f, 1.0f }, Vector4{ 512.0f, 128.0f, 0.0f, 1.0f });
+	sprite_Target_.Initialize();
+	sprite_Target_.translation_ = Vector3{ 384.0f, 598.0f, 0.0f };
+	sprite_Target_.UpdateMatrix();
+	textureHandle_target_ = textureManager_->LoadTexture("resources/Target/itemTarget.png");
+
+	itemGaugeSprites_.clear();
+	for (int i = 0; i < 3; i++) {
+		Sprite* sprite = new Sprite();
+		sprite->Initialize(Vector4{ 0.0f, 0.0f, 0.0f, 1.0f }, Vector4{ 0.0f, 128.0f, 0.0f, 1.0f }, Vector4{ 256.0f, 0.0f, 0.0f, 1.0f }, Vector4{ 256.0f, 128.0f, 0.0f, 1.0f });
+		itemGaugeSprites_.emplace_back(sprite);
+		worldTransform_itemGauge_[i].Initialize();
+		worldTransform_itemGauge_[i].scale_ = Vector3{0.5f, 0.5f, 1.0f};
+		worldTransform_itemGauge_[i].translation_ = Vector3{120.0f *float(i), 50.0f, 1.0f };
+		worldTransform_itemGauge_[i].UpdateMatrix();
+	}
+
+	
+	itemSprite_ = std::make_unique<Sprite>();
+	itemSprite_->Initialize(Vector4{ 0.0f, 0.0f, 0.0f, 1.0f }, Vector4{ 0.0f, 64.0f, 0.0f, 1.0f }, Vector4{ 64.0f, 0.0f, 0.0f, 1.0f }, Vector4{ 64.0f, 64.0f, 0.0f, 1.0f });
+
+	speedSprite_ = std::make_unique<Sprite>();
+	speedSprite_->Initialize(Vector4{ 0.0f, 0.0f, 0.0f, 1.0f }, Vector4{ 0.0f, 128.0f, 0.0f, 1.0f }, Vector4{ 600.0f, 0.0f, 0.0f, 1.0f }, Vector4{ 600.0f, 128.0f, 0.0f, 1.0f });
+
+	worldTransform_item_.Initialize();
+	worldTransform_item_.scale_ = Vector3{ 1.8f, 0.75f, 1.0f };
+	worldTransform_item_.translation_ = Vector3{ 5.0f, 58.0f, 1.0f };
+	worldTransform_item_.UpdateMatrix();
+
+	worldTransform_speed_.Initialize();
+	worldTransform_speed_.scale_ = Vector3{ 0.8f, 0.8f, 1.0f };
+	worldTransform_speed_.translation_ = Vector3{ -100.0f, -20.0f, 1.0f };
+	worldTransform_speed_.UpdateMatrix();
+
+	textureHandle_item_[0] = TextureManager::GetInstance()->LoadTexture("resources/ItemCount/gauge.png");
+	textureHandle_item_[1] = TextureManager::GetInstance()->LoadTexture("resources/Item/ItemColor.png");
+	textureHandle_item_[2] = TextureManager::GetInstance()->LoadTexture("resources/Item/speed.png");
 
 }
 
@@ -320,6 +363,7 @@ void GamePlayState::Update()
 			isPause_ = !isPause_; 
 			pauseRelease_ = true; 
 		}
+		pause_->SetIsTutorial(false);
 
 	} else {
 		pauseRelease_ = false; 
@@ -378,10 +422,18 @@ void GamePlayState::Update()
 			collisionManager_->AddBoxCollider(wall_[i].get());
 		}
 
-		for (int i = 0; i < 31; i++)
-		{
-			collisionManager_->AddBoxCollider(buffItem_[i].get());
+		for (auto& item : buffItem_) {
+			if (item->GetIsActive()) {
+				collisionManager_->AddBoxCollider(item.get());
+			}
+			
 		}
+
+		/*for (int i = 0; i < 31; i++)
+		{
+
+			collisionManager_->AddBoxCollider(buffItem_[i].get());
+		}*/
 
 		collisionManager_->CheckAllCollisions();
 		collisionManager_->ClearCollider();
@@ -416,6 +468,11 @@ void GamePlayState::Update()
 			timer->Update();
 		}
 
+		
+		itemCount = player->GetItemCount();
+		worldTransform_item_.scale_.x = itemCount * 0.374f;
+		worldTransform_item_.UpdateMatrix();
+
 	}
 	else {
 		ImGui::Begin("Pause");
@@ -423,10 +480,14 @@ void GamePlayState::Update()
 		ImGui::Text("GamePlay : Start Buttun");
 		ImGui::End();
 
-		if (joyState.Gamepad.wButtons & XINPUT_GAMEPAD_B)
-		{
-			StateNo = 0;
+		if (pause_->GetLeft()) {
+			if (joyState.Gamepad.wButtons & XINPUT_GAMEPAD_A)
+			{
+				StateNo = 0;
+			}
 		}
+
+		pause_->Update();
 	}
 
 	joyStatePre = joyState;
@@ -452,7 +513,7 @@ void GamePlayState::Draw()
 		buffItem_[i]->Draw(viewProjection_);
 	}
 
-	//skydome_->Draw(viewProjection_);
+	skydome_->Draw(viewProjection_);
 
 	player->Draw(viewProjection_);
 
@@ -461,6 +522,21 @@ void GamePlayState::Draw()
 	//Sprite描画ここから
 	for (auto& timer : timers_) {
 		timer->Draw();
+	}
+
+	speedSprite_->Draw(worldTransform_speed_, textureHandle_item_[2]);
+
+	itemSprite_->Draw(worldTransform_item_, textureHandle_item_[1]);
+	for (int i = 0; auto& sprite : itemGaugeSprites_) {
+		sprite->Draw(worldTransform_itemGauge_[i], textureHandle_item_[0]);
+		i++;
+	}
+	
+
+	targetSprite_->Draw(sprite_Target_, textureHandle_target_);
+
+	if (isPause_) {
+		pause_->Draw();
 	}
 
 	//Sprite描画ここまで

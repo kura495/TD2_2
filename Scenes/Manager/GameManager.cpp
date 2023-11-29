@@ -58,12 +58,19 @@ void GameManager::Gameloop()
 
 			if (prevSceneNum_ != currentSceneNum_)
 			{
+				int i = 0;
+				if (currentSceneNum_ == GameStateNo::BOSS) {
+					i = state[prevSceneNum_]->GetItemCount();
+				}
 				state[currentSceneNum_]->Initialize();
+				state[currentSceneNum_]->SetItemCount(i);
+
 			}
 			imGuiManager->BeginFrame();
 			directX->PreView();
 			renderer_->Draw(PipelineType::Standerd);
 			input->Update();
+			GlobalVariables::GetInstance()->Update();
 			state[currentSceneNum_]->Update();
 			state[currentSceneNum_]->Draw();
 			imGuiManager->EndFrame();

@@ -8,8 +8,11 @@ public:
 	virtual void Draw() = 0;
 
 	int GetSceneNum() { return StateNo; }
+	int GetItemCount() { return itemCount; }
+	void SetItemCount(int item) { itemCount = item; }
 
 	virtual  ~GameState() {};
 protected:
 	static int StateNo;
+	int itemCount;
 };

@@ -18,6 +18,10 @@ void Boss::Initialize(const std::vector<Model*>& models)
 	BoxCollider::SetParent(worldTransform_);
 	BoxCollider::SetSize({ 1.0f,1.0f,1.0f });
 
+	const char* groupName = "Boss";
+	GlobalVariables::GetInstance()->CreateGroup(groupName);
+	GlobalVariables::GetInstance()->AddItem(groupName, "hitSpeed", hitSpeed_);
+
 	isHit_ = false;
 }
 
@@ -26,6 +30,9 @@ void Boss::Update()
 	previousPosition_ = currentPosition_;
 	
 	currentPosition_ = worldTransform_.translation_;
+
+	//jsonファイルの内容を適応
+	ApplyGlobalVariables();
 
 	if (behaviorRequest_) {
 		//ふるまいの変更
@@ -60,9 +67,9 @@ void Boss::Update()
 
 		Vector3 velocity = Subtract(currentPlayerPosition, previousPlayerPosition);
 
-		velocity.x *= 3.0f;
-		velocity.y *= 3.0f;
-		velocity.z *= 3.0f;
+		velocity.x *= hitSpeed_;
+		velocity.y *= hitSpeed_;
+		velocity.z *= hitSpeed_;
 
 		worldTransform_.translation_ = Add(worldTransform_.translation_, velocity);
 
@@ -92,6 +99,8 @@ void Boss::Update()
 
 	ICharacter::Update();
 	BoxCollider::Update(&worldTransform_);
+
+	ApplyGlobalVariables();
 }
 
 void Boss::Draw(const ViewProjection& viewProjection)
@@ -215,4 +224,10 @@ void Boss::BehaviorAttackUpdate()
 			isAttack_ = false;
 		}
 	}
+}
+
+void Boss::ApplyGlobalVariables()
+{
+	const char* groupName = "Boss";
+	hitSpeed_ = GlobalVariables::GetInstance()->GetfloatValue(groupName, "hitSpeed");
 }

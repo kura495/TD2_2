@@ -26,6 +26,7 @@
 #include "GameObject/FollowCamera/FollowCamera.h"
 
 #include "Base/ParticleSystem/Particle.h"
+#include "GameObject/Pause/Pause.h"
 
 class GameBossState : public GameState
 {
@@ -71,6 +72,32 @@ private:
 	WorldTransform worldTransform_Sprite;
 	ViewProjection viewProjection_;
 
+	std::unique_ptr<Sprite> targetSprite_;
+	WorldTransform sprite_Target_;
+	uint32_t textureHandle_target_;
+
+
+	std::unique_ptr<Sprite> itemSprite_;
+	std::unique_ptr<Sprite> speedSprite_;
+	std::vector<Sprite*> itemGaugeSprites_;
+	uint32_t textureHandle_item_[3];
+
+	WorldTransform worldTransform_itemGauge_[3];
+	WorldTransform worldTransform_item_;
+	WorldTransform worldTransform_speed_;
+
+	std::unique_ptr<Pause> pause_;
+	//Pause
+	bool isPause_ = false;
+	bool pauseRelease_ = false;
+
 	//3Dオブジェクトたち
+
+
+	std::unique_ptr<Particle> particle;
+
+	XINPUT_STATE joyState;
+	XINPUT_STATE joyStatePre;
+
 };
 

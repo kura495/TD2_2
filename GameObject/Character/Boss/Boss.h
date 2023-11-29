@@ -53,6 +53,8 @@ private:
 	void BehaviorAttackInitialize();
 	void BehaviorAttackUpdate();
 
+	void ApplyGlobalVariables();
+
 	//ふるまい
 	BossBehavior behavior_ = BossBehavior::kRoot;
 	//次のふるまいリクエスト
@@ -85,5 +87,11 @@ private:
 	int attackTimer_ = 120;
 
 	Vector3 velocity_;
+
+	float hitSpeed_ = 3.0f;
+
+	GlobalVariables* globalVariables = nullptr;
+
+
 };
 

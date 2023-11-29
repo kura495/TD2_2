@@ -13,6 +13,8 @@
 
 #include "GameObject/BuffItem/BuffItem.h"
 #include "GameObject/Character/Boss/Boss.h"
+#include <memory>
+#include <Sprite.h>
 
 class Boss;
 
@@ -117,6 +119,8 @@ public:
 
 	void SetBoss(Boss* boss) { boss_ = boss; }
 
+	uint32_t GetItemCount() { return itemCount_; }
+
 private:
 	void WorldTransformInitalize();
 
@@ -206,5 +210,12 @@ private:
 
 	int underAttackTimer = 60;
 
+
 	std::unique_ptr<ParticleDrawer> particleDrawer_;
+
+	//レベル1
+	float hitSpeed_ = 1.8f;
+
+	uint32_t itemCount_ = 0;
+
 };

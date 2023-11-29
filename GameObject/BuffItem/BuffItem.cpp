@@ -16,7 +16,7 @@ void BuffItem::Initalize(const std::vector<Model*>& models, Vector3 position)
 	BoxCollider::SetSize({ 1.0f,1.0f,1.0f });
 
 	isHit_ = false;
-
+	isActive_ = true;
 	//soundHandle_ = audio_->LoadAudio("resources/sound/get_2.wav");
 }
 
@@ -39,6 +39,7 @@ void BuffItem::OnCollision(Collider* collider)
 	if (collider->GetcollitionAttribute() == kCollitionAttributePlayer)
 	{
 		isHit_ = true;
+		isActive_ = false;
 		//audio_->Play(soundHandle_, 1, 0);
 	}
 }
