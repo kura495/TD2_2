@@ -302,6 +302,7 @@
     <ClCompile Include="Base\ParticleSystem\PipeLine\ParticlePipeLine.cpp">
       <Filter>Engine\Base\ParticleSystem\PipeLine</Filter>
     </ClCompile>
+    <ClCompile Include="Timer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="externals\imgui\imconfig.h">
@@ -509,6 +510,7 @@
     <ClInclude Include="GameObject\Wall\Wall.h">
       <Filter>Objectヘッダー\Wall</Filter>
     </ClInclude>
+    <ClInclude Include="Timer.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="externals\imgui\LICENSE.txt">

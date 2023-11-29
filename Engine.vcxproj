@@ -156,6 +156,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatFormVersion)\x64\dxil.dll"</Command>
     <ClCompile Include="Scenes\State\GameOverState.cpp" />
     <ClCompile Include="Scenes\State\GamePlayState.cpp" />
     <ClCompile Include="Scenes\State\GameTitleState.cpp" />
+    <ClCompile Include="Timer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Base\Audio\Audio.h" />
@@ -227,6 +228,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatFormVersion)\x64\dxil.dll"</Command>
     <ClInclude Include="Scenes\State\GamePlayState.h" />
     <ClInclude Include="Scenes\State\GameTitleState.h" />
     <ClInclude Include="Scenes\State\IgameState.h" />
+    <ClInclude Include="Timer.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="externals\imgui\LICENSE.txt" />

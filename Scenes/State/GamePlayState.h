@@ -25,6 +25,7 @@
 #include "GameObject/Skydome/Skydome.h"
 #include "GameObject/Character/Player/Player.h"
 #include "GameObject/FollowCamera/FollowCamera.h"
+#include "Timer.h"
 
 class GamePlayState :public GameState
 {
@@ -78,6 +79,8 @@ private:
 	WorldTransform worldTransform_;
 	WorldTransform worldTransform_Sprite;
 	ViewProjection viewProjection_;
+
+	std::vector<Timer*> timers_;
 
 	//3Dオブジェクトたち
 	//プレイヤーモデル

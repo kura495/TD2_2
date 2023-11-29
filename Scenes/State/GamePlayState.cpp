@@ -298,6 +298,14 @@ void GamePlayState::Initialize()
 	joyStatePre = joyState;
 
 	isPause_ = false;
+
+	timers_.clear();
+	for (uint32_t i = 0; i < 3; i++) {
+		Timer* timer = new Timer();
+		timer->Initialize(static_cast<Timer::DigitPlace>(i), 300, Vector3{ 1200.0f - float(i) * 64, 10.0f, 0.0f });
+		timers_.emplace_back(timer);
+
+	}
 }
 
 void GamePlayState::Update()
@@ -403,6 +411,10 @@ void GamePlayState::Update()
 
 		ImGui::End();
 
+		for (auto& timer : timers_) {
+			timer->Update();
+		}
+
 	}
 	else {
 		ImGui::Begin("Pause");
@@ -446,7 +458,9 @@ void GamePlayState::Draw()
 	//3Dモデル描画ここまで	
 
 	//Sprite描画ここから
-
+	for (auto& timer : timers_) {
+		timer->Draw();
+	}
 
 	//Sprite描画ここまで
 	
