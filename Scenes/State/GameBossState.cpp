@@ -58,6 +58,13 @@ void GameBossState::Initialize()
 
 	particle = std::make_unique<Particle>();
 	particle->Initalize(10, "resources/circle.png");
+
+	targetSprite_ = std::make_unique<Sprite>();
+	targetSprite_->Initialize(Vector4{ 0.0f, 0.0f, 0.0f, 1.0f }, Vector4{ 0.0f, 128.0f, 0.0f, 1.0f }, Vector4{ 600.0f, 0.0f, 0.0f, 1.0f }, Vector4{ 600.0f, 128.0f, 0.0f, 1.0f });
+	sprite_Target_.Initialize();
+	sprite_Target_.translation_ = Vector3{ 350.0f, 598.0f, 0.0f };
+	sprite_Target_.UpdateMatrix();
+	textureHandle_target_ = textureManager_->LoadTexture("resources/Target/bossTarget.png");
 }
 
 void GameBossState::Update()
@@ -113,6 +120,8 @@ void GameBossState::Draw()
 	boss_->Draw(viewProjection_);
 
 	//skydome_->Draw(viewProjection_);
+
+	targetSprite_->Draw(sprite_Target_, textureHandle_target_);
 
 	particle->PreDraw();
 	particle->Draw(viewProjection_);
