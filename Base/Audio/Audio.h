@@ -38,7 +38,7 @@ public:
 	void Initialize();
 	
 	void Release();
-	uint32_t LoadAudio(const char* filename, bool LoopFlag);
+	uint32_t LoadAudio(const std::string& filePath, bool LoopFlag);
 	void Play(uint32_t AudioIndex, float AudioVolume, int pan);
 	void Play(uint32_t AudioIndex, float AudioVolume);
 	void Stop(uint32_t AudioIndex, bool PlayBegin);
@@ -66,7 +66,7 @@ private:
 
 	float outputMatrix[8];
 
-	SoundData SoundLoadWave(const char* filename);
+	SoundData SoundLoadWave(const std::string& filePath);
 	
 	void Log(const std::string& message);
 };

@@ -52,7 +52,7 @@ void Audio::Initialize() {
 	// Assuming pVoice sends to pMasteringVoice
 }
 
-uint32_t Audio::LoadAudio(const char* filePath,bool LoopFlag) {
+uint32_t Audio::LoadAudio(const std::string& filePath,bool LoopFlag) {
 
 #pragma region Index
 	uint32_t index = 0;
@@ -70,10 +70,17 @@ uint32_t Audio::LoadAudio(const char* filePath,bool LoopFlag) {
 			break;
 		}
 	}
+	//SoundLoadWaveの戻り値がSoundDataなので、読み込んでから名前と使用済みを記入
+	soundData_[index] = SoundLoadWave(filePath);
 
+
+	//名前としてファイルのパスを登録
+	soundData_.at(index).name = filePath;
+
+	soundData_.at(index).IsUsed = true;
 #pragma endregion 位置決め
 
-		soundData_[index] = SoundLoadWave(filePath);
+
 		if (FAILED(XAudioInterface->CreateSourceVoice(&pSourceVoice[index], &soundData_[index].wfex))) {
 			SoundUnload(index);
 			assert(false);
@@ -164,12 +171,12 @@ void Audio::Reset(uint32_t AudioIndex) {
 	pSourceVoice[AudioIndex]->SubmitSourceBuffer(&buffer);
 }
 
-SoundData Audio::SoundLoadWave(const char* filename)
+SoundData Audio::SoundLoadWave(const std::string& filePath)
 {
 	//ファイル入力ストリームのインスタンス
 	std::ifstream file;
 	//.wavファイルをバイナリモードで開く
-	file.open(filename,std::ios_base::binary);
+	file.open(filePath,std::ios_base::binary);
 	//ファイルオープン失敗を検出
 	assert(file.is_open());
 
