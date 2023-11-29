@@ -39,7 +39,7 @@ void GameBossState::Initialize()
 	player->Initialize(playerModels);
 	player->SetScale({ 3.0f, 3.0f, 3.0f });
 
-	bossModel_.reset(Model::CreateModelFromObj("resources/Cube", "Cube.obj"));
+	bossModel_.reset(Model::CreateModelFromObj("resources/Boss", "Boss.obj"));
 	std::vector<Model*> bossModels = {
 		bossModel_.get() };
 
@@ -193,7 +193,7 @@ void GameBossState::Draw()
 
 	boss_->Draw(viewProjection_);
 
-	//skydome_->Draw(viewProjection_);
+	skydome_->Draw(viewProjection_);
 
 	speedSprite_->Draw(worldTransform_speed_, textureHandle_item_[2]);
 

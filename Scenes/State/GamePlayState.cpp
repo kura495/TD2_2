@@ -511,7 +511,7 @@ void GamePlayState::Draw()
 		buffItem_[i]->Draw(viewProjection_);
 	}
 
-	//skydome_->Draw(viewProjection_);
+	skydome_->Draw(viewProjection_);
 
 	player->Draw(viewProjection_);
 
