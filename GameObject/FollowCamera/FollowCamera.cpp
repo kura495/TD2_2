@@ -51,7 +51,7 @@ void FollowCamera::Update() {
 		}
 		else {
 			const float kRadian = 0.02f;
-			viewProjection_.rotation_.x += (float)joyState.Gamepad.sThumbRY / SHRT_MAX * kRadian;
+			viewProjection_.rotation_.x -= (float)joyState.Gamepad.sThumbRY / SHRT_MAX * kRadian;
 			viewProjection_.rotation_.y += (float)joyState.Gamepad.sThumbRX / SHRT_MAX * kRadian;
 			anglePre_ = 0.0f;
 
