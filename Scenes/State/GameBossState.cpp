@@ -104,6 +104,7 @@ void GameBossState::Initialize()
 	pause_->Initialize();
 	isPause_ = false;
 
+	BGMHundle = audio->LoadAudio("");
 }
 
 void GameBossState::Update()
