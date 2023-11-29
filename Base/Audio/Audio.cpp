@@ -52,15 +52,16 @@ void Audio::Initialize() {
 	// Assuming pVoice sends to pMasteringVoice
 }
 
-uint32_t Audio::LoadAudio(const char* filename) {
+uint32_t Audio::LoadAudio(const char* filename,bool LoopFlag) {
+
 #pragma region Index
 	uint32_t AudioIndex = kMaxAudio + 1;
 	    for (int i = 0; i < kMaxAudio; ++i) {
-		if (IsusedAudioIndex[i] == false) {
-			AudioIndex = i;
-			IsusedAudioIndex[i] = true;
-			break;
-		}
+			if (IsusedAudioIndex[i] == false) {
+				AudioIndex = i;
+				IsusedAudioIndex[i] = true;
+				break;
+			}
 	    }
 	    if (AudioIndex < 0) {
 		// 0より少ない
@@ -70,7 +71,9 @@ uint32_t Audio::LoadAudio(const char* filename) {
 		// MaxSpriteより多い
 		assert(false);
 	    }
+
 #pragma endregion 位置決め
+
 		soundData_[AudioIndex] = SoundLoadWave(filename);
 		if (FAILED(XAudioInterface->CreateSourceVoice(&pSourceVoice[AudioIndex], &soundData_[AudioIndex].wfex))) {
 			SoundUnload(AudioIndex);
@@ -82,7 +85,8 @@ uint32_t Audio::LoadAudio(const char* filename) {
 	    buffer.AudioBytes = soundData_[AudioIndex].bufferSize;
 	    buffer.LoopBegin = 0;
 	    buffer.LoopLength = 0;
-	    buffer.LoopCount = XAUDIO2_LOOP_INFINITE;
+
+	    buffer.LoopCount = LoopFlag ? XAUDIO2_LOOP_INFINITE : 0 ;
 
 	    pSourceVoice[AudioIndex]->SubmitSourceBuffer(&buffer);
 
@@ -108,7 +112,7 @@ void Audio::Release() {
 	CoUninitialize();
 }
 
-void Audio::Play(int AudioIndex,float AudioVolume,int pan) {
+void Audio::Play(uint32_t AudioIndex,float AudioVolume,int pan) {
 	// pan of -1.0 indicates all left speaker, 
 // 1.0 is all right speaker, 0.0 is split between left and right
 	right = 0;
@@ -130,6 +134,35 @@ void Audio::Play(int AudioIndex,float AudioVolume,int pan) {
 	pSourceVoice[AudioIndex]->SetOutputMatrix(NULL, InChannels, OutChannels, outputMatrix);
 	pSourceVoice[AudioIndex]->SetVolume(AudioVolume);
 	pSourceVoice[AudioIndex]->Start(0);
+}
+void Audio::Play(uint32_t AudioIndex,float AudioVolume) {
+	pSourceVoice[AudioIndex]->SetVolume(AudioVolume);
+	pSourceVoice[AudioIndex]->Start(0);
+}
+
+void Audio::Stop(uint32_t AudioIndex,bool PlayBegin){
+
+	pSourceVoice[AudioIndex]->Stop(0);
+	if (PlayBegin) {
+		Reset(AudioIndex);
+	}
+}
+
+void Audio::ExitLoop(uint32_t AudioIndex)
+{
+	pSourceVoice[AudioIndex]->ExitLoop();
+}
+
+void Audio::Reset(uint32_t AudioIndex) {
+	XAUDIO2_BUFFER buffer{};
+	buffer.pAudioData = soundData_[AudioIndex].pBuffer;
+	buffer.Flags = XAUDIO2_END_OF_STREAM;
+	buffer.AudioBytes = soundData_[AudioIndex].bufferSize;
+	buffer.LoopBegin = 0;
+	buffer.LoopLength = 0;
+	buffer.LoopCount = 0;
+	pSourceVoice[AudioIndex]->FlushSourceBuffers();
+	pSourceVoice[AudioIndex]->SubmitSourceBuffer(&buffer);
 }
 
 SoundData Audio::SoundLoadWave(const char* filename)

@@ -66,6 +66,7 @@ private:
 
 	//壁
 	std::unique_ptr<Model> wallModel_ = nullptr;
+	std::unique_ptr<Model> edgeWallModel_ = nullptr;
 	std::unique_ptr<Wall> wall_[31];
 	WorldTransform wallWorldTransform_[31];
 
@@ -85,4 +86,11 @@ private:
 	//プレイヤーモデル
 
 	float FOV=45.0f;
+
+	//Pause
+	bool isPause_ = false;
+	bool pauseRelease_ = false;
+
+	XINPUT_STATE joyState;
+	XINPUT_STATE joyStatePre;
 };

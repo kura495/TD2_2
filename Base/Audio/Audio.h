@@ -34,8 +34,12 @@ public:
 	void Initialize();
 	
 	void Release();
-	uint32_t LoadAudio(const char* filename);
-	void Play(int AudioInDex, float AudioVolume, int pan);
+	uint32_t LoadAudio(const char* filename, bool LoopFlag);
+	void Play(uint32_t AudioIndex, float AudioVolume, int pan);
+	void Play(uint32_t AudioIndex, float AudioVolume);
+	void Stop(uint32_t AudioIndex, bool PlayBegin);
+	void ExitLoop(uint32_t AudioIndex);
+	void Reset(uint32_t AudioIndex);
 	void SoundUnload(uint32_t Index);
 private:
 	Audio() = default;

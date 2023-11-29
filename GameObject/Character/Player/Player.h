@@ -105,6 +105,8 @@ public:
 
 	bool GetIsDash() { return  workDash_.isDash; };
 
+	bool GetIsJump() { return  workJump_.Flag_; };
+
 	Vector3 GetCurrentPosition() { return currentPosition_; };
 	Vector3 GetPreviousPosition() { return previousPosition_; };
 
@@ -179,6 +181,9 @@ private:
 	bool isGoal_ = false;
 
 	bool isEnemyHit_ = false;
+	
+	//相殺している
+	bool isOffset_ = false;
 
 	bool isSpeedUp_ = false;
 

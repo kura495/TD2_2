@@ -84,9 +84,18 @@ void GameBossState::Update()
 	collisionManager_->CheckAllCollisions();
 	collisionManager_->ClearCollider();
 
-	if (boss_->GetIsDead() == true)
+	if (player->GetIsDead() == true)
 	{
 		StateNo = 4;
+		ImGui::Begin("Dead");
+		//ImGui::Text("%d", StateNo);
+		//ImGui::DragFloat3("itemWorldTransform", &itemWorldTransform_[6].translation_.x, 1.0f);
+		ImGui::End();
+	}
+
+	if (boss_->GetIsDead() == true)
+	{
+		StateNo = 3;
 		ImGui::Begin("Hit");
 		//ImGui::Text("%d", StateNo);
 		//ImGui::DragFloat3("itemWorldTransform", &itemWorldTransform_[6].translation_.x, 1.0f);

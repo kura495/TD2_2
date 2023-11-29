@@ -52,7 +52,7 @@ void Boss::Update()
 		BehaviorAttackUpdate();
 	}
 
-	if (isHit_)
+	if (isHit_ == true && player_->GetIsDead()==false)
 	{
 		underAttackTimer--;
 		Vector3 currentPlayerPosition = player_->GetCurrentPosition();
@@ -72,6 +72,12 @@ void Boss::Update()
 			isHit_ = false;
 			underAttackTimer = 60;
 		}
+	}
+
+	if (isOffset_)
+	{
+		worldTransform_.translation_ = previousPosition_;
+		isOffset_ = false;
 	}
 
 	if (worldTransform_.translation_.z <= -180.0f || worldTransform_.translation_.z >= 180.0f ||
@@ -95,9 +101,22 @@ void Boss::Draw(const ViewProjection& viewProjection)
 
 void Boss::OnCollision(Collider* collider)
 {
-	if (/*isAttack_ == true && */collider->GetcollitionAttribute() == kCollitionAttributePlayer && player_->GetIsDash() == true)
+	if (collider->GetcollitionAttribute() == kCollitionAttributePlayer)
 	{
-		isHit_ = true;
+		if (player_->GetIsDash() == false && isAttack_ == false)
+		{
+			worldTransform_.translation_ = previousPosition_;
+		}
+		
+		if (player_->GetIsDash() == true && isAttack_ == false)
+		{
+			isHit_ = true;
+		}
+
+		if (player_->GetIsDash() == true && isAttack_ == true)
+		{
+			isOffset_ = true;
+		}
 	}
 }
 

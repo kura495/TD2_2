@@ -15,6 +15,7 @@ public:
 	void Initialize(const Vector4& LeftTop, const Vector4& LeftBottom, const Vector4& RightTop, const Vector4& RightBottom);
 	void Draw(const WorldTransform& transform, const uint32_t TextureHandle);
 	void ImGui(const char* Title);
+	void SetColor(Vector4 color) { color_ = color; };
 private:
 	DirectXCommon* directX_ = nullptr;
 	TextureManager* textureManager_ = nullptr;

@@ -16,5 +16,8 @@ public:
 
 private:
 	int time;
+	Input* input = nullptr;
 
+	XINPUT_STATE joyState;
+	XINPUT_STATE joyStatePre;
 };
