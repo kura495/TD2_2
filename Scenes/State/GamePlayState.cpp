@@ -230,40 +230,23 @@ void GamePlayState::Initialize()
 	buffItemWorldTransform_[15].translation_ = { -29.0f,3.0f,476.0f };
 
 	//ワープ
-	buffItemWorldTransform_[16].translation_ = { 0.0f,5.0f,900.0f };
+	buffItemWorldTransform_[22].translation_ = { 0.0f,5.0f,900.0f };
 
 	//ステージ2枚目
-	buffItemWorldTransform_[17].translation_ = { 70.0f,3.0f,530.0f };
-	buffItemWorldTransform_[18].translation_ = { -70.0f,3.0f,530.0f };
-	buffItemWorldTransform_[19].translation_ = { 45.0f,3.0f,540.0f };
-	buffItemWorldTransform_[20].translation_ = { -45.0f,3.0f,540.0f };
-	buffItemWorldTransform_[21].translation_ = { 0.0f,3.0f,570.0f };
-	buffItemWorldTransform_[22].translation_ = { 0.0f,3.0f,710.0f };
+	buffItemWorldTransform_[16].translation_ = { 70.0f,3.0f,530.0f };
+	buffItemWorldTransform_[17].translation_ = { -70.0f,3.0f,530.0f };
+	buffItemWorldTransform_[18].translation_ = { 45.0f,3.0f,540.0f };
+	buffItemWorldTransform_[19].translation_ = { -45.0f,3.0f,540.0f };
+	buffItemWorldTransform_[20].translation_ = { 0.0f,3.0f,570.0f };
+	buffItemWorldTransform_[21].translation_ = { 0.0f,3.0f,710.0f };
 
-	/*buffItemWorldTransform_[23].translation_ = { 20.0f,13.0f, 760.0f };
-	buffItemWorldTransform_[24].translation_ = { 10.0f,17.0f, 770.0f };
-	buffItemWorldTransform_[25].translation_ = { 0.0f,21.0f,780.0f };
-	buffItemWorldTransform_[26].translation_ = { -10.0f,17.0f,790.0f };
-	buffItemWorldTransform_[27].translation_ = { -20.0f,13.0f,800.0f };
+	/*buffItem_[22] = std::make_unique<BuffItem>();
+	buffItem_[22]->Initalize(buffItemModels, { buffItemWorldTransform_[22].translation_.x, buffItemWorldTransform_[22].translation_.y, buffItemWorldTransform_[22].translation_.z });
+	buffItem_[22]->SetScale({ 5.0f, 5.0f, 5.0f });
+	buffItem_[22]->SetcollitionAttribute(kCollitionAttributeGoal);
+	buffItem_[22]->SetcollisionMask(kCollitionAttributeGoal);*/
 
-	buffItemWorldTransform_[28].translation_ = { 12.5f,3.0f,792.5f };
-	buffItemWorldTransform_[29].translation_ = { 0.0f,3.0f,780.0f };
-	buffItemWorldTransform_[30].translation_ = { -12.5f,3.0f,767.5f };*/
-
-	buffItem_[16] = std::make_unique<BuffItem>();
-	buffItem_[16]->Initalize(buffItemModels, { buffItemWorldTransform_[16].translation_.x, buffItemWorldTransform_[16].translation_.y, buffItemWorldTransform_[16].translation_.z });
-	buffItem_[16]->SetScale({ 5.0f, 5.0f, 5.0f });
-	buffItem_[16]->SetcollitionAttribute(kCollitionAttributeGoal);
-	buffItem_[16]->SetcollisionMask(kCollitionAttributeGoal);
-
-	for (int i = 0; i < 16; i++)
-	{
-		buffItem_[i] = std::make_unique<BuffItem>();
-		buffItem_[i]->Initalize(buffItemModels, { buffItemWorldTransform_[i].translation_.x, buffItemWorldTransform_[i].translation_.y, buffItemWorldTransform_[i].translation_.z });
-		buffItem_[i]->SetScale({ 3.0f, 3.0f, 3.0f });
-	}
-
-	for (int i = 17; i < 23; i++)
+	for (int i = 0; i < 22; i++)
 	{
 		buffItem_[i] = std::make_unique<BuffItem>();
 		buffItem_[i]->Initalize(buffItemModels, { buffItemWorldTransform_[i].translation_.x, buffItemWorldTransform_[i].translation_.y, buffItemWorldTransform_[i].translation_.z });
@@ -376,7 +359,7 @@ void GamePlayState::Update()
 			wall_[i]->Update();
 		}
 
-		for (int i = 0; i < 23; i++)
+		for (int i = 0; i < 22; i++)
 		{
 			buffItem_[i]->Update();
 		}
@@ -430,7 +413,7 @@ void GamePlayState::Update()
 		if (player->GetIsGoal() == true)
 		{
 
-			for (int i = 0; i < 23; i++)
+			for (int i = 0; i < 22; i++)
 			{
 				player->SetIsDead(false);
 				buffItem_[i]->SetIsHit(false);
@@ -497,7 +480,7 @@ void GamePlayState::Draw()
 		wall_[i]->Draw(viewProjection_);
 	}
 
-	for (int i = 0; i < 23; i++)
+	for (int i = 0; i < 22; i++)
 	{
 		buffItem_[i]->Draw(viewProjection_);
 	}

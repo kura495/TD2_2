@@ -59,7 +59,7 @@ void Boss::Update()
 		BehaviorAttackUpdate();
 	}
 
-	if (isHit_ == true && player_->GetIsDead()==false)
+	if (isHit_ == true && player_->GetIsDead() == false && player_->GetItemCount() < 5)
 	{
 		underAttackTimer--;
 		Vector3 currentPlayerPosition = player_->GetCurrentPosition();
@@ -70,6 +70,50 @@ void Boss::Update()
 		velocity.x *= hitSpeed_;
 		velocity.y *= hitSpeed_;
 		velocity.z *= hitSpeed_;
+
+		worldTransform_.translation_ = Add(worldTransform_.translation_, velocity);
+
+
+		if (underAttackTimer < 0)
+		{
+			isHit_ = false;
+			underAttackTimer = 60;
+		}
+	}
+
+	if (isHit_ == true && player_->GetIsDead() == false && player_->GetItemCount() >= 5 && player_->GetItemCount() < 10)
+	{
+		underAttackTimer--;
+		Vector3 currentPlayerPosition = player_->GetCurrentPosition();
+		Vector3 previousPlayerPosition = player_->GetPreviousPosition();
+
+		Vector3 velocity = Subtract(currentPlayerPosition, previousPlayerPosition);
+
+		velocity.x *= level2HitSpeed_;
+		velocity.y *= level2HitSpeed_;
+		velocity.z *= level2HitSpeed_;
+
+		worldTransform_.translation_ = Add(worldTransform_.translation_, velocity);
+
+
+		if (underAttackTimer < 0)
+		{
+			isHit_ = false;
+			underAttackTimer = 60;
+		}
+	}
+
+	if (isHit_ == true && player_->GetIsDead() == false && player_->GetItemCount() >= 10)
+	{
+		underAttackTimer--;
+		Vector3 currentPlayerPosition = player_->GetCurrentPosition();
+		Vector3 previousPlayerPosition = player_->GetPreviousPosition();
+
+		Vector3 velocity = Subtract(currentPlayerPosition, previousPlayerPosition);
+
+		velocity.x *= level3HitSpeed_;
+		velocity.y *= level3HitSpeed_;
+		velocity.z *= level3HitSpeed_;
 
 		worldTransform_.translation_ = Add(worldTransform_.translation_, velocity);
 

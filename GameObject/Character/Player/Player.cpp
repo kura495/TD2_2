@@ -277,7 +277,7 @@ void Player::OnCollision(Collider* collider)
 	
 	ImGui::Begin("BuffItem");
 	ImGui::Text("Hit");
-	ImGui::Text("%f", speed);
+	ImGui::Text("%d", itemCount_);
 	ImGui::End();
 
 }

@@ -88,7 +88,11 @@ private:
 
 	Vector3 velocity_;
 
-	float hitSpeed_ = 3.0f;
+	float hitSpeed_ = 1.8f;
+
+	float level2HitSpeed_ = 2.0f;
+
+	float level3HitSpeed_ = 2.5f;
 
 	GlobalVariables* globalVariables = nullptr;
 
