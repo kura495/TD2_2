@@ -202,4 +202,6 @@ private:
 	Boss* boss_ = nullptr;
 
 	int underAttackTimer = 60;
+
+	float hitSpeed_ = 3.0f;
 };

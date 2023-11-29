@@ -64,6 +64,7 @@ void GameManager::Gameloop()
 			directX->PreView();
 			renderer_->Draw(PipelineType::Standerd);
 			input->Update();
+			GlobalVariables::GetInstance()->Update();
 			state[currentSceneNum_]->Update();
 			state[currentSceneNum_]->Draw();
 			imGuiManager->EndFrame();

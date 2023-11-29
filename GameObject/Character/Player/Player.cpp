@@ -19,7 +19,7 @@ void Player::Initialize(const std::vector<Model*>& models)
 	BoxCollider::SetParent(worldTransform_);
 	BoxCollider::SetSize({ 3.0f,3.0f,1.0f });
 	GlobalVariables::GetInstance()->CreateGroup(groupName);
-	//GlobalVariables::GetInstance()->AddItem(groupName, "DashSpeed", workDash_.dashSpeed_);
+	GlobalVariables::GetInstance()->AddItem(groupName, "hitSpeed", hitSpeed_);
 }
 
 void Player::Update()
@@ -122,9 +122,9 @@ void Player::Update()
 
 		Vector3 velocity = Subtract(currentBossPosition, previousBossPosition);
 
-		velocity.x *= 3.0f;
-		velocity.y *= 3.0f;
-		velocity.z *= 3.0f;
+		velocity.x *= hitSpeed_;
+		velocity.y *= hitSpeed_;
+		velocity.z *= hitSpeed_;
 
 		worldTransform_.translation_ = Add(worldTransform_.translation_, velocity);
 
@@ -324,8 +324,8 @@ void Player::Move()
 
 void Player::ApplyGlobalVariables()
 {
-	//const char* groupName = "Player";
-	//workDash_.dashSpeed_ = GlobalVariables::GetInstance()->GetfloatValue(groupName, "DashSpeed");
+	const char* groupName = "Player";
+	hitSpeed_ = GlobalVariables::GetInstance()->GetfloatValue(groupName, "hitSpeed");
 }
 
 void Player::BehaviorRootInit()
