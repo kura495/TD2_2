@@ -25,6 +25,8 @@ public:
 	void SetSize(Vector3 range) { range_ = range; }
 	AABB GetSize() { return aabb_; }
 
+	Vector3 GetWorldPosition() { return{ world_.matWorld_.m[3][0],world_.matWorld_.m[3][1] ,world_.matWorld_.m[3][2] }; }
+
 private:
 	/// <summary>
 	/// x,y,zそれぞれの幅
@@ -34,6 +36,10 @@ private:
 	/// 箱の大きさ
 	/// </summary>
 	AABB aabb_ = {};
+	/// <summary>
+	/// 原点
+	/// </summary>
+	WorldTransform world_;
 	/// <summary>
 	/// 箱の中心
 	/// </summary>
