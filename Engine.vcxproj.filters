@@ -143,6 +143,9 @@
     <Filter Include="Engine\Base\ParticleSystem\PipeLine">
       <UniqueIdentifier>{8d17b90d-e4c7-4b3d-af7b-49fdf10bbef5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\Base\ParticleSystem\ParticleDrawer">
+      <UniqueIdentifier>{77435d61-13e1-471f-8389-377ce5198911}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="externals\imgui\imgui.cpp">
@@ -303,6 +306,9 @@
       <Filter>Engine\Base\ParticleSystem\PipeLine</Filter>
     </ClCompile>
     <ClCompile Include="Timer.cpp" />
+    <ClCompile Include="Base\ParticleSystem\ParticleDrawer\ParticleDrawer.cpp">
+      <Filter>Engine\Base\ParticleSystem\ParticleDrawer</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="externals\imgui\imconfig.h">
@@ -511,6 +517,9 @@
       <Filter>Objectヘッダー\Wall</Filter>
     </ClInclude>
     <ClInclude Include="Timer.h" />
+    <ClInclude Include="Base\ParticleSystem\ParticleDrawer\ParticleDrawer.h">
+      <Filter>Engine\Base\ParticleSystem\ParticleDrawer</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="externals\imgui\LICENSE.txt">
