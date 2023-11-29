@@ -65,6 +65,38 @@ void GameBossState::Initialize()
 	sprite_Target_.translation_ = Vector3{ 350.0f, 598.0f, 0.0f };
 	sprite_Target_.UpdateMatrix();
 	textureHandle_target_ = textureManager_->LoadTexture("resources/Target/bossTarget.png");
+
+	itemGaugeSprites_.clear();
+	for (int i = 0; i < 3; i++) {
+		Sprite* sprite = new Sprite();
+		sprite->Initialize(Vector4{ 0.0f, 0.0f, 0.0f, 1.0f }, Vector4{ 0.0f, 128.0f, 0.0f, 1.0f }, Vector4{ 256.0f, 0.0f, 0.0f, 1.0f }, Vector4{ 256.0f, 128.0f, 0.0f, 1.0f });
+		itemGaugeSprites_.emplace_back(sprite);
+		worldTransform_itemGauge_[i].Initialize();
+		worldTransform_itemGauge_[i].scale_ = Vector3{ 0.5f, 0.5f, 1.0f };
+		worldTransform_itemGauge_[i].translation_ = Vector3{ 120.0f * float(i), 50.0f, 1.0f };
+		worldTransform_itemGauge_[i].UpdateMatrix();
+	}
+
+
+	itemSprite_ = std::make_unique<Sprite>();
+	itemSprite_->Initialize(Vector4{ 0.0f, 0.0f, 0.0f, 1.0f }, Vector4{ 0.0f, 64.0f, 0.0f, 1.0f }, Vector4{ 64.0f, 0.0f, 0.0f, 1.0f }, Vector4{ 64.0f, 64.0f, 0.0f, 1.0f });
+
+	speedSprite_ = std::make_unique<Sprite>();
+	speedSprite_->Initialize(Vector4{ 0.0f, 0.0f, 0.0f, 1.0f }, Vector4{ 0.0f, 128.0f, 0.0f, 1.0f }, Vector4{ 600.0f, 0.0f, 0.0f, 1.0f }, Vector4{ 600.0f, 128.0f, 0.0f, 1.0f });
+
+	worldTransform_item_.Initialize();
+	worldTransform_item_.scale_ = Vector3{ 1.8f, 0.75f, 1.0f };
+	worldTransform_item_.translation_ = Vector3{ 5.0f, 58.0f, 1.0f };
+	worldTransform_item_.UpdateMatrix();
+
+	worldTransform_speed_.Initialize();
+	worldTransform_speed_.scale_ = Vector3{ 0.8f, 0.8f, 1.0f };
+	worldTransform_speed_.translation_ = Vector3{ -100.0f, -20.0f, 1.0f };
+	worldTransform_speed_.UpdateMatrix();
+
+	textureHandle_item_[0] = TextureManager::GetInstance()->LoadTexture("resources/ItemCount/gauge.png");
+	textureHandle_item_[1] = TextureManager::GetInstance()->LoadTexture("resources/Item/ItemColor.png");
+	textureHandle_item_[2] = TextureManager::GetInstance()->LoadTexture("resources/Item/speed.png");
 }
 
 void GameBossState::Update()
@@ -90,6 +122,9 @@ void GameBossState::Update()
 
 	collisionManager_->CheckAllCollisions();
 	collisionManager_->ClearCollider();
+
+	worldTransform_item_.scale_.x = player->GetItemCount() * 0.374f;
+	worldTransform_item_.UpdateMatrix();
 
 	if (player->GetIsDead() == true)
 	{
@@ -120,6 +155,14 @@ void GameBossState::Draw()
 	boss_->Draw(viewProjection_);
 
 	//skydome_->Draw(viewProjection_);
+
+	speedSprite_->Draw(worldTransform_speed_, textureHandle_item_[2]);
+
+	itemSprite_->Draw(worldTransform_item_, textureHandle_item_[1]);
+	for (int i = 0; auto & sprite : itemGaugeSprites_) {
+		sprite->Draw(worldTransform_itemGauge_[i], textureHandle_item_[0]);
+		i++;
+	}
 
 	targetSprite_->Draw(sprite_Target_, textureHandle_target_);
 

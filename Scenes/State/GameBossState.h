@@ -76,6 +76,15 @@ private:
 	uint32_t textureHandle_target_;
 
 
+	std::unique_ptr<Sprite> itemSprite_;
+	std::unique_ptr<Sprite> speedSprite_;
+	std::vector<Sprite*> itemGaugeSprites_;
+	uint32_t textureHandle_item_[3];
+
+	WorldTransform worldTransform_itemGauge_[3];
+	WorldTransform worldTransform_item_;
+	WorldTransform worldTransform_speed_;
+
 	//3Dオブジェクトたち
 
 	std::unique_ptr<Particle> particle;
