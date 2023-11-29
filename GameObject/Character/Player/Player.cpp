@@ -1,5 +1,6 @@
 #include "Player.h"
 #include "GameObject/Character/Boss/Boss.h"
+#include <TextureManager.h>
 
 void Player::Initialize(const std::vector<Model*>& models)
 {
@@ -20,6 +21,9 @@ void Player::Initialize(const std::vector<Model*>& models)
 	BoxCollider::SetSize({ 3.0f,3.0f,1.0f });
 	GlobalVariables::GetInstance()->CreateGroup(groupName);
 	GlobalVariables::GetInstance()->AddItem(groupName, "hitSpeed", hitSpeed_);
+
+	itemCount_ = 0;
+	
 }
 
 void Player::Update()
@@ -233,6 +237,10 @@ void Player::OnCollision(Collider* collider)
 	}
 	else if (collider->GetcollitionAttribute() == kCollitionAttributeBuffItem) {
 		isSpeedUp_ = true;
+		if (itemCount_ < 15) {
+			itemCount_++;
+		}
+		
 		ImGui::Begin("BuffItem");
 		ImGui::Text("Hit");
 		ImGui::Text("%f", speed);

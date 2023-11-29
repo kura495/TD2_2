@@ -27,11 +27,15 @@ public:
 
     void SetIsHit(bool isHit) { isHit_ = isHit; }
 
+	bool GetIsActive() { return isActive_; }
+
 private:
 	Audio* audio_ = nullptr;
 
 	uint32_t soundHandle_;
 
 	bool isHit_ = false;
+
+	bool isActive_ = false;
 };
 
