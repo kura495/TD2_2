@@ -377,9 +377,7 @@ void GamePlayState::Update()
 		player->Update();
 
 		followCamera->SetIsStickPre(player->GetIsStickRight(), player->GetIsStickLeft());
-		ImGui::Begin("Camera");
-		ImGui::SliderFloat("FOV", &FOV, 0.0f, 120.0f);
-		ImGui::End();
+	
 		followCamera->SetFOV(FOV);
 		followCamera->Update();
 		viewProjection_ = followCamera->GetViewProjection();
@@ -426,19 +424,10 @@ void GamePlayState::Update()
 			StateNo = 2;
 
 
-			ImGui::Begin("Hit");
-			//ImGui::Text("%d", StateNo);
-			//ImGui::DragFloat3("itemWorldTransform", &itemWorldTransform_[6].translation_.x, 1.0f);
-			ImGui::End();
+			
 		}
 
-		ImGui::Begin("Play");
-
-
-		/*ImGui::DragFloat3("itemWorldTransform", &wallWorldTransform_[15].translation_.x, 1.0f);*/
-		/*ImGui::DragFloat3("itemWorldTransform", &wallWorldTransform_[15].rotation_.x, 1.0f);*/
-
-		ImGui::End();
+	
 
 		for (auto& timer : timers_) {
 			timer->Update();
@@ -451,10 +440,7 @@ void GamePlayState::Update()
 
 	}
 	else {
-		ImGui::Begin("Pause");
-		ImGui::Text("Title :  B Buttun");
-		ImGui::Text("GamePlay : Start Buttun");
-		ImGui::End();
+		
 
 		if (pause_->GetLeft()) {
 			if (joyState.Gamepad.wButtons & XINPUT_GAMEPAD_A)

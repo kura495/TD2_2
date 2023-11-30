@@ -31,9 +31,7 @@ void GameOverState::Update()
 		
 	}
 
-	ImGui::Begin("Over");
-	ImGui::Text("GamePlay :  A Buttun");
-	ImGui::End();
+
 }
 
 void GameOverState::Draw()

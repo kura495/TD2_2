@@ -234,11 +234,7 @@ void Player::OnCollision(Collider* collider)
 		}
 		
 		isHit_ = true;
-		
-		//workJump_.velocity_.y = 0.0f;
-		ImGui::Begin("Ground");
-		ImGui::Text("Hit");
-		ImGui::End();
+	
 	
 	}
 	else if (collider->GetcollitionAttribute() == kCollitionAttributeWall) {
@@ -262,11 +258,7 @@ void Player::OnCollision(Collider* collider)
 		if (itemCount_ < 15) {
 			itemCount_++;
 		}
-		
-		ImGui::Begin("BuffItem");
-		ImGui::Text("Hit");
-		ImGui::Text("%f", workDash_.dashSpeed_);
-		ImGui::End();
+	
 	}
 	else if (collider->GetcollitionAttribute() == kCollitionAttributeGoal) {
 		isGoal_ = true;
@@ -274,11 +266,7 @@ void Player::OnCollision(Collider* collider)
 	else {
 		return;
 	}
-	
-	ImGui::Begin("BuffItem");
-	ImGui::Text("Hit");
-	ImGui::Text("%d", itemCount_);
-	ImGui::End();
+
 
 }
 

@@ -79,9 +79,6 @@ void GameTitleState::Update()
 
 	sprite_mark_.UpdateMatrix();
 
-	ImGui::Begin("Title");
-	ImGui::Text("GamePlay :  A Buttun");
-	ImGui::End();
 
 	/*time++;
 	if (time >= 60) {

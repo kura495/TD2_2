@@ -32,9 +32,7 @@ void GameClearState::Update()
 
 	}
 
-	ImGui::Begin("Clear");
-	ImGui::Text("GamePlay :  A Buttun");
-	ImGui::End();
+	
 }
 
 void GameClearState::Draw()

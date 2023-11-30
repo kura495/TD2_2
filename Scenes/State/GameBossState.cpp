@@ -158,20 +158,14 @@ void GameBossState::Update()
 		{
 			audio->Stop(BGMHundle, false);
 			StateNo = 4;
-			ImGui::Begin("Dead");
-			//ImGui::Text("%d", StateNo);
-			//ImGui::DragFloat3("itemWorldTransform", &itemWorldTransform_[6].translation_.x, 1.0f);
-			ImGui::End();
+			
 		}
 
 		if (boss_->GetIsDead() == true)
 		{
 			audio->Stop(BGMHundle,false);
 			StateNo = 3;
-			ImGui::Begin("Hit");
-			//ImGui::Text("%d", StateNo);
-			//ImGui::DragFloat3("itemWorldTransform", &itemWorldTransform_[6].translation_.x, 1.0f);
-			ImGui::End();
+			
 		}
 		particle->Update();
 

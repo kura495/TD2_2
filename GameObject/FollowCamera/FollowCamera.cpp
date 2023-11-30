@@ -65,9 +65,7 @@ void FollowCamera::Update() {
 				viewProjection_.rotation_.x = 1.0f;
 			}
 
-			ImGui::Begin("Camera");
-			ImGui::Text("%f", viewProjection_.rotation_.x);
-			ImGui::End();
+		
 		}
 	}
 
