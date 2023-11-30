@@ -20,7 +20,11 @@ public:
 	void Update();
 	void Draw();
 	void Set(uint32_t start);
+	bool GetIsFin()const {
+		return IsFin;
+	};
 private:
+	bool IsFin = false;
 
 	Vector4 leftTop_ = { 0.0f, 0.0f, 0.0f, 1.0f };
 	Vector4 leftBottom_ = { 0.0f, 64.0f, 0.0f, 1.0f };

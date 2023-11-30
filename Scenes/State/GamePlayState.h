@@ -111,5 +111,5 @@ private:
 	XINPUT_STATE joyState;
 	XINPUT_STATE joyStatePre;
 
-	
+	uint32_t BGMHandle;
 };

@@ -104,11 +104,12 @@ void GameBossState::Initialize()
 	pause_->Initialize();
 	isPause_ = false;
 
-	BGMHundle = audio->LoadAudio("");
+	BGMHundle = audio->LoadAudio("resources/sound/BossScene.wav",true);
 }
 
 void GameBossState::Update()
 {
+	audio->Play(BGMHundle,1.0f);
 	joyStatePre = joyState;
 	input->GetJoystickState(0, joyState);
 
@@ -155,6 +156,7 @@ void GameBossState::Update()
 
 		if (player->GetIsDead() == true)
 		{
+			audio->Stop(BGMHundle, false);
 			StateNo = 4;
 			ImGui::Begin("Dead");
 			//ImGui::Text("%d", StateNo);
@@ -164,6 +166,7 @@ void GameBossState::Update()
 
 		if (boss_->GetIsDead() == true)
 		{
+			audio->Stop(BGMHundle,false);
 			StateNo = 3;
 			ImGui::Begin("Hit");
 			//ImGui::Text("%d", StateNo);

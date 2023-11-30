@@ -66,6 +66,7 @@ void Timer::Update() {
 
 	if (timer_ == 0) {
 		second = 0;
+		IsFin = true;
 	}
 	else {
 		if (++second % 60 == 0) {

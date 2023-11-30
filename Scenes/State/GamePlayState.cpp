@@ -280,7 +280,7 @@ void GamePlayState::Initialize()
 	timers_.clear();
 	for (uint32_t i = 0; i < 3; i++) {
 		Timer* timer = new Timer();
-		timer->Initialize(static_cast<Timer::DigitPlace>(i), 60, Vector3{ 1200.0f - float(i) * 30.0f, 10.0f, 0.0f });
+		timer->Initialize(static_cast<Timer::DigitPlace>(i), 30, Vector3{ 1200.0f - float(i) * 30.0f, 10.0f, 0.0f });
 		timers_.emplace_back(timer);
 
 	}
@@ -328,10 +328,14 @@ void GamePlayState::Initialize()
 	textureHandle_item_[1] = TextureManager::GetInstance()->LoadTexture("resources/Item/ItemColor.png");
 	textureHandle_item_[2] = TextureManager::GetInstance()->LoadTexture("resources/Item/speed.png");
 
+
+	BGMHandle = audio->LoadAudio("resources/sound/GameScene.wav",true);
 }
 
 void GamePlayState::Update()
 {
+	audio->Play(BGMHandle,1.0f);
+
 	input->GetJoystickState(0, joyState);
 
 	if (joyState.Gamepad.wButtons & XINPUT_GAMEPAD_START && !(joyStatePre.Gamepad.wButtons & XINPUT_GAMEPAD_START))
@@ -410,7 +414,7 @@ void GamePlayState::Update()
 		collisionManager_->CheckAllCollisions();
 		collisionManager_->ClearCollider();
 
-		if (player->GetIsGoal() == true)
+		if (timers_.at(0)->GetIsFin())
 		{
 
 			for (int i = 0; i < 22; i++)
@@ -418,7 +422,7 @@ void GamePlayState::Update()
 				player->SetIsDead(false);
 				buffItem_[i]->SetIsHit(false);
 			}
-
+			audio->Stop(BGMHandle,false);
 			StateNo = 2;
 
 

@@ -31,10 +31,13 @@ void GameTitleState::Initialize()
 	isTutorial_ = false;
 	coolTime_ = 0;
 
+	BGMHundle = audio_->LoadAudio("resources/sound/GameScene.wav",true);
 }
 
 void GameTitleState::Update()
 {
+	audio_->Play(BGMHundle,1.0f);
+
 	joyStatePre = joyState;
 	input->GetJoystickState(0, joyState);
 
@@ -56,6 +59,7 @@ void GameTitleState::Update()
 		sprite_mark_.translation_ = { 130.0f, 390.0f, 0.0f };
 		if (joyState.Gamepad.wButtons & XINPUT_GAMEPAD_A) {
 			if (!(joyStatePre.Gamepad.wButtons & XINPUT_GAMEPAD_A)) {
+				audio_->Stop(BGMHundle, false);
 				StateNo = 1;
 
 			}
