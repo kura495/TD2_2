@@ -388,6 +388,9 @@ void Player::BehaviorDashUpdate()
 	if (IsOnGraund) {
 		if (workDash_.isPowerCharge) {
 			workDash_.move_ = { (float)joyState.Gamepad.sThumbLX / SHRT_MAX, 0.0f,(float)joyState.Gamepad.sThumbLY / SHRT_MAX };
+			if (workDash_.move_.z < 0.0f) {
+				workDash_.move_.z *= -1.0f;
+			}
 
 			if (workDash_.scale_.x > 0.5f) {
 				workDash_.scale_ = Subtract(workDash_.scale_, Vector3{ 0.005f, 0.005f, 0.005f });
@@ -403,7 +406,14 @@ void Player::BehaviorDashUpdate()
 			Vector3 rotate = Normalize(moveQ);
 			Vector3 cross = Normalize(Cross({ 0.0f,0.0f,1.0f }, rotate));
 			float dot = Dot({ 0.0f,0.0f,1.0f }, rotate);
-			moveQuaternion_ = MakeRotateAxisAngleQuaternion(cross, std::acos(dot));
+
+			if(dot != 0.0){
+				moveQuaternion_ = MakeRotateAxisAngleQuaternion(cross, std::acos(dot));
+			}
+			else {
+				moveQuaternion_ = workDash_.quaternionPre_;
+			}
+			
 
 			if (workDash_.isDrift) {
 				Vector3 move = workDash_.movePre_;
@@ -451,6 +461,7 @@ void Player::BehaviorDashUpdate()
 				worldTransformLine_.scale_.z = 2.0f;
 				worldTransformLine_.translation_.z = 2.0f;
 				workDash_.isDrift = true;
+				
 			}
 
 			if (workDash_.chargeParameter_++ > chargeTime) {
@@ -487,6 +498,7 @@ void Player::BehaviorDashUpdate()
 				workDash_.isPowerCharge = true;
 				workDash_.dashParameter_ = 0;
 				workDash_.isDash = false;
+				workDash_.quaternionPre_ = worldTransform_.quaternion;
 			}
 
 

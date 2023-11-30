@@ -30,6 +30,10 @@ public:
 
 	void SetFOV(float fovAngleY);
 
+	void SetIsDash(bool isDash) {
+		isDash_ = isDash;
+	}
+
 private:
 	//jsonファイルの値を適応
 	void ApplyGlobalVariables();
@@ -39,6 +43,7 @@ private:
 	const WorldTransform* target_ = nullptr;
 	// ゲームパッド
 	XINPUT_STATE joyState;
+	XINPUT_STATE joyStatePre;
 
 	//追従対象の座標・角度を再設定
 	void Reset();
@@ -46,8 +51,11 @@ private:
 	//追従対象からのオフセットを計算する
 	Vector3 OffsetCalc();
 
+	Vector3 offset_;
+
 	float anglePre_;
 	bool isStickRightPre_;
 	bool isStickLeftPre_;
+	bool isDash_;
 
 };

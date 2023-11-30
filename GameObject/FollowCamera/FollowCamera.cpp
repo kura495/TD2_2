@@ -10,6 +10,16 @@ void FollowCamera::Initalize() {
 }
 
 void FollowCamera::Update() {
+	joyStatePre = joyState;
+	Input::GetInstance()->GetJoystickState(0, joyState);
+
+	if (joyState.Gamepad.wButtons & XINPUT_GAMEPAD_A) {
+		if (!(joyStatePre.Gamepad.wButtons & XINPUT_GAMEPAD_A)) {
+			Reset();
+		}
+	}
+
+	
 
 	ApplyGlobalVariables();
 	if (target_) {
@@ -22,6 +32,19 @@ void FollowCamera::Update() {
 		workInter.interTarget_ = VectorLerp(workInter.interTarget_, pos, workInter.interParameter_);
 
 		Vector3 offset = OffsetCalc();
+
+		//if (isDash_) {
+		//	viewProjection_.fovAngleY = 45.0f;
+		//	offset.y = 15.0f;
+		//	offset.z = -40.0f;
+		//	Matrix4x4 rotateMatrix = MakeRotateMatrix(viewProjection_.rotation_);
+
+		//	// オフセットをカメラの回転に合わせて回転
+		//	offset = TransformNormal(offset, rotateMatrix);
+		//}
+		//else {
+		//	viewProjection_.fovAngleY = 45.0f;
+		//}
 		//オフセット分と追従座標の補間分ずらす
 		viewProjection_.translation_ = workInter.interTarget_ + offset;
 	}
@@ -44,8 +67,13 @@ void FollowCamera::Update() {
 				}
 			}
 
-			float destinationAngleY = anglePre_ + angle;
-			viewProjection_.rotation_.y = LerpShortAngle(viewProjection_.rotation_.y, destinationAngleY, 0.2f);
+			if (angle == 0.0f) {
+				viewProjection_.rotation_.y = anglePre_;
+			}
+			else {
+				float destinationAngleY = anglePre_ + angle;
+				viewProjection_.rotation_.y = LerpShortAngle(viewProjection_.rotation_.y, destinationAngleY, 0.2f);
+			}
 
 			
 		}
@@ -101,7 +129,11 @@ void FollowCamera::Reset()
 	if (target_) {
 		//追従座標・角度の初期化
 		workInter.interTarget_ = target_->translation_;
-		viewProjection_.rotation_.y = target_->rotation_.y;
+		//viewProjection_.rotation_.y = target_->rotation_.y;
+		//viewProjection_.rotation_.y = RotateVector(viewProjection_.rotation_, target_->quaternion).y;
+		Matrix4x4 m = MakeRotateMatrix(target_->quaternion);
+		
+		viewProjection_.rotation_.y = std::atan2(m.m[2][0], m.m[0][0]);;
 	}
 	workInter.targetAngleY_ = viewProjection_.rotation_.y;
 

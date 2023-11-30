@@ -391,7 +391,7 @@ void GamePlayState::Update()
 		skydome_->Updata();
 
 		player->Update();
-
+		followCamera->SetIsDash(player->GetIsDash());
 		followCamera->SetIsStickPre(player->GetIsStickRight(), player->GetIsStickLeft());
 		ImGui::Begin("Camera");
 		ImGui::SliderFloat("FOV", &FOV, 0.0f, 120.0f);
