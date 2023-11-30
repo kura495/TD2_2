@@ -247,9 +247,7 @@ void Player::OnCollision(Collider* collider)
 		isHit_ = true;
 
 		behaviorRequest_ = Behavior::kRoot;
-		ImGui::Begin("Wall");
-		ImGui::Text("Hit");
-		ImGui::End();
+		
 	}
 	else if (collider->GetcollitionAttribute() == kCollitionAttributeBuffItem) {
 		audio_->Stop(ItemGetSound,true);
